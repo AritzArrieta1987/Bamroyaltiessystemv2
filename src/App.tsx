@@ -1,11 +1,12 @@
 import { useState, useEffect } from 'react';
-import { RouterProvider, createBrowserRouter } from 'react-router';
+import { RouterProvider, createBrowserRouter, Navigate } from 'react-router';
 import LoginPanel from './components/LoginPanel';
 import AdminLayout from './components/AdminLayout';
 import { Toaster } from './components/Toaster';
 import { HomePage } from './pages/HomePage';
 import { ArtistsPage } from './pages/ArtistsPage';
 import { CatalogPage } from './pages/CatalogPage';
+import { AddTrackPage } from './pages/AddTrackPage';
 import { ContractsPage } from './pages/ContractsPage';
 import { UploadPage } from './pages/UploadPage';
 import { FinancesPage } from './pages/FinancesPage';
@@ -41,6 +42,8 @@ function App() {
     localStorage.removeItem('authToken');
     localStorage.removeItem('user');
     setIsLoggedIn(false);
+    // Forzar navegación al home
+    window.location.href = '/';
   };
 
   if (isLoading) {
@@ -61,6 +64,7 @@ function App() {
     return <LoginPanel onLoginSuccess={handleLogin} />;
   }
 
+  // ✅ Crear router con todas las rutas DESPUÉS del login
   const router = createBrowserRouter([
     {
       path: "/",
@@ -69,12 +73,17 @@ function App() {
         { index: true, element: <HomePage /> },
         { path: "artists", element: <ArtistsPage /> },
         { path: "catalog", element: <CatalogPage /> },
+        { path: "add-track", element: <AddTrackPage /> },
         { path: "contracts", element: <ContractsPage /> },
         { path: "upload", element: <UploadPage /> },
         { path: "finances", element: <FinancesPage /> },
         { path: "physical-sales", element: <PhysicalSalesPage /> },
-        { path: "artist-portal", element: <ArtistPortalPage /> },
+        { path: "artist-portal/:artistId", element: <ArtistPortalPage /> },
       ],
+    },
+    {
+      path: "*",
+      element: <Navigate to="/" replace />,
     },
   ]);
 
