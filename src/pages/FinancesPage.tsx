@@ -65,33 +65,20 @@ export function FinancesPage() {
     try {
       setLoading(true);
       
-      // Cargar desde API - usar endpoint correcto
-      try {
-        const response = await apiRequest('/finances/overview');
-        console.log('✅ Finances from API:', response);
-        
-        if (response.success && response.data) {
-          setFinanceData(response.data);
-          setPaymentRequests(response.paymentRequests || []);
-        } else {
-          throw new Error('No data from API');
-        }
-      } catch (apiError) {
-        console.log('⚠️ API no disponible, mostrando datos vacíos');
-        // Datos vacíos si el API no responde
-        setFinanceData({
-          totalRoyalties: 0,
-          bamProfit: 0,
-          artistProfit: 0,
-          pendingRequests: 0,
-          transfersCompleted: 0,
-          pendingRoyalties: 0,
-          grossProfit: 0,
-          netProfit: 0,
-          yearlyData: []
-        });
-        setPaymentRequests([]);
-      }
+      // 🔥 FORZAR DATOS VACÍOS - NO HAY API AÚN
+      console.log('🚫 FINANCES PAGE: Cargando con datos vacíos (no hay backend)');
+      setFinanceData({
+        totalRoyalties: 0,
+        bamProfit: 0,
+        artistProfit: 0,
+        pendingRequests: 0,
+        transfersCompleted: 0,
+        pendingRoyalties: 0,
+        grossProfit: 0,
+        netProfit: 0,
+        yearlyData: []
+      });
+      setPaymentRequests([]);
     } catch (error) {
       console.error('❌ Error loading finances:', error);
       // Datos vacíos en caso de error
