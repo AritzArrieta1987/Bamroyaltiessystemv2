@@ -10,6 +10,7 @@
       alias: {
         'sonner@2.0.3': 'sonner',
         'figma:asset/aa0296e2522220bcfcda71f86c708cb2cbc616b9.png': path.resolve(__dirname, './src/assets/aa0296e2522220bcfcda71f86c708cb2cbc616b9.png'),
+        'figma:asset/0c6477e5e83980aa7daa73626b4ff81f90738ce6.png': path.resolve(__dirname, './src/assets/0c6477e5e83980aa7daa73626b4ff81f90738ce6.png'),
         'figma:asset/0a2a9faa1b59d5fa1e388a2eec5b08498dd7a493.png': path.resolve(__dirname, './src/assets/0a2a9faa1b59d5fa1e388a2eec5b08498dd7a493.png'),
         '@': path.resolve(__dirname, './src'),
       },

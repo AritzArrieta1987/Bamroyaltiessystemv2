@@ -1,6 +1,7 @@
-import { Users, Plus, Search } from 'lucide-react';
+import { Users, Plus, Search, Upload } from 'lucide-react';
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router';
+import { apiRequest, API_ENDPOINTS } from '../utils/api';
 
 export function ArtistsPage() {
   const [searchTerm, setSearchTerm] = useState('');
@@ -8,159 +9,23 @@ export function ArtistsPage() {
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
 
-  // Cargar artistas desde localStorage (del CSV procesado)
+  // Cargar artistas desde API
   useEffect(() => {
-    loadArtistsFromCSV();
+    loadArtistsFromAPI();
   }, []);
 
-  const loadArtistsFromCSV = () => {
-    // Cargar artistas existentes
-    const existingArtists = JSON.parse(localStorage.getItem('artists') || '[]');
-    
-    // Cargar datos del CSV procesado
-    const uploadedCSVs = JSON.parse(localStorage.getItem('uploadedCSVs') || '[]');
-    
-    if (uploadedCSVs.length > 0 && uploadedCSVs[0].processedData) {
-      const processedData = uploadedCSVs[0].processedData;
-      const csvArtists = processedData.artists || [];
-      
-      // Crear o actualizar artistas desde el CSV
-      const artistsMap = new Map();
-      
-      // Agregar artistas existentes al mapa
-      existingArtists.forEach((artist: any) => {
-        artistsMap.set(artist.name, artist);
-      });
-      
-      // Agregar/actualizar artistas del CSV
-      csvArtists.forEach((csvArtist: any) => {
-        if (!artistsMap.has(csvArtist.name)) {
-          // Crear nuevo artista desde el CSV
-          const newArtist = {
-            id: Date.now() + Math.random(),
-            name: csvArtist.name,
-            email: `${csvArtist.name.toLowerCase().replace(/\s+/g, '.')}@artist.com`,
-            phone: '+34 600 000 000',
-            photo: '',
-            bio: `Artista con ${csvArtist.tracks.length} canciones en el catálogo`,
-            contractType: 'percentage',
-            contractPercentage: 50,
-            contractDetails: 'Contrato estándar - 50% royalties',
-            joinDate: new Date().toISOString().split('T')[0],
-            status: 'active',
-            totalRevenue: csvArtist.totalRevenue,
-            totalStreams: csvArtist.totalStreams,
-            trackCount: csvArtist.tracks.length,
-            totalTracks: csvArtist.tracks.length,
-            csvData: csvArtist // Guardar datos completos del CSV
-          };
-          artistsMap.set(csvArtist.name, newArtist);
-        } else {
-          // Actualizar artista existente con datos del CSV
-          const existingArtist = artistsMap.get(csvArtist.name);
-          existingArtist.totalRevenue = csvArtist.totalRevenue;
-          existingArtist.totalStreams = csvArtist.totalStreams;
-          existingArtist.trackCount = csvArtist.tracks.length;
-          existingArtist.totalTracks = csvArtist.tracks.length;
-          existingArtist.csvData = csvArtist;
-        }
-      });
-      
-      const updatedArtists = Array.from(artistsMap.values());
-      setArtists(updatedArtists);
-      
-      // Guardar artistas actualizados en localStorage
-      localStorage.setItem('artists', JSON.stringify(updatedArtists));
-    } else if (existingArtists.length > 0) {
-      setArtists(existingArtists);
-    } else {
-      // 🎨 Datos de prueba para preview
-      const demoArtists = [
-        {
-          id: 1,
-          name: 'ROSALÍA',
-          email: 'rosalia@bigartist.es',
-          photo: 'https://images.unsplash.com/photo-1720097196031-831449d443e6?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxmZW1hbGUlMjBzaW5nZXIlMjBjb25jZXJ0JTIwcGVyZm9ybWFuY2V8ZW58MXx8fHwxNzcyMzgzNjE5fDA&ixlib=rb-4.1.0&q=80&w=1080',
-          totalTracks: 12,
-          totalRevenue: 28450.80,
-          totalStreams: 2340521,
-          status: 'active'
-        },
-        {
-          id: 2,
-          name: 'Bad Bunny',
-          email: 'badbunny@bigartist.es',
-          photo: 'https://images.unsplash.com/photo-1642791112868-60c92b7b9eef?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxtYWxlJTIwcmFwcGVyJTIwdXJiYW4lMjBhcnRpc3QlMjBwZXJmb3JtYW5jZXxlbnwxfHx8fDE3NzIzODM2MjB8MA&ixlib=rb-4.1.0&q=80&w=1080',
-          totalTracks: 10,
-          totalRevenue: 24320.50,
-          totalStreams: 2150320,
-          status: 'active'
-        },
-        {
-          id: 3,
-          name: 'C. Tangana',
-          email: 'ctangana@bigartist.es',
-          photo: 'https://images.unsplash.com/photo-1566768514716-bf40f43b4fb5?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxtYWxlJTIwc2luZ2VyJTIwZ3VpdGFyJTIwY29uY2VydHxlbnwxfHx8fDE3NzIzODM2MjB8MA&ixlib=rb-4.1.0&q=80&w=1080',
-          totalTracks: 8,
-          totalRevenue: 19870.30,
-          totalStreams: 1850421,
-          status: 'active'
-        },
-        {
-          id: 4,
-          name: 'Aitana',
-          email: 'aitana@bigartist.es',
-          photo: 'https://images.unsplash.com/photo-1674191084250-c99a9cba09d4?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxmZW1hbGUlMjBwb3AlMjBhcnRpc3QlMjBwZXJmb3JtYW5jZXxlbnwxfHx8fDE3NzIzODM2MjB8MA&ixlib=rb-4.1.0&q=80&w=1080',
-          totalTracks: 6,
-          totalRevenue: 15230.20,
-          totalStreams: 1420310,
-          status: 'active'
-        },
-        {
-          id: 5,
-          name: 'Rauw Alejandro',
-          email: 'rauw@bigartist.es',
-          photo: 'https://images.unsplash.com/photo-1764649841400-e502bb1ee65b?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxsYXRpbiUyMGFydGlzdCUyMHN0YWdlJTIwcGVyZm9ybWFuY2V8ZW58MXx8fHwxNzcyMzgzNjIxfDA&ixlib=rb-4.1.0&q=80&w=1080',
-          totalTracks: 5,
-          totalRevenue: 12450.60,
-          totalStreams: 1120450,
-          status: 'active'
-        },
-        {
-          id: 6,
-          name: 'Nathy Peluso',
-          email: 'nathy@bigartist.es',
-          photo: 'https://images.unsplash.com/photo-1562943718-beb158a241ea?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxmZW1hbGUlMjB1cmJhbiUyMGFydGlzdCUyMHBvcnRyYWl0fGVufDF8fHx8MTc3MjM4MzYyMnww&ixlib=rb-4.1.0&q=80&w=1080',
-          totalTracks: 4,
-          totalRevenue: 9820.40,
-          totalStreams: 890250,
-          status: 'active'
-        },
-        {
-          id: 7,
-          name: 'Becky G',
-          email: 'beckyg@bigartist.es',
-          photo: 'https://images.unsplash.com/photo-1615228462597-c75dd7ca18fc?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxmZW1hbGUlMjBzaW5nZXIlMjBtaWNyb3Bob25lJTIwc3R1ZGlvfGVufDF8fHx8MTc3MjM4MzYyMnww&ixlib=rb-4.1.0&q=80&w=1080',
-          totalTracks: 3,
-          totalRevenue: 7650.30,
-          totalStreams: 680120,
-          status: 'pending'
-        },
-        {
-          id: 8,
-          name: 'Mora',
-          email: 'mora@bigartist.es',
-          photo: 'https://images.unsplash.com/photo-1712530708772-49749a0bad58?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxkaiUyMG11c2ljJTIwcHJvZHVjZXIlMjBzdHVkaW98ZW58MXx8fHwxNzcyMzgzNjI1fDA&ixlib=rb-4.1.0&q=80&w=1080',
-          totalTracks: 2,
-          totalRevenue: 5230.80,
-          totalStreams: 520180,
-          status: 'active'
-        }
-      ];
-      setArtists(demoArtists);
+  const loadArtistsFromAPI = async () => {
+    setLoading(true);
+    try {
+      const response = await apiRequest(API_ENDPOINTS.ARTISTS);
+      console.log('✅ Artists from API:', response);
+      setArtists(response.artists || []);
+    } catch (error) {
+      console.error('❌ Error loading artists:', error);
+      setArtists([]);
+    } finally {
+      setLoading(false);
     }
-    
-    setLoading(false);
   };
 
   const filteredArtists = artists.filter(artist =>
@@ -279,7 +144,6 @@ export function ArtistsPage() {
           gap: '24px',
         }}>
           {filteredArtists.map((artist, idx) => {
-            // Debug: Log para verificar que el ID existe
             console.log('Artist click:', artist.name, 'ID:', artist.id);
             
             return (
@@ -435,15 +299,44 @@ export function ArtistsPage() {
           padding: '48px',
           textAlign: 'center',
         }}>
-          <Search size={48} color="#c9a574" style={{ margin: '0 auto 20px', opacity: 0.5 }} />
+          <Upload size={48} color="#c9a574" style={{ margin: '0 auto 20px', opacity: 0.5 }} />
           <h3 style={{ fontSize: '18px', fontWeight: '600', color: '#ffffff', marginBottom: '8px' }}>
-            No se encontraron artistas
+            No hay artistas registrados
           </h3>
-          <p style={{ fontSize: '14px', color: '#AFB3B7' }}>
+          <p style={{ fontSize: '14px', color: '#AFB3B7', marginBottom: '24px' }}>
             {artists.length === 0 
-              ? 'Sube un archivo CSV para ver los artistas'
+              ? 'Sube un archivo CSV para ver los artistas automáticamente'
               : 'Intenta con otros términos de búsqueda'}
           </p>
+          <button
+            style={{
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: '8px',
+              padding: '14px 28px',
+              background: 'linear-gradient(135deg, #c9a574 0%, #a68a5e 100%)',
+              border: 'none',
+              borderRadius: '12px',
+              color: '#ffffff',
+              fontSize: '14px',
+              fontWeight: '600',
+              cursor: 'pointer',
+              transition: 'all 0.3s ease',
+              boxShadow: '0 4px 12px rgba(201, 165, 116, 0.3)',
+            }}
+            onClick={() => navigate('/upload')}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.transform = 'translateY(-2px)';
+              e.currentTarget.style.boxShadow = '0 6px 20px rgba(201, 165, 116, 0.4)';
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.transform = 'translateY(0)';
+              e.currentTarget.style.boxShadow = '0 4px 12px rgba(201, 165, 116, 0.3)';
+            }}
+          >
+            <Upload size={20} />
+            Ir a Subir Archivos
+          </button>
         </div>
       )}
     </div>

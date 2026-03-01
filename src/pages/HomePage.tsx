@@ -26,123 +26,63 @@ export function HomePage() {
   const [error, setError] = useState<string | null>(null);
   const [lastUpdated, setLastUpdated] = useState<Date | null>(null);
 
-  // 🔄 Función para cargar datos desde localStorage
+  // 🔄 Función para cargar datos desde el API
   const loadData = useCallback(async () => {
     setLoading(true);
     setError(null);
     
     try {
-      // 🎨 DEMO: Si no hay API disponible, usar datos de demostración
-      const isDemoMode = window.location.hostname === 'localhost' || window.location.hostname.includes('figma');
-      
-      if (isDemoMode) {
-        // Datos de demostración para preview
-        const demoData: DashboardData = {
-          totalRevenue: 125780.50,
-          totalStreams: 8456321,
-          totalArtists: 15,
-          totalTracks: 245,
-          totalContracts: 12,
-          activeContracts: 9,
-          platforms: [
-            { name: 'Spotify', revenue: 52340.20 },
-            { name: 'Apple Music', revenue: 38420.15 },
-            { name: 'YouTube Music', revenue: 18650.30 },
-            { name: 'Amazon Music', revenue: 10280.45 },
-            { name: 'Deezer', revenue: 6089.40 }
-          ],
-          territories: [
-            { name: 'España', revenue: 45230.80 },
-            { name: 'México', revenue: 32180.50 },
-            { name: 'Estados Unidos', revenue: 21450.30 },
-            { name: 'Argentina', revenue: 12340.60 },
-            { name: 'Colombia', revenue: 8920.40 }
-          ],
-          periods: [
-            { period: 'Ene 2026', revenue: 18450.20 },
-            { period: 'Feb 2026', revenue: 22340.80 },
-            { period: 'Mar 2026', revenue: 19850.50 },
-            { period: 'Abr 2026', revenue: 25120.30 },
-            { period: 'May 2026', revenue: 21890.40 },
-            { period: 'Jun 2026', revenue: 18129.30 }
-          ],
-          topArtists: [
-            { id: 1, name: 'ROSALÍA', photo: null, totalRevenue: 28450.80, totalStreams: 2340521, tracks: Array(12).fill({}) },
-            { id: 2, name: 'Bad Bunny', photo: null, totalRevenue: 24320.50, totalStreams: 2150320, tracks: Array(10).fill({}) },
-            { id: 3, name: 'C. Tangana', photo: null, totalRevenue: 19870.30, totalStreams: 1850421, tracks: Array(8).fill({}) },
-            { id: 4, name: 'Aitana', photo: null, totalRevenue: 15230.20, totalStreams: 1420310, tracks: Array(6).fill({}) },
-            { id: 5, name: 'Rauw Alejandro', photo: null, totalRevenue: 12450.60, totalStreams: 1120450, tracks: Array(5).fill({}) },
-            { id: 6, name: 'Nathy Peluso', photo: null, totalRevenue: 9820.40, totalStreams: 890250, tracks: Array(4).fill({}) },
-            { id: 7, name: 'Becky G', photo: null, totalRevenue: 7650.30, totalStreams: 680120, tracks: Array(3).fill({}) },
-            { id: 8, name: 'Mora', photo: null, totalRevenue: 5230.80, totalStreams: 520180, tracks: Array(2).fill({}) },
-            { id: 9, name: 'Myke Towers', photo: null, totalRevenue: 3820.50, totalStreams: 380240, tracks: Array(2).fill({}) },
-            { id: 10, name: 'Eladio Carrión', photo: null, totalRevenue: 2940.60, totalStreams: 290150, tracks: Array(1).fill({}) }
-          ],
-          csvUploads: []
-        };
-        
-        const demoContracts = [
-          { artistName: 'ROSALÍA', royaltyPercentage: 60, status: 'active', workBilling: 15000 },
-          { artistName: 'Bad Bunny', royaltyPercentage: 55, status: 'active', workBilling: 12000 },
-          { artistName: 'C. Tangana', royaltyPercentage: 50, status: 'active', workBilling: 8000 },
-        ];
-        
-        setStats(demoData);
-        setContracts(demoContracts);
-        setLastUpdated(new Date());
-        setLoading(false);
-        return;
-      }
-      
-      // Intentar cargar desde API primero
+      // Cargar desde API
       const [dashRes, contractsRes] = await Promise.allSettled([
         apiRequest(API_ENDPOINTS.DASHBOARD),
         apiRequest(API_ENDPOINTS.CONTRACTS),
       ]);
 
-      let hasApiData = false;
-
       if (dashRes.status === 'fulfilled' && dashRes.value?.success) {
         setStats(dashRes.value.data);
-        hasApiData = true;
+      } else {
+        // Sin datos disponibles
+        setStats({
+          totalRevenue: 0,
+          totalStreams: 0,
+          totalArtists: 0,
+          totalTracks: 0,
+          totalContracts: 0,
+          activeContracts: 0,
+          platforms: [],
+          territories: [],
+          periods: [],
+          topArtists: [],
+          csvUploads: []
+        });
       }
 
       if (contractsRes.status === 'fulfilled' && contractsRes.value?.success) {
         setContracts(contractsRes.value.data || []);
-      }
-
-      // Si no hay datos de API, intentar localStorage
-      if (!hasApiData) {
-        const dashboardStats = localStorage.getItem('dashboardStats');
-        const contractsData = localStorage.getItem('contracts');
-        
-        if (dashboardStats) {
-          const parsedStats = JSON.parse(dashboardStats);
-          setStats(parsedStats);
-        }
-        
-        if (contractsData) {
-          setContracts(JSON.parse(contractsData));
-        }
+      } else {
+        setContracts([]);
       }
 
       setLastUpdated(new Date());
     } catch (err: any) {
       console.error('❌ Error cargando dashboard:', err);
+      setError('Error al cargar datos del servidor');
       
-      // En caso de error, intentar cargar desde localStorage como fallback
-      const dashboardStats = localStorage.getItem('dashboardStats');
-      const contractsData = localStorage.getItem('contracts');
-      
-      if (dashboardStats) {
-        setStats(JSON.parse(dashboardStats));
-      } else {
-        setError('No hay datos disponibles');
-      }
-      
-      if (contractsData) {
-        setContracts(JSON.parse(contractsData));
-      }
+      // Establecer valores vacíos
+      setStats({
+        totalRevenue: 0,
+        totalStreams: 0,
+        totalArtists: 0,
+        totalTracks: 0,
+        totalContracts: 0,
+        activeContracts: 0,
+        platforms: [],
+        territories: [],
+        periods: [],
+        topArtists: [],
+        csvUploads: []
+      });
+      setContracts([]);
     } finally {
       setLoading(false);
     }

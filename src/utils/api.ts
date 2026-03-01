@@ -3,14 +3,15 @@ const API_URL = (typeof import.meta !== 'undefined' && import.meta.env?.VITE_API
 
 // API Endpoints for data fetching
 export const API_ENDPOINTS = {
-  dashboard: '/dashboard',
-  contracts: '/contracts',
-  artists: '/artists',
-  tracks: '/tracks',
-  csvUploads: '/csv-uploads',
-  payments: '/payments',
-  disputes: '/disputes',
-  users: '/users',
+  DASHBOARD: '/dashboard',
+  CONTRACTS: '/contracts',
+  ARTISTS: '/artists',
+  TRACKS: '/tracks',
+  FINANCES: '/finances',
+  CSV_UPLOADS: '/csv-uploads',
+  PAYMENTS: '/payments',
+  DISPUTES: '/disputes',
+  USERS: '/users',
 };
 
 // Generic API request function

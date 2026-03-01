@@ -1,9 +1,11 @@
 import { FileText, Plus, Search, CheckCircle, Clock, XCircle, Edit2, X, Upload } from 'lucide-react';
 import { useState, useEffect } from 'react';
+import { apiRequest, API_ENDPOINTS } from '../utils/api';
 
 export function ContractsPage() {
   const [searchTerm, setSearchTerm] = useState('');
   const [contracts, setContracts] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
   const [showModal, setShowModal] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
   const [editingId, setEditingId] = useState<number | null>(null);
@@ -19,93 +21,24 @@ export function ContractsPage() {
   const [contractPDF, setContractPDF] = useState<File | null>(null);
   const [pdfFileName, setPdfFileName] = useState('');
 
+  // Cargar contratos desde API
   useEffect(() => {
-    const demoContracts = [
-      {
-        id: 1,
-        artistName: 'ROSALÍA',
-        contractType: 'Distribución + Edición',
-        royaltyPercentage: 60,
-        workBilling: 15000,
-        startDate: '2024-01-15',
-        endDate: '2027-01-15',
-        status: 'active'
-      },
-      {
-        id: 2,
-        artistName: 'Bad Bunny',
-        contractType: 'Distribución',
-        royaltyPercentage: 55,
-        workBilling: 12000,
-        startDate: '2024-03-20',
-        endDate: '2026-03-20',
-        status: 'active'
-      },
-      {
-        id: 3,
-        artistName: 'C. Tangana',
-        contractType: 'Distribución + Edición',
-        royaltyPercentage: 50,
-        workBilling: 8000,
-        startDate: '2023-11-10',
-        endDate: '2026-11-10',
-        status: 'active'
-      },
-      {
-        id: 4,
-        artistName: 'Aitana',
-        contractType: 'Edición Musical',
-        royaltyPercentage: 45,
-        workBilling: 6500,
-        startDate: '2024-05-01',
-        endDate: '2027-05-01',
-        status: 'active'
-      },
-      {
-        id: 5,
-        artistName: 'Rauw Alejandro',
-        contractType: 'Distribución',
-        royaltyPercentage: 50,
-        workBilling: 9000,
-        startDate: '2024-02-14',
-        endDate: '2026-02-14',
-        status: 'active'
-      },
-      {
-        id: 6,
-        artistName: 'Nathy Peluso',
-        contractType: 'Distribución + Edición',
-        royaltyPercentage: 55,
-        workBilling: 7000,
-        startDate: '2023-09-20',
-        endDate: '2026-09-20',
-        status: 'active'
-      },
-      {
-        id: 7,
-        artistName: 'Becky G',
-        contractType: 'Distribución',
-        royaltyPercentage: 48,
-        workBilling: 5500,
-        startDate: '2024-06-15',
-        endDate: '2026-06-15',
-        status: 'pending'
-      },
-      {
-        id: 8,
-        artistName: 'Mora',
-        contractType: 'Edición Musical',
-        royaltyPercentage: 45,
-        workBilling: 4000,
-        startDate: '2024-08-01',
-        endDate: '2027-08-01',
-        status: 'active'
-      }
-    ];
-
-    const localContracts = JSON.parse(localStorage.getItem('contracts') || '[]');
-    setContracts(localContracts.length > 0 ? localContracts : demoContracts);
+    loadContractsFromAPI();
   }, []);
+
+  const loadContractsFromAPI = async () => {
+    setLoading(true);
+    try {
+      const response = await apiRequest(API_ENDPOINTS.CONTRACTS);
+      console.log('✅ Contracts from API:', response);
+      setContracts(response.contracts || []);
+    } catch (error) {
+      console.error('❌ Error loading contracts:', error);
+      setContracts([]);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const filteredContracts = contracts.filter((contract: any) =>
     contract.artistName?.toLowerCase().includes(searchTerm.toLowerCase()) ||

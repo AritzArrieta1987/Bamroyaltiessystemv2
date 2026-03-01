@@ -8,7 +8,7 @@ interface ArtistPortalProps {
   artistData: any;
 }
 
-export default function ArtistPortal({ onLogout, artistData }: ArtistPortalProps) {
+export function ArtistPortal({ onLogout, artistData }: ArtistPortalProps) {
   const navigate = useNavigate();
   const [artistPhoto, setArtistPhoto] = useState<string | null>(artistData.photo || null);
   const [isHoveringPhoto, setIsHoveringPhoto] = useState(false);

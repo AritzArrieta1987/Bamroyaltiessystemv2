@@ -1,6 +1,7 @@
 import { DollarSign, TrendingUp, Clock, ArrowUpRight } from 'lucide-react';
 import { useState, useEffect } from 'react';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
+import { apiRequest, API_ENDPOINTS } from '../utils/api';
 
 type TabType = 'resumen' | 'ingresos' | 'gastos' | 'ventas-fisico' | 'solicitudes' | 'reportes';
 
@@ -64,140 +65,36 @@ export function FinancesPage() {
     try {
       setLoading(true);
       
-      // Intentar cargar desde localStorage primero (datos CSV)
-      const dashboardStats = localStorage.getItem('dashboardStats');
-      const royaltiesData = JSON.parse(localStorage.getItem('royaltiesData') || '[]');
-      const localPaymentRequests = JSON.parse(localStorage.getItem('paymentRequests') || '[]');
-      
-      if (dashboardStats) {
-        const stats = JSON.parse(dashboardStats);
+      // Cargar desde API - usar endpoint correcto
+      try {
+        const response = await apiRequest('/finances/overview');
+        console.log('✅ Finances from API:', response);
         
-        // Calcular datos financieros desde CSV
-        const totalRevenue = stats.totalRevenue || 0;
-        const bamPercentage = 0.20; // BAM se queda con 20%
-        const artistPercentage = 0.80; // Artistas reciben 80%
-        const operationalCosts = 0.15; // 15% de costos operativos
-        
-        const bamProfit = totalRevenue * bamPercentage;
-        const artistProfit = totalRevenue * artistPercentage;
-        const grossProfit = bamProfit;
-        const netProfit = grossProfit * (1 - operationalCosts);
-        
-        // Preparar datos mensuales para el gráfico
-        const yearlyData = stats.periods.slice(0, 12).map((period: any) => ({
-          month: period.period.substring(0, 7), // "2024-01" formato
-          revenue: period.revenue
-        }));
-        
-        // Calcular solicitudes pendientes
-        const pendingReqs = localPaymentRequests.filter((req: any) => 
-          req.status === 'Pendiente' || req.status === 'pending'
-        );
-        
-        const completedReqs = localPaymentRequests.filter((req: any) => 
-          req.status === 'Completado' || req.status === 'completed'
-        );
-        
-        const pendingRoyaltiesAmount = pendingReqs.reduce((sum: number, req: any) => 
-          sum + (parseFloat(req.amount) || 0), 0
-        );
-        
-        setFinanceData({
-          totalRoyalties: totalRevenue,
-          bamProfit: bamProfit,
-          artistProfit: artistProfit,
-          pendingRequests: pendingReqs.length,
-          transfersCompleted: completedReqs.length,
-          pendingRoyalties: pendingRoyaltiesAmount,
-          grossProfit: grossProfit,
-          netProfit: netProfit,
-          yearlyData: yearlyData
-        });
-        
-        // Formatear solicitudes de pago
-        const formattedRequests = localPaymentRequests.map((req: any) => ({
-          id: req.id,
-          artist_id: req.artistId,
-          artist_name: req.artistName,
-          amount: req.amount,
-          status: req.status === 'Pendiente' ? 'pending' : req.status.toLowerCase(),
-          created_at: req.createdAt || req.date,
-          first_name: req.firstName,
-          last_name: req.lastName,
-          account_holder: req.accountHolder,
-          iban: req.iban,
-          reference: req.reference
-        }));
-        
-        setPaymentRequests(formattedRequests);
-        
-      } else {
-        // Si no hay datos CSV, intentar cargar del backend
-        const token = localStorage.getItem('token');
-        
-        if (token) {
-          try {
-            const overviewRes = await fetch('https://app.bigartist.es/api/finances/overview', {
-              headers: { 'Authorization': `Bearer ${token}` }
-            });
-            
-            if (overviewRes.ok) {
-              const data = await overviewRes.json();
-              setFinanceData({
-                totalRoyalties: data.data.totalRevenue || 0,
-                bamProfit: data.data.bamProfit || 0,
-                artistProfit: data.data.artistProfit || 0,
-                pendingRequests: data.data.pendingRequests || 0,
-                transfersCompleted: data.data.transfersCompleted || 0,
-                pendingRoyalties: data.data.pendingRoyalties || 0,
-                grossProfit: data.data.grossProfit || 0,
-                netProfit: data.data.netProfit || 0,
-                yearlyData: data.data.yearlyData || []
-              });
-            }
-            
-            // Cargar solicitudes de pago
-            const paymentsRes = await fetch('https://app.bigartist.es/api/payments/requests', {
-              headers: { 'Authorization': `Bearer ${token}` }
-            });
-            
-            if (paymentsRes.ok) {
-              const paymentsData = await paymentsRes.json();
-              setPaymentRequests(paymentsData.requests || []);
-            }
-          } catch (error) {
-            console.error('Error cargando desde backend:', error);
-            // Usar datos demo si falla
-            setFinanceData({
-              totalRoyalties: 0,
-              bamProfit: 0,
-              artistProfit: 0,
-              pendingRequests: 0,
-              transfersCompleted: 0,
-              pendingRoyalties: 0,
-              grossProfit: 0,
-              netProfit: 0,
-              yearlyData: []
-            });
-          }
+        if (response.success && response.data) {
+          setFinanceData(response.data);
+          setPaymentRequests(response.paymentRequests || []);
         } else {
-          // Datos demo si no hay token
-          setFinanceData({
-            totalRoyalties: 0,
-            bamProfit: 0,
-            artistProfit: 0,
-            pendingRequests: 0,
-            transfersCompleted: 0,
-            pendingRoyalties: 0,
-            grossProfit: 0,
-            netProfit: 0,
-            yearlyData: []
-          });
+          throw new Error('No data from API');
         }
+      } catch (apiError) {
+        console.log('⚠️ API no disponible, mostrando datos vacíos');
+        // Datos vacíos si el API no responde
+        setFinanceData({
+          totalRoyalties: 0,
+          bamProfit: 0,
+          artistProfit: 0,
+          pendingRequests: 0,
+          transfersCompleted: 0,
+          pendingRoyalties: 0,
+          grossProfit: 0,
+          netProfit: 0,
+          yearlyData: []
+        });
+        setPaymentRequests([]);
       }
     } catch (error) {
-      console.error('Error cargando datos financieros:', error);
-      // Datos demo en caso de error
+      console.error('❌ Error loading finances:', error);
+      // Datos vacíos en caso de error
       setFinanceData({
         totalRoyalties: 0,
         bamProfit: 0,
@@ -209,6 +106,7 @@ export function FinancesPage() {
         netProfit: 0,
         yearlyData: []
       });
+      setPaymentRequests([]);
     } finally {
       setLoading(false);
     }
