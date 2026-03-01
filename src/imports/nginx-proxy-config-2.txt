@@ -1,0 +1,446 @@
+Last login: Sun Mar  1 14:08:10 on ttys002
+/Users/aritzarrieta/.zprofile:1: no such file or directory: /opt/homebrew/bin/brew
+/Users/aritzarrieta/.zprofile:2: no such file or directory: /usr/local/bin/brew
+aritzarrieta@MBP-de-Aritz ~ % ssh root@94.143.141.241
+root@94.143.141.241's password: 
+Welcome to Ubuntu 24.04.4 LTS (GNU/Linux 6.8.0-101-generic x86_64)
+
+ * Documentation:  https://help.ubuntu.com
+ * Management:     https://landscape.canonical.com
+ * Support:        https://ubuntu.com/pro
+
+ System information as of Sun Mar  1 13:34:26 UTC 2026
+
+  System load:  0.02              Processes:             121
+  Usage of /:   4.3% of 76.45GB   Users logged in:       1
+  Memory usage: 42%               IPv4 address for ens6: 94.143.141.241
+  Swap usage:   0%
+
+ * Strictly confined Kubernetes makes edge and IoT secure. Learn how MicroK8s
+   just raised the bar for easy, resilient and secure K8s cluster deployment.
+
+   https://ubuntu.com/engage/secure-kubernetes-at-the-edge
+
+Expanded Security Maintenance for Applications is not enabled.
+
+0 updates can be applied immediately.
+
+Enable ESM Apps to receive additional future security updates.
+See https://ubuntu.com/esm or run: sudo pro status
+
+
+Last login: Sun Mar  1 13:08:27 2026 from 207.188.130.38
+root@ubuntu:~# # Hacer backup
+cp /etc/nginx/sites-available/bigartist /etc/nginx/sites-available/bigartist.bak 
+
+# Insertar la configuración del proxy ANTES de la primera línea "location /"
+sed -i '/location \/ {/i \    # Proxy para el API backend\n    location /api/ {\n        proxy_pass http://localhost:3001;\n        proxy_http_version 1.1;\n        proxy_set_header Upgrade $http_upgrade;\n        proxy_set_header Connection '\''upgrade'\'';\n        proxy_set_header Host $host;\n        proxy_set_header X-Real-IP $remote_addr;\n        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;\n        proxy_set_header X-Forwarded-Proto $scheme;\n        proxy_cache_bypass $http_upgrade;\n    }\n' /etc/nginx/sites-available/bigartist
+
+# Verificar la configuración
+nginx -t
+
+# Si está OK, recargar
+systemctl reload nginx
+
+# Probar el endpoint del API
+curl http://localhost:3001/api/health
+curl https://app.bigartist.es/api/health
+
+echo "✅ Prueba el login en https://app.bigartist.es"
+echo "Password: admin123"ist.es"
+nginx: the configuration file /etc/nginx/nginx.conf syntax is ok
+nginx: configuration file /etc/nginx/nginx.conf test is successful
+{"status":"ok"}
+  <!DOCTYPE html>
+  <html lang="en">
+    <head>
+      <meta charset="UTF-8" />
+      <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <title>Bam Royalties System</title>
+      <script type="module" crossorigin src="/assets/index-CXJcB9TW.js"></script>
+      <link rel="stylesheet" crossorigin href="/assets/index-ClWTg1v2.css">
+    </head>
+
+    <body>
+      <div id="root"></div>
+    </body>
+  </html>
+  ✅ Prueba el login en https://app.bigartist.es
+Email: admin@bigartist.es
+Password: admin123
+root@ubuntu:~# # Ver la configuración actual de Nginx
+cat /etc/nginx/sites-available/bigartist
+
+# Ver cuántos bloques "location /api/" hay
+grep -n "location /api/" /etc/nginx/sites-available/bigartist
+
+# Ver la estructura completa
+grep -n "location" /etc/nginx/sites-available/bigartist
+server {
+    listen 80;
+    server_name app.bigartist.es;
+    return 301 https://$server_name$request_uri;
+}
+
+server {
+    listen 443 ssl http2;
+    server_name app.bigartist.es;
+    
+    ssl_certificate /etc/letsencrypt/live/app.bigartist.es/fullchain.pem;
+    ssl_certificate_key /etc/letsencrypt/live/app.bigartist.es/privkey.pem;
+    
+    root /var/www/bigartist;
+    index index.html;
+    
+    # Proxy para el API backend
+    location /api/ {
+        proxy_pass http://localhost:3001;
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection 'upgrade';
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+        proxy_cache_bypass $http_upgrade;
+    }
+
+    location / {
+        try_files $uri $uri/ /index.html;
+    }
+    
+    # Anti-caché para HTML
+    location ~* \.html$ {
+        add_header Cache-Control "no-store, no-cache, must-revalidate, proxy-revalidate";
+        expires -1;
+    }
+}
+18:    location /api/ {
+18:    location /api/ {
+30:    location / {
+35:    location ~* \.html$ {
+root@ubuntu:~# # Crear la configuración correcta desde cero
+cat > /etc/nginx/sites-available/bigartist << 'EOF'
+server {
+    listen 80;
+    server_name app.bigartist.es;
+    return 301 https://$server_name$request_uri;
+}
+
+server {
+    listen 443 ssl http2;
+    server_name app.bigartist.es;
+    
+    ssl_certificate /etc/letsencrypt/live/app.bigartist.es/fullchain.pem;
+    ssl_certificate_key /etc/letsencrypt/live/app.bigartist.es/privkey.pem;
+    
+    root /var/www/bigartist;
+    index index.html;
+    
+    # Proxy para el API backend
+    location /api/ {
+        proxy_pass http://localhost:3001;
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection 'upgrade';
+echo "🔑 Password: admin123"ist.es"https://app.bigartist.es"evalidate, proxy-rev
+nginx: the configuration file /etc/nginx/nginx.conf syntax is ok
+nginx: configuration file /etc/nginx/nginx.conf test is successful
+{"status":"ok"}
+✅ Ahora prueba el login en: https://app.bigartist.es
+📧 Email: admin@bigartist.es
+🔑 Password: admin123
+root@ubuntu:~# # Ver los logs del API para ver el error
+pm2 logs bigartist-api --lines 30
+
+# Detener temporalmente para no saturar los logs
+pm2 stop bigartist-api
+
+# Generar un hash correcto de "admin123" con Node.js
+cd /var/www/bigartist-api
+node -e "const bcrypt = require('bcrypt'); bcrypt.hash('admin123', 10, (err, hash) => { console.log('Hash:', hash); });"
+[TAILING] Tailing last 30 lines for [bigartist-api] process (change the value with --lines option)
+/root/.pm2/logs/bigartist-api-error.log last 30 lines:
+/root/.pm2/logs/bigartist-api-out.log last 30 lines:
+0|bigartis | [dotenv@17.3.1] injecting env (0) from .env -- tip: ⚙️  specify custom .env file path with { path: '/custom/path/.env' }
+0|bigartis | API corriendo en puerto 3001
+0|bigartis | [dotenv@17.3.1] injecting env (0) from .env -- tip: ⚙️  suppress all logs with { quiet: true }
+0|bigartis | API corriendo en puerto 3001
+0|bigartis | [dotenv@17.3.1] injecting env (0) from .env -- tip: 🛡️ auth for agents: https://vestauth.com
+0|bigartis | API corriendo en puerto 3001
+0|bigartis | [dotenv@17.3.1] injecting env (0) from .env -- tip: ⚙️  override existing env vars with { override: true }
+0|bigartis | API corriendo en puerto 3001
+0|bigartis | [dotenv@17.3.1] injecting env (0) from .env -- tip: ⚙️  write to custom object with { processEnv: myObject }
+0|bigartis | API corriendo en puerto 3001
+0|bigartis | [dotenv@17.3.1] injecting env (0) from .env -- tip: ⚙️  specify custom .env file path with { path: '/custom/path/.env' }
+0|bigartis | API corriendo en puerto 3001
+0|bigartis | [dotenv@17.3.1] injecting env (0) from .env -- tip: 🔐 prevent building .env in docker: https://dotenvx.com/prebuild
+0|bigartis | API corriendo en puerto 3001
+0|bigartis | [dotenv@17.3.1] injecting env (0) from .env -- tip: 🔐 prevent committing .env to code: https://dotenvx.com/precommit
+0|bigartis | API corriendo en puerto 3001
+0|bigartis | [dotenv@17.3.1] injecting env (0) from .env -- tip: ⚡️ secrets for agents: https://dotenvx.com/as2
+0|bigartis | API corriendo en puerto 3001
+0|bigartis | [dotenv@17.3.1] injecting env (0) from .env -- tip: ⚙️  load multiple .env files with { path: ['.env.local', '.env'] }
+0|bigartis | API corriendo en puerto 3001
+0|bigartis | [dotenv@17.3.1] injecting env (0) from .env -- tip: ⚙️  enable debug logging with { debug: true }
+0|bigartis | API corriendo en puerto 3001
+0|bigartis | [dotenv@17.3.1] injecting env (0) from .env -- tip: ⚙️  override existing env vars with { override: true }
+0|bigartis | API corriendo en puerto 3001
+0|bigartis | [dotenv@17.3.1] injecting env (0) from .env -- tip: ⚙️  write to custom object with { processEnv: myObject }
+0|bigartis | API corriendo en puerto 3001
+0|bigartis | [dotenv@17.3.1] injecting env (0) from .env -- tip: ⚙️  write to custom object with { processEnv: myObject }
+0|bigartis | API corriendo en puerto 3001
+0|bigartis | [dotenv@17.3.1] injecting env (0) from .env -- tip: ⚙️  suppress all logs with { quiet: true }
+0|bigartis | API corriendo en puerto 3001
+
+^C
+[PM2] Applying action stopProcessId on app [bigartist-api](ids: [ 0, 1 ])
+[PM2] [bigartist-api](0) ✓
+[PM2] [bigartist-api](1) ✓
+┌────┬────────────────────┬──────────┬──────┬───────────┬──────────┬──────────┐
+│ id │ name               │ mode     │ ↺    │ status    │ cpu      │ memory   │
+├────┼────────────────────┼──────────┼──────┼───────────┼──────────┼──────────┤
+│ 0  │ bigartist-api      │ fork     │ 6    │ stopped   │ 0%       │ 0b       │
+│ 1  │ bigartist-api      │ fork     │ 41   │ stopped   │ 0%       │ 0b       │
+└────┴────────────────────┴──────────┴──────┴───────────┴──────────┴──────────┘
+Hash: $2b$10$oLi3RdRY/D6Q5UAdO8l.eOfFtkoBl5aR8wxuZCfPAbwAh5yRW1UJy
+root@ubuntu:/var/www/bigartist-api# # Actualizar la contraseña en MySQL con el hash correcto
+mysql -u root -p'BigArtist2018!@?' bigartist_db << 'EOF'
+UPDATE users 
+SET password = '$2b$10$oLi3RdRY/D6Q5UAdO8l.eOfFtkoBl5aR8wxuZCfPAbwAh5yRW1UJy' 
+WHERE email = 'admin@bigartist.es';
+
+SELECT id, email, role, created_at FROM users WHERE email = 'admin@bigartist.es';
+EOF
+
+# Limpiar las instancias duplicadas de PM2
+pm2 delete all
+
+# Reiniciar el API
+cd /var/www/bigartist-api
+pm2 start server.js --name bigartist-api
+
+# Ver el estado
+pm2 status
+
+# Probar el login desde el servidor
+curl -X POST https://app.bigartist.es/api/auth/login \
+  -H "Content-Type: application/json" \
+echo "✅ Ahora prueba el login en: https://app.bigartist.es"\
+mysql: [Warning] Using a password on the command line interface can be insecure.
+id	email	role	created_at
+1	admin@bigartist.es	admin	2026-03-01 13:30:41
+[PM2] Applying action deleteProcessId on app [all](ids: [ 0, 1 ])
+[PM2] [bigartist-api](0) ✓
+[PM2] [bigartist-api](1) ✓
+┌────┬────────────────────┬──────────┬──────┬───────────┬──────────┬──────────┐
+│ id │ name               │ mode     │ ↺    │ status    │ cpu      │ memory   │
+└────┴────────────────────┴──────────┴──────┴───────────┴──────────┴──────────┘
+[PM2] Starting /var/www/bigartist-api/server.js in fork_mode (1 instance)
+[PM2] Done.
+┌────┬────────────────────┬──────────┬──────┬───────────┬──────────┬──────────┐
+│ id │ name               │ mode     │ ↺    │ status    │ cpu      │ memory   │
+├────┼────────────────────┼──────────┼──────┼───────────┼──────────┼──────────┤
+│ 0  │ bigartist-api      │ fork     │ 0    │ online    │ 0%       │ 13.4mb   │
+└────┴────────────────────┴──────────┴──────┴───────────┴──────────┴──────────┘
+┌────┬────────────────────┬──────────┬──────┬───────────┬──────────┬──────────┐
+│ id │ name               │ mode     │ ↺    │ status    │ cpu      │ memory   │
+├────┼────────────────────┼──────────┼──────┼───────────┼──────────┼──────────┤
+│ 0  │ bigartist-api      │ fork     │ 0    │ online    │ 0%       │ 55.1mb   │
+└────┴────────────────────┴──────────┴──────┴───────────┴──────────┴──────────┘
+<html>
+<head><title>502 Bad Gateway</title></head>
+<body>
+<center><h1>502 Bad Gateway</h1></center>
+<hr><center>nginx/1.24.0 (Ubuntu)</center>
+</body>
+</html>
+✅ Ahora prueba el login en: https://app.bigartist.es
+root@ubuntu:/var/www/bigartist-api# ¡Ah! El sistema que desplegamos no es TU código original. Necesitamos hacer build de tu repositorio de GitHub y desplegarlo correctamente.
+
+Ejecuta estos comandos para desplegar TU aplicación:
+
+# Ir al directorio del código fuente
+cd /root/Bamroyaltiessystemv2
+
+# Ver qué hay en el repositorio
+ls -la
+cat package.json
+
+# Hacer pull de los últimos cambios de GitHub
+git pull origin main
+
+# Instalar dependencias si hace falta
+npm install
+
+# Hacer build de producción de TU proyecto
+npm run build
+
+# Ver dónde quedó el build (puede ser /dist o /build)
+ls -la dist/
+echo "✅ Deploy completado. Prueba: https://app.bigartist.es"
+¡Ah!: command not found
+Ejecuta: command not found
+total 156
+drwxr-xr-x  6 root root   4096 Mar  1 13:20 .
+drwx------  9 root root   4096 Mar  1 13:30 ..
+drwxr-xr-x  8 root root   4096 Mar  1 13:19 .git
+-rw-r--r--  1 root root    311 Mar  1 13:19 README.md
+drwxr-xr-x  3 root root   4096 Mar  1 13:20 build
+-rw-r--r--  1 root root    335 Mar  1 13:19 index.html
+drwxr-xr-x 82 root root   4096 Mar  1 13:20 node_modules
+-rw-r--r--  1 root root 116951 Mar  1 13:20 package-lock.json
+-rw-r--r--  1 root root    700 Mar  1 13:19 package.json
+drwxr-xr-x 11 root root   4096 Mar  1 13:19 src
+-rw-r--r--  1 root root    795 Mar  1 13:19 vite.config.ts
+
+  {
+      "name": "Bam Royalties System",
+      "version": "0.1.0",
+      "private": true,
+      "dependencies": {
+          "@vitejs/plugin-react": "*",
+          "@vitejs/plugin-react-swc": "*",
+          "lucide-react": "*",
+          "path": "*",
+          "react": "^18.3.1",
+          "react-dom": "^18.3.1",
+          "react-router": "*",
+          "recharts": "*",
+          "sonner": "^2.0.3",
+          "tailwindcss": "*",
+          "vite": "*"
+      },
+      "devDependencies": {
+          "@types/node": "^20.10.0",
+          "@vitejs/plugin-react-swc": "^3.10.2",
+          "vite": "6.3.5"
+      },
+      "scripts": {
+          "dev": "vite",
+          "build": "vite build"
+      }
+  }From https://github.com/AritzArrieta1987/Bamroyaltiessystemv2
+ * branch            main       -> FETCH_HEAD
+Already up to date.
+
+added 2 packages, and audited 126 packages in 994ms
+
+13 packages are looking for funding
+  run `npm fund` for details
+
+1 moderate severity vulnerability
+
+To address all issues, run:
+  npm audit fix --force
+
+Run `npm audit` for details.
+
+> Bam Royalties System@0.1.0 build
+> vite build
+
+vite v6.3.5 building for production...
+✓ 1747 modules transformed.
+build/index.html                                                        0.44 kB │ gzip:  0.28 kB
+build/assets/aa0296e2522220bcfcda71f86c708cb2cbc616b9-HygGYkAN.png     49.35 kB
+build/assets/0a2a9faa1b59d5fa1e388a2eec5b08498dd7a493-C-zGM-oV.png  4,888.06 kB
+build/assets/index-ClWTg1v2.css                                         9.18 kB │ gzip:  2.61 kB
+build/assets/index-CXJcB9TW.js                                        270.46 kB │ gzip: 84.29 kB
+✓ built in 2.39s
+ls: cannot access 'dist/': No such file or directory
+total 16
+drwxr-xr-x 3 root root 4096 Mar  1 13:44 .
+drwxr-xr-x 6 root root 4096 Mar  1 13:20 ..
+drwxr-xr-x 2 root root 4096 Mar  1 13:44 assets
+-rw-r--r-- 1 root root  435 Mar  1 13:44 index.html
+cp: cannot stat 'dist': No such file or directory
+chown: cannot access '/var/www/bigartist': No such file or directory
+chmod: cannot access '/var/www/bigartist': No such file or directory
+✅ Deploy completado. Prueba: https://app.bigartist.es
+root@ubuntu:~/Bamroyaltiessystemv2# # Ver qué hay en el directorio web actual
+ls -la /var/www/bigartist/
+
+# Ver la estructura del proyecto
+cd /root/Bamroyaltiessystemv2
+ls -la
+
+# Ver el package.json para entender el proyecto
+cat package.json
+
+# Ver si hay build o dist
+ls -la dist/ 2>/dev/null || echo "No hay carpeta dist/"
+ls -la build/ 2>/dev/null || echo "No hay carpeta build/"
+
+# Ver el archivo de configuración de Vite si existe
+cat vite.config.js 2>/dev/null || cat vite.config.ts 2>/dev/null || echo "No hay vite.config"
+ls: cannot access '/var/www/bigartist/': No such file or directory
+total 156
+drwxr-xr-x  6 root root   4096 Mar  1 13:20 .
+drwx------  9 root root   4096 Mar  1 13:30 ..
+drwxr-xr-x  8 root root   4096 Mar  1 13:44 .git
+-rw-r--r--  1 root root    311 Mar  1 13:19 README.md
+drwxr-xr-x  3 root root   4096 Mar  1 13:44 build
+-rw-r--r--  1 root root    335 Mar  1 13:19 index.html
+drwxr-xr-x 82 root root   4096 Mar  1 13:44 node_modules
+-rw-r--r--  1 root root 116951 Mar  1 13:44 package-lock.json
+-rw-r--r--  1 root root    700 Mar  1 13:19 package.json
+drwxr-xr-x 11 root root   4096 Mar  1 13:19 src
+-rw-r--r--  1 root root    795 Mar  1 13:19 vite.config.ts
+
+  {
+      "name": "Bam Royalties System",
+      "version": "0.1.0",
+      "private": true,
+      "dependencies": {
+          "@vitejs/plugin-react": "*",
+          "@vitejs/plugin-react-swc": "*",
+          "lucide-react": "*",
+          "path": "*",
+          "react": "^18.3.1",
+          "react-dom": "^18.3.1",
+          "react-router": "*",
+          "recharts": "*",
+          "sonner": "^2.0.3",
+          "tailwindcss": "*",
+          "vite": "*"
+      },
+      "devDependencies": {
+          "@types/node": "^20.10.0",
+          "@vitejs/plugin-react-swc": "^3.10.2",
+          "vite": "6.3.5"
+      },
+      "scripts": {
+          "dev": "vite",
+          "build": "vite build"
+      }
+  }No hay carpeta dist/
+total 16
+drwxr-xr-x 3 root root 4096 Mar  1 13:44 .
+drwxr-xr-x 6 root root 4096 Mar  1 13:20 ..
+drwxr-xr-x 2 root root 4096 Mar  1 13:44 assets
+-rw-r--r-- 1 root root  435 Mar  1 13:44 index.html
+
+  import { defineConfig } from 'vite';
+  import react from '@vitejs/plugin-react-swc';
+  import path from 'path';
+
+  export default defineConfig({
+    plugins: [react()],
+    resolve: {
+      extensions: ['.js', '.jsx', '.ts', '.tsx', '.json'],
+      alias: {
+        'sonner@2.0.3': 'sonner',
+        'figma:asset/aa0296e2522220bcfcda71f86c708cb2cbc616b9.png': path.resolve(__dirname, './src/assets/aa0296e2522220bcfcda71f86c708cb2cbc616b9.png'),
+        'figma:asset/0a2a9faa1b59d5fa1e388a2eec5b08498dd7a493.png': path.resolve(__dirname, './src/assets/0a2a9faa1b59d5fa1e388a2eec5b08498dd7a493.png'),
+        '@': path.resolve(__dirname, './src'),
+      },
+    },
+    build: {
+      target: 'esnext',
+      outDir: 'build',
+    },
+    server: {
+      port: 3000,
+      open: true,
+    },
+  });root@ubuntu:~/Bamroyaltiessystemv2# 

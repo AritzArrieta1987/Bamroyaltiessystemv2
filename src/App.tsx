@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { RouterProvider, createBrowserRouter } from 'react-router';
 import LoginPanel from './components/LoginPanel';
 import AdminLayout from './components/AdminLayout';
+import { Toaster } from './components/Toaster';
 import { HomePage } from './pages/HomePage';
 import { ArtistsPage } from './pages/ArtistsPage';
 import { CatalogPage } from './pages/CatalogPage';
@@ -16,6 +17,15 @@ function App() {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
+    // 🎨 DEMO MODE: Si estamos en Figma Make preview, saltar login
+    const isDemoMode = window.location.hostname.includes('figma') || window.location.hostname === 'localhost';
+    
+    if (isDemoMode) {
+      setIsLoggedIn(true);
+      setIsLoading(false);
+      return;
+    }
+    
     const token = localStorage.getItem('authToken');
     if (token) {
       setIsLoggedIn(true);
@@ -40,7 +50,7 @@ function App() {
         display: 'flex', 
         alignItems: 'center', 
         justifyContent: 'center',
-        background: '#0d1f23'
+        background: '#1e2f3f'
       }}>
         <div style={{ color: '#c9a574', fontSize: '18px' }}>Cargando...</div>
       </div>
@@ -68,7 +78,12 @@ function App() {
     },
   ]);
 
-  return <RouterProvider router={router} />;
+  return (
+    <>
+      <Toaster />
+      <RouterProvider router={router} />
+    </>
+  );
 }
 
 export default App;

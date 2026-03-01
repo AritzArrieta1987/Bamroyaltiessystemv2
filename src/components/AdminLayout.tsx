@@ -7,8 +7,12 @@ import {
   Upload, 
   DollarSign,
   Package,
-  LogOut
+  LogOut,
+  Bell,
+  Settings
 } from 'lucide-react';
+import bgImage from 'figma:asset/0a2a9faa1b59d5fa1e388a2eec5b08498dd7a493.png';
+import logoImage from 'figma:asset/aa0296e2522220bcfcda71f86c708cb2cbc616b9.png';
 
 interface AdminLayoutProps {
   onLogout: () => void;
@@ -22,137 +26,201 @@ export default function AdminLayout({ onLogout }: AdminLayoutProps) {
     { path: '/', icon: LayoutDashboard, label: 'Dashboard' },
     { path: '/artists', icon: Users, label: 'Artistas' },
     { path: '/catalog', icon: Music, label: 'Catálogo' },
+    { path: '/finances', icon: DollarSign, label: 'Finanzas' },
     { path: '/contracts', icon: FileText, label: 'Contratos' },
     { path: '/upload', icon: Upload, label: 'Subir CSV' },
-    { path: '/finances', icon: DollarSign, label: 'Finanzas' },
-    { path: '/physical-sales', icon: Package, label: 'Ventas Físicas' },
   ];
 
   return (
     <div style={{ 
+      position: 'relative',
       minHeight: '100vh',
-      background: 'linear-gradient(135deg, #0d1f23 0%, #1a2e35 100%)'
+      width: '100%',
+      overflow: 'hidden'
     }}>
-      {/* Header Horizontal */}
+      {/* Imagen de fondo completa igual que LoginPanel */}
       <div style={{
-        background: 'linear-gradient(180deg, rgba(30, 47, 47, 0.95) 0%, rgba(20, 35, 35, 0.98) 100%)',
-        borderBottom: '2px solid rgba(201, 165, 116, 0.3)',
-        boxShadow: '0 4px 20px rgba(0, 0, 0, 0.3)',
-        position: 'sticky',
-        top: 0,
-        zIndex: 100
-      }}>
+        position: 'fixed',
+        inset: 0,
+        backgroundImage: `url(${bgImage})`,
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+        backgroundRepeat: 'no-repeat',
+        zIndex: 0
+      }} />
+      
+      {/* Overlay oscuro */}
+      <div style={{
+        position: 'fixed',
+        inset: 0,
+        background: 'linear-gradient(135deg, rgba(13, 31, 35, 0.88) 0%, rgba(19, 46, 53, 0.85) 50%, rgba(45, 74, 83, 0.82) 100%)',
+        backdropFilter: 'blur(2px)',
+        zIndex: 1
+      }} />
+
+      {/* Contenido */}
+      <div style={{ position: 'relative', zIndex: 2, minHeight: '100vh', display: 'flex', flexDirection: 'column' }}>
+        {/* Header Horizontal */}
         <div style={{
-          maxWidth: '1600px',
-          margin: '0 auto',
-          padding: '0 32px',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'space-between',
-          height: '70px'
+          background: 'transparent',
+          borderBottom: '1px solid rgba(100, 150, 160, 0.1)',
+          backdropFilter: 'blur(20px)',
+          position: 'sticky',
+          top: 0,
+          zIndex: 100
         }}>
-          {/* Logo */}
-          <div style={{ 
-            fontSize: '24px', 
-            fontWeight: '700', 
-            color: '#c9a574',
-            letterSpacing: '2px',
-            textShadow: '0 0 20px rgba(201, 165, 116, 0.3)'
+          <div style={{
+            maxWidth: '1600px',
+            margin: '0 auto',
+            padding: '0 32px',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+            height: '70px'
           }}>
-            BIGARTIST
-          </div>
-
-          {/* Menu Items Horizontal */}
-          <nav style={{ 
-            display: 'flex', 
-            alignItems: 'center', 
-            gap: '8px',
-            flex: 1,
-            justifyContent: 'center'
-          }}>
-            {menuItems.map((item) => {
-              const Icon = item.icon;
-              const isActive = location.pathname === item.path;
-              
-              return (
-                <button
-                  key={item.path}
-                  onClick={() => navigate(item.path)}
-                  style={{
-                    display: 'flex',
-                    alignItems: 'center',
-                    gap: '8px',
-                    padding: '10px 20px',
-                    background: isActive 
-                      ? 'linear-gradient(135deg, rgba(201, 165, 116, 0.25) 0%, rgba(201, 165, 116, 0.15) 100%)'
-                      : 'transparent',
-                    border: 'none',
-                    borderBottom: isActive ? '3px solid #c9a574' : '3px solid transparent',
-                    color: isActive ? '#c9a574' : '#AFB3B7',
-                    fontSize: '14px',
-                    fontWeight: isActive ? '600' : '500',
-                    cursor: 'pointer',
-                    transition: 'all 0.2s ease',
-                    borderRadius: '8px 8px 0 0',
-                    whiteSpace: 'nowrap'
-                  }}
-                  onMouseEnter={(e) => {
-                    if (!isActive) {
-                      e.currentTarget.style.background = 'rgba(201, 165, 116, 0.08)';
-                      e.currentTarget.style.color = '#c9a574';
-                    }
-                  }}
-                  onMouseLeave={(e) => {
-                    if (!isActive) {
-                      e.currentTarget.style.background = 'transparent';
-                      e.currentTarget.style.color = '#AFB3B7';
-                    }
-                  }}
-                >
-                  <Icon size={18} />
-                  <span>{item.label}</span>
-                </button>
-              );
-            })}
-          </nav>
-
-          {/* Logout Button */}
-          <button
-            onClick={onLogout}
-            style={{
+            {/* Logo */}
+            <div style={{ 
               display: 'flex',
               alignItems: 'center',
-              gap: '8px',
-              padding: '10px 18px',
-              background: 'rgba(239, 68, 68, 0.1)',
-              border: '1px solid rgba(239, 68, 68, 0.3)',
-              borderRadius: '8px',
-              color: '#ef4444',
-              fontSize: '14px',
-              fontWeight: '600',
-              cursor: 'pointer',
-              transition: 'all 0.2s ease'
-            }}
-            onMouseEnter={(e) => {
-              e.currentTarget.style.background = 'rgba(239, 68, 68, 0.2)';
-            }}
-            onMouseLeave={(e) => {
-              e.currentTarget.style.background = 'rgba(239, 68, 68, 0.1)';
-            }}
-          >
-            <LogOut size={18} />
-            <span>Salir</span>
-          </button>
-        </div>
-      </div>
+              minWidth: '200px'
+            }}>
+              <img 
+                src={logoImage} 
+                alt="BIGARTIST Logo" 
+                style={{ 
+                  height: '45px',
+                  width: 'auto'
+                }} 
+              />
+            </div>
 
-      {/* Main Content */}
-      <div style={{ 
-        maxWidth: '1600px',
-        margin: '0 auto',
-        padding: '32px'
-      }}>
-        <Outlet />
+            {/* Menu Items Horizontal */}
+            <nav style={{ 
+              display: 'flex', 
+              alignItems: 'center', 
+              gap: '4px',
+              flex: 1,
+              justifyContent: 'center'
+            }}>
+              {menuItems.map((item) => {
+                const Icon = item.icon;
+                const isActive = location.pathname === item.path;
+                
+                return (
+                  <button
+                    key={item.path}
+                    onClick={() => navigate(item.path)}
+                    style={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: '8px',
+                      padding: '10px 18px',
+                      background: isActive 
+                        ? 'rgba(212, 165, 116, 0.15)'
+                        : 'transparent',
+                      border: 'none',
+                      borderRadius: '8px',
+                      color: isActive ? '#d4a574' : '#8b9299',
+                      fontSize: '13px',
+                      fontWeight: isActive ? '600' : '500',
+                      cursor: 'pointer',
+                      transition: 'all 0.2s ease',
+                      whiteSpace: 'nowrap'
+                    }}
+                    onMouseEnter={(e) => {
+                      if (!isActive) {
+                        e.currentTarget.style.background = 'rgba(212, 165, 116, 0.08)';
+                        e.currentTarget.style.color = '#d4a574';
+                      }
+                    }}
+                    onMouseLeave={(e) => {
+                      if (!isActive) {
+                        e.currentTarget.style.background = 'transparent';
+                        e.currentTarget.style.color = '#8b9299';
+                      }
+                    }}
+                  >
+                    <Icon size={18} />
+                    <span>{item.label}</span>
+                  </button>
+                );
+              })}
+            </nav>
+
+            {/* Right Side Buttons */}
+            <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+              <button
+                style={{
+                  width: '40px',
+                  height: '40px',
+                  borderRadius: '8px',
+                  background: 'rgba(212, 165, 116, 0.1)',
+                  border: 'none',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  color: '#d4a574',
+                  cursor: 'pointer',
+                  transition: 'all 0.2s ease'
+                }}
+                onMouseEnter={(e) => e.currentTarget.style.background = 'rgba(212, 165, 116, 0.2)'}
+                onMouseLeave={(e) => e.currentTarget.style.background = 'rgba(212, 165, 116, 0.1)'}
+              >
+                <Bell size={18} />
+              </button>
+              <button
+                style={{
+                  width: '40px',
+                  height: '40px',
+                  borderRadius: '8px',
+                  background: 'rgba(212, 165, 116, 0.1)',
+                  border: 'none',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  color: '#d4a574',
+                  cursor: 'pointer',
+                  transition: 'all 0.2s ease'
+                }}
+                onMouseEnter={(e) => e.currentTarget.style.background = 'rgba(212, 165, 116, 0.2)'}
+                onMouseLeave={(e) => e.currentTarget.style.background = 'rgba(212, 165, 116, 0.1)'}
+              >
+                <Settings size={18} />
+              </button>
+              <button
+                onClick={onLogout}
+                style={{
+                  width: '40px',
+                  height: '40px',
+                  borderRadius: '8px',
+                  background: 'rgba(239, 68, 68, 0.1)',
+                  border: 'none',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  color: '#ef4444',
+                  cursor: 'pointer',
+                  transition: 'all 0.2s ease'
+                }}
+                onMouseEnter={(e) => e.currentTarget.style.background = 'rgba(239, 68, 68, 0.2)'}
+                onMouseLeave={(e) => e.currentTarget.style.background = 'rgba(239, 68, 68, 0.1)'}
+              >
+                <LogOut size={18} />
+              </button>
+            </div>
+          </div>
+        </div>
+
+        {/* Main Content */}
+        <div style={{ 
+          flex: 1,
+          maxWidth: '1600px',
+          width: '100%',
+          margin: '0 auto',
+          padding: '32px'
+        }}>
+          <Outlet />
+        </div>
       </div>
     </div>
   );

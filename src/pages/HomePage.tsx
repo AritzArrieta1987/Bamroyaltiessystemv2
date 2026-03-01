@@ -1,4 +1,4 @@
-import { LayoutDashboard, TrendingUp, DollarSign, Users, Music, Calendar, RefreshCw, AlertCircle, FileText } from 'lucide-react';
+import { LayoutDashboard, TrendingUp, DollarSign, Users, Music, Calendar, RefreshCw, AlertCircle } from 'lucide-react';
 import { useEffect, useState, useCallback } from 'react';
 import { BarChart, Bar, LineChart, Line, PieChart, Pie, Cell, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 import { apiRequest, API_ENDPOINTS } from '../utils/api';
@@ -20,46 +20,158 @@ interface DashboardData {
 const COLORS = ['#1DB954', '#FA2D48', '#FF0000', '#c9a574', '#3b82f6', '#a855f7', '#22c55e', '#f59e0b'];
 
 export function HomePage() {
-  const [dashData, setDashData] = useState<DashboardData | null>(null);
+  const [stats, setStats] = useState<DashboardData | null>(null);
   const [contracts, setContracts] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [lastUpdated, setLastUpdated] = useState<Date | null>(null);
 
-  const loadDashboard = useCallback(async () => {
+  // 🔄 Función para cargar datos desde localStorage
+  const loadData = useCallback(async () => {
     setLoading(true);
     setError(null);
+    
     try {
-      console.log('📊 HomePage: Cargando datos desde API MySQL...');
+      // 🎨 DEMO: Si no hay API disponible, usar datos de demostración
+      const isDemoMode = window.location.hostname === 'localhost' || window.location.hostname.includes('figma');
       
+      if (isDemoMode) {
+        // Datos de demostración para preview
+        const demoData: DashboardData = {
+          totalRevenue: 125780.50,
+          totalStreams: 8456321,
+          totalArtists: 15,
+          totalTracks: 245,
+          totalContracts: 12,
+          activeContracts: 9,
+          platforms: [
+            { name: 'Spotify', revenue: 52340.20 },
+            { name: 'Apple Music', revenue: 38420.15 },
+            { name: 'YouTube Music', revenue: 18650.30 },
+            { name: 'Amazon Music', revenue: 10280.45 },
+            { name: 'Deezer', revenue: 6089.40 }
+          ],
+          territories: [
+            { name: 'España', revenue: 45230.80 },
+            { name: 'México', revenue: 32180.50 },
+            { name: 'Estados Unidos', revenue: 21450.30 },
+            { name: 'Argentina', revenue: 12340.60 },
+            { name: 'Colombia', revenue: 8920.40 }
+          ],
+          periods: [
+            { period: 'Ene 2026', revenue: 18450.20 },
+            { period: 'Feb 2026', revenue: 22340.80 },
+            { period: 'Mar 2026', revenue: 19850.50 },
+            { period: 'Abr 2026', revenue: 25120.30 },
+            { period: 'May 2026', revenue: 21890.40 },
+            { period: 'Jun 2026', revenue: 18129.30 }
+          ],
+          topArtists: [
+            { id: 1, name: 'ROSALÍA', photo: null, totalRevenue: 28450.80, totalStreams: 2340521, tracks: Array(12).fill({}) },
+            { id: 2, name: 'Bad Bunny', photo: null, totalRevenue: 24320.50, totalStreams: 2150320, tracks: Array(10).fill({}) },
+            { id: 3, name: 'C. Tangana', photo: null, totalRevenue: 19870.30, totalStreams: 1850421, tracks: Array(8).fill({}) },
+            { id: 4, name: 'Aitana', photo: null, totalRevenue: 15230.20, totalStreams: 1420310, tracks: Array(6).fill({}) },
+            { id: 5, name: 'Rauw Alejandro', photo: null, totalRevenue: 12450.60, totalStreams: 1120450, tracks: Array(5).fill({}) },
+            { id: 6, name: 'Nathy Peluso', photo: null, totalRevenue: 9820.40, totalStreams: 890250, tracks: Array(4).fill({}) },
+            { id: 7, name: 'Becky G', photo: null, totalRevenue: 7650.30, totalStreams: 680120, tracks: Array(3).fill({}) },
+            { id: 8, name: 'Mora', photo: null, totalRevenue: 5230.80, totalStreams: 520180, tracks: Array(2).fill({}) },
+            { id: 9, name: 'Myke Towers', photo: null, totalRevenue: 3820.50, totalStreams: 380240, tracks: Array(2).fill({}) },
+            { id: 10, name: 'Eladio Carrión', photo: null, totalRevenue: 2940.60, totalStreams: 290150, tracks: Array(1).fill({}) }
+          ],
+          csvUploads: []
+        };
+        
+        const demoContracts = [
+          { artistName: 'ROSALÍA', royaltyPercentage: 60, status: 'active', workBilling: 15000 },
+          { artistName: 'Bad Bunny', royaltyPercentage: 55, status: 'active', workBilling: 12000 },
+          { artistName: 'C. Tangana', royaltyPercentage: 50, status: 'active', workBilling: 8000 },
+        ];
+        
+        setStats(demoData);
+        setContracts(demoContracts);
+        setLastUpdated(new Date());
+        setLoading(false);
+        return;
+      }
+      
+      // Intentar cargar desde API primero
       const [dashRes, contractsRes] = await Promise.allSettled([
         apiRequest(API_ENDPOINTS.DASHBOARD),
         apiRequest(API_ENDPOINTS.CONTRACTS),
       ]);
 
+      let hasApiData = false;
+
       if (dashRes.status === 'fulfilled' && dashRes.value?.success) {
-        setDashData(dashRes.value.data);
-        console.log('✅ Dashboard cargado:', dashRes.value.data);
-      } else if (dashRes.status === 'rejected') {
-        throw new Error(dashRes.reason?.message || 'Error cargando dashboard');
+        setStats(dashRes.value.data);
+        hasApiData = true;
       }
 
       if (contractsRes.status === 'fulfilled' && contractsRes.value?.success) {
         setContracts(contractsRes.value.data || []);
       }
 
+      // Si no hay datos de API, intentar localStorage
+      if (!hasApiData) {
+        const dashboardStats = localStorage.getItem('dashboardStats');
+        const contractsData = localStorage.getItem('contracts');
+        
+        if (dashboardStats) {
+          const parsedStats = JSON.parse(dashboardStats);
+          setStats(parsedStats);
+        }
+        
+        if (contractsData) {
+          setContracts(JSON.parse(contractsData));
+        }
+      }
+
       setLastUpdated(new Date());
     } catch (err: any) {
       console.error('❌ Error cargando dashboard:', err);
-      setError(err.message || 'Error conectando con el servidor');
+      
+      // En caso de error, intentar cargar desde localStorage como fallback
+      const dashboardStats = localStorage.getItem('dashboardStats');
+      const contractsData = localStorage.getItem('contracts');
+      
+      if (dashboardStats) {
+        setStats(JSON.parse(dashboardStats));
+      } else {
+        setError('No hay datos disponibles');
+      }
+      
+      if (contractsData) {
+        setContracts(JSON.parse(contractsData));
+      }
     } finally {
       setLoading(false);
     }
   }, []);
 
   useEffect(() => {
-    loadDashboard();
-  }, [loadDashboard]);
+    // Cargar datos al montar
+    loadData();
+
+    // 🔄 Escuchar cambios en localStorage (cuando se sube un CSV)
+    const handleStorageChange = (e: StorageEvent) => {
+      if (e.key === 'dashboardStats' || e.key === 'contracts') {
+        loadData();
+      }
+    };
+
+    // 🔄 También escuchar evento personalizado para actualizaciones en la misma pestaña
+    const handleCustomUpdate = () => {
+      loadData();
+    };
+
+    window.addEventListener('storage', handleStorageChange);
+    window.addEventListener('csvUploaded', handleCustomUpdate);
+
+    return () => {
+      window.removeEventListener('storage', handleStorageChange);
+      window.removeEventListener('csvUploaded', handleCustomUpdate);
+    };
+  }, [loadData]);
 
   // Loading state
   if (loading) {
@@ -74,14 +186,14 @@ export function HomePage() {
         </div>
         <div style={{ textAlign: 'center', padding: '40px', color: '#AFB3B7' }}>
           <RefreshCw size={32} color="#c9a574" style={{ animation: 'spin 1s linear infinite', margin: '0 auto 16px' }} />
-          <p>Cargando datos desde MySQL...</p>
+          <p>Cargando datos...</p>
         </div>
       </div>
     );
   }
 
   // Error state
-  if (error) {
+  if (error && !stats) {
     return (
       <div>
         <div style={{ marginBottom: '32px' }}>
@@ -95,7 +207,7 @@ export function HomePage() {
           <AlertCircle size={48} color="#ef4444" style={{ margin: '0 auto 16px' }} />
           <h3 style={{ fontSize: '18px', fontWeight: '700', color: '#ffffff', marginBottom: '8px' }}>Error conectando con el servidor</h3>
           <p style={{ fontSize: '14px', color: '#AFB3B7', marginBottom: '24px' }}>{error}</p>
-          <button onClick={loadDashboard} style={{ padding: '12px 24px', background: 'linear-gradient(135deg, #c9a574 0%, #a68a5e 100%)', border: 'none', borderRadius: '10px', color: '#ffffff', fontSize: '14px', fontWeight: '600', cursor: 'pointer', display: 'inline-flex', alignItems: 'center', gap: '8px' }}>
+          <button onClick={loadData} style={{ padding: '12px 24px', background: 'linear-gradient(135deg, #c9a574 0%, #a68a5e 100%)', border: 'none', borderRadius: '10px', color: '#ffffff', fontSize: '14px', fontWeight: '600', cursor: 'pointer', display: 'inline-flex', alignItems: 'center', gap: '8px' }}>
             <RefreshCw size={16} />
             Reintentar
           </button>
@@ -104,26 +216,69 @@ export function HomePage() {
     );
   }
 
-  // Empty state
-  if (!dashData || dashData.totalRevenue === 0) {
+  if (!stats) {
     return (
       <div>
+        {/* Header */}
         <div style={{ marginBottom: '32px' }}>
-          <h1 style={{ fontSize: '32px', fontWeight: '700', color: '#ffffff', marginBottom: '8px', display: 'flex', alignItems: 'center', gap: '12px' }}>
-            <LayoutDashboard size={32} color="#c9a574" />
+          <h1 style={{ 
+            fontSize: '28px', 
+            fontWeight: '700', 
+            color: '#ffffff',
+            marginBottom: '8px',
+            display: 'flex',
+            alignItems: 'center',
+            gap: '12px'
+          }}>
+            <LayoutDashboard size={28} />
             Dashboard
           </h1>
-          <p style={{ fontSize: '14px', color: '#AFB3B7' }}>Resumen general de BIGARTIST ROYALTIES</p>
+          <p style={{ fontSize: '13px', color: '#8b9299' }}>
+            Resumen general de BIGARTIST ROYALTIES
+          </p>
         </div>
-        <div style={{ background: 'linear-gradient(135deg, rgba(42,63,63,0.6) 0%, rgba(30,47,47,0.8) 100%)', border: '1px solid rgba(201,165,116,0.3)', borderRadius: '16px', padding: '48px', textAlign: 'center' }}>
-          <div style={{ width: '80px', height: '80px', borderRadius: '50%', background: 'rgba(201,165,116,0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 24px' }}>
-            <LayoutDashboard size={40} color="#c9a574" />
+
+        {/* Empty State - Exactamente como la imagen */}
+        <div style={{
+          background: 'rgba(30, 50, 60, 0.25)',
+          border: '1px solid rgba(100, 150, 160, 0.2)',
+          borderRadius: '16px',
+          padding: '80px 48px',
+          textAlign: 'center'
+        }}>
+          <div style={{
+            width: '80px',
+            height: '80px',
+            borderRadius: '16px',
+            background: 'rgba(212, 165, 116, 0.15)',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            margin: '0 auto 24px'
+          }}>
+            <LayoutDashboard size={40} color="#d4a574" />
           </div>
-          <h2 style={{ fontSize: '24px', fontWeight: '700', color: '#ffffff', marginBottom: '12px' }}>No hay datos en la base de datos</h2>
-          <p style={{ fontSize: '16px', color: '#AFB3B7', marginBottom: '24px' }}>
+          <h2 style={{ fontSize: '22px', fontWeight: '700', color: '#ffffff', marginBottom: '12px' }}>
+            No hay datos disponibles
+          </h2>
+          <p style={{ fontSize: '14px', color: '#8b9299', marginBottom: '32px' }}>
             Sube tu primer archivo CSV de The Orchard para ver las estadísticas
           </p>
-          <a href="/upload" style={{ display: 'inline-block', padding: '12px 24px', background: 'linear-gradient(135deg, #c9a574 0%, #a68a5e 100%)', borderRadius: '10px', color: '#ffffff', fontSize: '14px', fontWeight: '600', textDecoration: 'none' }}>
+          <a
+            href="/upload"
+            style={{
+              display: 'inline-block',
+              padding: '12px 32px',
+              background: 'linear-gradient(135deg, #d4a574 0%, #b8925e 100%)',
+              borderRadius: '8px',
+              color: '#ffffff',
+              fontSize: '14px',
+              fontWeight: '600',
+              textDecoration: 'none',
+              boxShadow: '0 4px 16px rgba(212, 165, 116, 0.25)',
+              transition: 'all 0.3s ease'
+            }}
+          >
             Subir CSV
           </a>
         </div>
@@ -131,19 +286,98 @@ export function HomePage() {
     );
   }
 
+  // Calcular métricas basadas en los contratos reales de cada artista
+  const royaltiesData = stats.topArtists || [];
+  
+  // Calcular el total de royalties por artista según su contrato
+  let totalArtista = 0;
+  let totalBAM = 0;
+  
+  royaltiesData.forEach((artist: any) => {
+    // Buscar el contrato activo del artista
+    const artistContract = contracts.find((c: any) => 
+      c.artistName === artist.name && c.status === 'active'
+    );
+    
+    // Si tiene contrato, usar su porcentaje; si no, usar 50% por defecto
+    const artistPercentage = artistContract?.royaltyPercentage || 50;
+    const artistShare = artist.totalRevenue * (artistPercentage / 100);
+    const labelShare = artist.totalRevenue * ((100 - artistPercentage) / 100);
+    
+    totalArtista += artistShare;
+    totalBAM += labelShare;
+  });
+  
+  const totalRoyalties = stats.totalRevenue;
+  
+  // Calcular total facturado por otros trabajos
+  const totalWorkBilling = contracts.reduce((sum: number, contract: any) => {
+    const workBilling = parseFloat(contract.workBilling) || 0;
+    return sum + workBilling;
+  }, 0);
+
+  // Stats cards - Las mismas 4 métricas
   const statsCards = [
-    { title: 'Total Royalties', value: `€${dashData.totalRevenue.toLocaleString('es-ES', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`, icon: DollarSign, subtitle: `${dashData.totalStreams.toLocaleString('es-ES')} streams` },
-    { title: 'Artistas', value: dashData.totalArtists, icon: Users, subtitle: 'Artistas activos' },
-    { title: 'Tracks', value: dashData.totalTracks, icon: Music, subtitle: 'Canciones totales' },
-    { title: 'Contratos', value: dashData.totalContracts, icon: FileText, subtitle: `${dashData.activeContracts} activos` },
+    {
+      title: 'Total Royalties',
+      value: `${totalRoyalties.toLocaleString('es-ES', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}€`,
+      icon: DollarSign,
+      color: '#c9a574',
+      bgColor: 'rgba(201, 165, 116, 0.1)',
+      subtitle: 'Ingresos totales del CSV'
+    },
+    {
+      title: 'Total Artista',
+      value: `${totalArtista.toLocaleString('es-ES', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}€`,
+      icon: TrendingUp,
+      color: '#4ade80',
+      bgColor: 'rgba(74, 222, 128, 0.1)',
+      subtitle: 'Según contratos individuales'
+    },
+    {
+      title: 'Total BAM',
+      value: `${totalBAM.toLocaleString('es-ES', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}€`,
+      icon: Calendar,
+      color: '#fb923c',
+      bgColor: 'rgba(251, 146, 60, 0.1)',
+      subtitle: 'Parte de la compañía'
+    },
+    {
+      title: 'Otros Trabajos',
+      value: `${totalWorkBilling.toLocaleString('es-ES', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}€`,
+      icon: Users,
+      color: '#8b5cf6',
+      bgColor: 'rgba(139, 92, 246, 0.1)',
+      subtitle: 'Facturación aparte'
+    }
   ];
+
+  // Top 5 plataformas
+  const topPlatforms = stats.platforms.slice(0, 5);
+
+  // Top 5 territorios
+  const topTerritories = stats.territories.slice(0, 5);
+
+  // Datos para gráfico de períodos (evolución temporal)
+  const periodsData = stats.periods.map((p: any) => ({
+    period: p.period,
+    revenue: p.revenue
+  }));
 
   return (
     <div>
       {/* Header */}
       <div style={{ marginBottom: '32px', display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', flexWrap: 'wrap', gap: '16px' }}>
         <div>
-          <h1 style={{ fontSize: '32px', fontWeight: '700', color: '#ffffff', marginBottom: '8px', display: 'flex', alignItems: 'center', gap: '12px' }}>
+          <h1 style={{ 
+            fontSize: '32px', 
+            fontWeight: '700', 
+            color: '#ffffff',
+            marginBottom: '8px',
+            display: 'flex',
+            alignItems: 'center',
+            gap: '12px'
+          }}>
             <LayoutDashboard size={32} color="#c9a574" />
             Dashboard
           </h1>
@@ -157,8 +391,10 @@ export function HomePage() {
           </p>
         </div>
         <button
-          onClick={loadDashboard}
-          style={{ display: 'flex', alignItems: 'center', gap: '8px', padding: '10px 18px', background: 'rgba(201,165,116,0.1)', border: '1px solid rgba(201,165,116,0.3)', borderRadius: '10px', color: '#c9a574', fontSize: '13px', fontWeight: '600', cursor: 'pointer' }}
+          onClick={loadData}
+          style={{ display: 'flex', alignItems: 'center', gap: '8px', padding: '10px 18px', background: 'rgba(201,165,116,0.1)', border: '1px solid rgba(201,165,116,0.3)', borderRadius: '10px', color: '#c9a574', fontSize: '13px', fontWeight: '600', cursor: 'pointer', transition: 'all 0.3s ease' }}
+          onMouseEnter={(e) => e.currentTarget.style.background = 'rgba(201,165,116,0.2)'}
+          onMouseLeave={(e) => e.currentTarget.style.background = 'rgba(201,165,116,0.1)'}
         >
           <RefreshCw size={14} />
           Actualizar
@@ -166,22 +402,308 @@ export function HomePage() {
       </div>
 
       {/* Stats Cards */}
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))', gap: '20px', marginBottom: '32px' }}>
+      <div style={{
+        display: 'grid',
+        gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))',
+        gap: '20px',
+        marginBottom: '32px'
+      }}>
         {statsCards.map((card, index) => (
-          <div key={index} style={{ background: 'linear-gradient(135deg, rgba(42,63,63,0.6) 0%, rgba(30,47,47,0.8) 100%)', border: '1px solid rgba(201,165,116,0.3)', borderRadius: '16px', padding: '24px' }}>
+          <div
+            key={index}
+            style={{
+              background: 'linear-gradient(135deg, rgba(42, 63, 63, 0.6) 0%, rgba(30, 47, 47, 0.8) 100%)',
+              border: '1px solid rgba(201, 165, 116, 0.3)',
+              borderRadius: '16px',
+              padding: '24px',
+              transition: 'all 0.3s ease'
+            }}
+          >
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '16px' }}>
               <div>
-                <p style={{ fontSize: '13px', color: '#AFB3B7', marginBottom: '8px' }}>{card.title}</p>
-                <h3 style={{ fontSize: '28px', fontWeight: '700', color: '#ffffff', margin: 0 }}>{card.value}</h3>
+                <p style={{ fontSize: '13px', color: '#AFB3B7', marginBottom: '8px' }}>
+                  {card.title}
+                </p>
+                <h3 style={{ fontSize: '28px', fontWeight: '700', color: '#ffffff', margin: 0 }}>
+                  {card.value}
+                </h3>
               </div>
-              <div style={{ width: '48px', height: '48px', borderRadius: '12px', background: 'rgba(201,165,116,0.15)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                <card.icon size={24} color="#c9a574" />
+              <div style={{
+                width: '48px',
+                height: '48px',
+                borderRadius: '12px',
+                background: card.bgColor,
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center'
+              }}>
+                <card.icon size={24} color={card.color} />
               </div>
             </div>
-            <span style={{ fontSize: '12px', color: '#9ca3af' }}>{card.subtitle}</span>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+              <span style={{ fontSize: '12px', color: '#9ca3af' }}>
+                {card.subtitle}
+              </span>
+            </div>
           </div>
         ))}
       </div>
+
+      {/* Charts Row */}
+      <div style={{
+        display: 'grid',
+        gridTemplateColumns: 'repeat(auto-fit, minmax(400px, 1fr))',
+        gap: '20px',
+        marginBottom: '32px'
+      }}>
+        {/* Gráfico de Plataformas */}
+        {topPlatforms.length > 0 && (
+          <div style={{
+            background: 'linear-gradient(135deg, rgba(42, 63, 63, 0.6) 0%, rgba(30, 47, 47, 0.8) 100%)',
+            border: '1px solid rgba(201, 165, 116, 0.3)',
+            borderRadius: '16px',
+            padding: '24px'
+          }}>
+            <h3 style={{ fontSize: '18px', fontWeight: '700', color: '#ffffff', marginBottom: '20px' }}>
+              Ingresos por Plataforma
+            </h3>
+            <ResponsiveContainer width="100%" height={300}>
+              <PieChart>
+                <Pie
+                  data={topPlatforms}
+                  dataKey="revenue"
+                  nameKey="name"
+                  cx="50%"
+                  cy="50%"
+                  outerRadius={100}
+                  label={(entry) => `${entry.name}: €${entry.revenue.toFixed(2)}`}
+                >
+                  {topPlatforms.map((entry: any, index: number) => (
+                    <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+                  ))}
+                </Pie>
+                <Tooltip
+                  contentStyle={{
+                    background: '#2a3f3f',
+                    border: '1px solid #c9a574',
+                    borderRadius: '8px',
+                    color: '#ffffff'
+                  }}
+                />
+              </PieChart>
+            </ResponsiveContainer>
+          </div>
+        )}
+
+        {/* Lista de Territorios */}
+        {topTerritories.length > 0 && (
+          <div style={{
+            background: 'linear-gradient(135deg, rgba(42, 63, 63, 0.6) 0%, rgba(30, 47, 47, 0.8) 100%)',
+            border: '1px solid rgba(201, 165, 116, 0.3)',
+            borderRadius: '16px',
+            padding: '24px'
+          }}>
+            <h3 style={{ fontSize: '18px', fontWeight: '700', color: '#ffffff', marginBottom: '20px' }}>
+              Top 5 Territorios
+            </h3>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+              {topTerritories.map((territory, index) => (
+                <div
+                  key={index}
+                  style={{
+                    background: 'rgba(42, 63, 63, 0.5)',
+                    border: '1px solid rgba(201, 165, 116, 0.2)',
+                    borderRadius: '12px',
+                    padding: '16px',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'space-between',
+                    transition: 'all 0.3s ease'
+                  }}
+                >
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+                    <div style={{
+                      width: '32px',
+                      height: '32px',
+                      borderRadius: '8px',
+                      background: index === 0 ? 'rgba(201, 165, 116, 0.2)' : 'rgba(201, 165, 116, 0.1)',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      fontSize: '14px',
+                      fontWeight: '700',
+                      color: '#c9a574'
+                    }}>
+                      {index + 1}
+                    </div>
+                    <div>
+                      <div style={{ fontSize: '14px', fontWeight: '600', color: '#ffffff' }}>
+                        {territory.name}
+                      </div>
+                    </div>
+                  </div>
+                  <div style={{ textAlign: 'right' }}>
+                    <div style={{ fontSize: '16px', fontWeight: '700', color: '#c9a574' }}>
+                      €{territory.revenue.toLocaleString('es-ES', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+      </div>
+
+      {/* Evolución Temporal */}
+      {periodsData.length > 0 && (
+        <div style={{
+          background: 'linear-gradient(135deg, rgba(42, 63, 63, 0.6) 0%, rgba(30, 47, 47, 0.8) 100%)',
+          border: '1px solid rgba(201, 165, 116, 0.3)',
+          borderRadius: '16px',
+          padding: '24px',
+          marginBottom: '32px'
+        }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '20px' }}>
+            <Calendar size={24} color="#c9a574" />
+            <h3 style={{ fontSize: '18px', fontWeight: '700', color: '#ffffff', margin: 0 }}>
+              Evolución de Ingresos por Período
+            </h3>
+          </div>
+          <ResponsiveContainer width="100%" height={300}>
+            <LineChart data={periodsData}>
+              <CartesianGrid strokeDasharray="3 3" stroke="rgba(201, 165, 116, 0.1)" />
+              <XAxis dataKey="period" stroke="#AFB3B7" />
+              <YAxis stroke="#AFB3B7" />
+              <Tooltip
+                contentStyle={{
+                  background: '#2a3f3f',
+                  border: '1px solid #c9a574',
+                  borderRadius: '8px',
+                  color: '#ffffff'
+                }}
+              />
+              <Legend />
+              <Line 
+                type="monotone" 
+                dataKey="revenue" 
+                stroke="#c9a574" 
+                strokeWidth={2}
+                dot={{ fill: '#c9a574', r: 5 }}
+                activeDot={{ r: 7 }}
+                name="Ingresos"
+              />
+            </LineChart>
+          </ResponsiveContainer>
+        </div>
+      )}
+
+      {/* Top Artistas */}
+      {stats.topArtists && stats.topArtists.length > 0 && (
+        <div style={{
+          background: 'linear-gradient(135deg, rgba(42, 63, 63, 0.6) 0%, rgba(30, 47, 47, 0.8) 100%)',
+          border: '1px solid rgba(201, 165, 116, 0.3)',
+          borderRadius: '16px',
+          padding: '24px'
+        }}>
+          <h3 style={{ fontSize: '18px', fontWeight: '700', color: '#ffffff', marginBottom: '20px' }}>
+            Top 10 Artistas por Ingresos
+          </h3>
+          <div style={{ overflowX: 'auto' }}>
+            <table style={{ width: '100%', borderCollapse: 'collapse' }}>
+              <thead>
+                <tr>
+                  <th style={{
+                    padding: '12px',
+                    background: 'rgba(201, 165, 116, 0.1)',
+                    borderBottom: '2px solid rgba(201, 165, 116, 0.3)',
+                    fontSize: '13px',
+                    fontWeight: '700',
+                    color: '#c9a574',
+                    textAlign: 'left'
+                  }}>
+                    Artista
+                  </th>
+                  <th style={{
+                    padding: '12px',
+                    background: 'rgba(201, 165, 116, 0.1)',
+                    borderBottom: '2px solid rgba(201, 165, 116, 0.3)',
+                    fontSize: '13px',
+                    fontWeight: '700',
+                    color: '#c9a574',
+                    textAlign: 'right'
+                  }}>
+                    Ingresos
+                  </th>
+                  <th style={{
+                    padding: '12px',
+                    background: 'rgba(201, 165, 116, 0.1)',
+                    borderBottom: '2px solid rgba(201, 165, 116, 0.3)',
+                    fontSize: '13px',
+                    fontWeight: '700',
+                    color: '#c9a574',
+                    textAlign: 'right'
+                  }}>
+                    Streams
+                  </th>
+                  <th style={{
+                    padding: '12px',
+                    background: 'rgba(201, 165, 116, 0.1)',
+                    borderBottom: '2px solid rgba(201, 165, 116, 0.3)',
+                    fontSize: '13px',
+                    fontWeight: '700',
+                    color: '#c9a574',
+                    textAlign: 'right'
+                  }}>
+                    Canciones
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                {stats.topArtists.slice(0, 10).map((artist: any, index: number) => (
+                  <tr key={index}>
+                    <td style={{
+                      padding: '12px',
+                      borderBottom: '1px solid rgba(201, 165, 116, 0.1)',
+                      fontSize: '14px',
+                      color: '#ffffff'
+                    }}>
+                      {artist.name}
+                    </td>
+                    <td style={{
+                      padding: '12px',
+                      borderBottom: '1px solid rgba(201, 165, 116, 0.1)',
+                      fontSize: '14px',
+                      color: '#22c55e',
+                      fontWeight: '600',
+                      textAlign: 'right'
+                    }}>
+                      €{artist.totalRevenue.toLocaleString('es-ES', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+                    </td>
+                    <td style={{
+                      padding: '12px',
+                      borderBottom: '1px solid rgba(201, 165, 116, 0.1)',
+                      fontSize: '14px',
+                      color: '#AFB3B7',
+                      textAlign: 'right'
+                    }}>
+                      {artist.totalStreams.toLocaleString('es-ES')}
+                    </td>
+                    <td style={{
+                      padding: '12px',
+                      borderBottom: '1px solid rgba(201, 165, 116, 0.1)',
+                      fontSize: '14px',
+                      color: '#AFB3B7',
+                      textAlign: 'right'
+                    }}>
+                      {artist.tracks.length}
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      )}
 
       {/* CSS animations inline */}
       <style>{`
