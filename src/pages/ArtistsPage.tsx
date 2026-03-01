@@ -17,9 +17,9 @@ export function ArtistsPage() {
   const loadArtistsFromAPI = async () => {
     setLoading(true);
     try {
-      const response = await apiRequest(API_ENDPOINTS.ARTISTS);
-      console.log('✅ Artists from API:', response);
-      setArtists(response.artists || []);
+      // 🔥 FORZAR DATOS VACÍOS - NO HAY API AÚN
+      console.log('🚫 ARTISTS PAGE: Cargando con datos vacíos (no hay backend)');
+      setArtists([]);
     } catch (error) {
       console.error('❌ Error loading artists:', error);
       setArtists([]);

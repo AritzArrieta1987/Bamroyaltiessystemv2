@@ -1,0 +1,105 @@
+Last login: Sun Mar  1 20:54:07 on ttys002
+/Users/aritzarrieta/.zprofile:1: no such file or directory: /opt/homebrew/bin/brew
+/Users/aritzarrieta/.zprofile:2: no such file or directory: /usr/local/bin/brew
+aritzarrieta@MBP-de-Aritz ~ % ssh root@94.143.141.241
+
+root@94.143.141.241's password: 
+Welcome to Ubuntu 24.04.4 LTS (GNU/Linux 6.8.0-101-generic x86_64)
+
+ * Documentation:  https://help.ubuntu.com
+ * Management:     https://landscape.canonical.com
+ * Support:        https://ubuntu.com/pro
+
+ System information as of Sun Mar  1 21:29:28 UTC 2026
+
+  System load:  0.08              Processes:             110
+  Usage of /:   4.8% of 76.45GB   Users logged in:       0
+  Memory usage: 44%               IPv4 address for ens6: 94.143.141.241
+  Swap usage:   0%
+
+ * Strictly confined Kubernetes makes edge and IoT secure. Learn how MicroK8s
+   just raised the bar for easy, resilient and secure K8s cluster deployment.
+
+   https://ubuntu.com/engage/secure-kubernetes-at-the-edge
+
+Expanded Security Maintenance for Applications is not enabled.
+
+0 updates can be applied immediately.
+
+Enable ESM Apps to receive additional future security updates.
+See https://ubuntu.com/esm or run: sudo pro status
+
+
+Last login: Sun Mar  1 19:58:13 2026 from 94.143.141.241
+root@ubuntu:~# cat > deploy-local.sh << 'EOF'
+#!/bin/bash
+
+################################################################################ 
+# 🚀 DEPLOY AUTOMÁTICO COMPLETO - BAM ROYALTIES SYSTEM
+################################################################################ 
+# 
+# EJECUTAR DESDE TU MÁQUINA LOCAL (no en el servidor)
+# 
+# USO:
+#   bash deploy-local.sh "mensaje del commit"
+#
+# EJEMPLO:
+#   bash deploy-local.sh "Añadido nuevo favicon y botón limpiar datos"
+#
+################################################################################ 
+
+# Colores
+RED='\033[0;31m'
+GREEN='\033[0;32m'
+BLUE='\033[0;34m'
+echo "✅ Script creado: deploy-local.sh"tps://app.bigartist.es en tu navegador  
+✅ Script creado: deploy-local.sh
+root@ubuntu:~# bash deploy-local.sh "Añadido favicon y configuración de deploy"
+
+╔═══════════════════════════════════════════════════════════════╗
+║                                                               ║
+║   🚀 DEPLOY AUTOMÁTICO - BAM ROYALTIES SYSTEM (BIGARTIST)    ║
+║                                                               ║
+╚═══════════════════════════════════════════════════════════════╝
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+📋 PASO 1/5: Verificando cambios en Git...
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+❌ ERROR: No estás en un repositorio Git
+root@ubuntu:~# cat > quick-deploy.sh << 'EOF'
+#!/bin/bash
+
+# Configuración
+SERVER="root@94.143.141.241"
+PROJECT="/var/www/bigartist"
+
+# Colores
+G='\033[0;32m'
+B='\033[0;34m'
+Y='\033[1;33m'
+NC='\033[0m'
+
+# Mensaje de commit
+MSG="${1:-Update}"
+
+echo -e "${B}🚀 Deploy rápido iniciado...${NC}\n"
+
+# Git: add, commit, push
+echo -e "${Y}📤 Subiendo a GitHub...${NC}"
+git add . && git commit -m "$MSG" && git push origin main
+
+if [ $? -ne 0 ]; then
+    echo -e "${Y}⚠️  Git push falló o no hay cambios (continuando...)${NC}"
+echo "✅ Script creado: quick-deploy.sh"ploy${NC}\n".bigartist.es${NC}\n"
+✅ Script creado: quick-deploy.sh
+root@ubuntu:~# bash quick-deploy.sh
+🚀 Deploy rápido iniciado...
+
+📤 Subiendo a GitHub...
+fatal: not a git repository (or any of the parent directories): .git
+⚠️  Git push falló o no hay cambios (continuando...)
+
+🔄 Desplegando en servidor...
+
+root@94.143.141.241's password: 

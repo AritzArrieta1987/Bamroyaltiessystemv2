@@ -12,20 +12,10 @@ import { UploadPage } from './pages/UploadPage';
 import { FinancesPage } from './pages/FinancesPage';
 import { PhysicalSalesPage } from './pages/PhysicalSalesPage';
 import { ArtistPortalPage } from './pages/ArtistPortalPage';
-import faviconImage from 'figma:asset/0c6477e5e83980aa7daa73626b4ff81f90738ce6.png';
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
-
-  // 🎯 Set favicon dynamically
-  useEffect(() => {
-    const link = document.querySelector("link[rel*='icon']") || document.createElement('link');
-    link.type = 'image/png';
-    link.rel = 'icon';
-    link.href = faviconImage;
-    document.getElementsByTagName('head')[0].appendChild(link);
-  }, []);
 
   useEffect(() => {
     // 🎨 DEMO MODE: Si estamos en Figma Make preview, saltar login

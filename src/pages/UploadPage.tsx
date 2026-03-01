@@ -11,6 +11,16 @@ export function UploadPage() {
   const [tracksImported, setTracksImported] = useState(0);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
+  // 🔥 FUNCIÓN PARA LIMPIAR TODOS LOS DATOS
+  const handleClearAllData = () => {
+    if (confirm('⚠️ ¿Estás seguro de que quieres eliminar TODOS los datos?\n\nEsto borrará:\n- Todos los artistas\n- Todas las canciones\n- Todos los contratos\n- Todos los datos del dashboard\n\nEsta acción NO se puede deshacer.')) {
+      localStorage.clear();
+      console.log('🧹 ✅ Todos los datos eliminados de localStorage');
+      alert('✅ Todos los datos han sido eliminados.\n\nRecarga la página (F5) para ver los cambios.');
+      window.location.reload();
+    }
+  };
+
   const handleDragOver = (e: React.DragEvent) => {
     e.preventDefault();
     setIsDragging(true);
@@ -295,6 +305,35 @@ export function UploadPage() {
         disabled={!file || csvUploading}
       >
         Procesar CSV
+      </button>
+
+      {/* 🔥 BOTÓN DE LIMPIEZA TOTAL */}
+      <button
+        style={{
+          marginTop: '32px',
+          marginLeft: '16px',
+          padding: '12px 24px',
+          background: 'linear-gradient(135deg, #ef4444 0%, #dc2626 100%)',
+          border: 'none',
+          borderRadius: '12px',
+          color: '#ffffff',
+          fontSize: '14px',
+          fontWeight: '600',
+          cursor: 'pointer',
+          transition: 'all 0.3s ease',
+          boxShadow: '0 4px 12px rgba(239, 68, 68, 0.3)',
+        }}
+        onClick={handleClearAllData}
+        onMouseEnter={(e) => {
+          e.currentTarget.style.transform = 'translateY(-2px)';
+          e.currentTarget.style.boxShadow = '0 6px 20px rgba(239, 68, 68, 0.5)';
+        }}
+        onMouseLeave={(e) => {
+          e.currentTarget.style.transform = 'translateY(0)';
+          e.currentTarget.style.boxShadow = '0 4px 12px rgba(239, 68, 68, 0.3)';
+        }}
+      >
+        🗑️ Limpiar Todos los Datos
       </button>
     </div>
   );

@@ -29,9 +29,9 @@ export function ContractsPage() {
   const loadContractsFromAPI = async () => {
     setLoading(true);
     try {
-      const response = await apiRequest(API_ENDPOINTS.CONTRACTS);
-      console.log('✅ Contracts from API:', response);
-      setContracts(response.contracts || []);
+      // 🔥 FORZAR DATOS VACÍOS - NO HAY API AÚN
+      console.log('🚫 CONTRACTS PAGE: Cargando con datos vacíos (no hay backend)');
+      setContracts([]);
     } catch (error) {
       console.error('❌ Error loading contracts:', error);
       setContracts([]);

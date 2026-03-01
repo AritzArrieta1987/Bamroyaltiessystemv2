@@ -1,0 +1,157 @@
+╔═══════════════════════════════════════════════════════════════════════╗
+║                                                                       ║
+║         📋 COMANDOS LISTOS PARA COPIAR Y PEGAR - DEPLOY             ║
+║                                                                       ║
+╚═══════════════════════════════════════════════════════════════════════╝
+
+═══════════════════════════════════════════════════════════════════════
+⚡ OPCIÓN 1: DEPLOY AUTOMÁTICO (RECOMENDADO)
+═══════════════════════════════════════════════════════════════════════
+
+Desde tu terminal local (copia y pega):
+
+bash deploy-local.sh "Tu mensaje de commit aquí"
+
+Ejemplos:
+bash deploy-local.sh "Añadido nuevo favicon"
+bash deploy-local.sh "Actualizado diseño del dashboard"
+bash deploy-local.sh "Fix: Corregido error en login"
+
+─── Versión súper rápida (mensaje automático "Update") ───
+bash quick-deploy.sh
+
+
+═══════════════════════════════════════════════════════════════════════
+📋 OPCIÓN 2: DEPLOY MANUAL
+═══════════════════════════════════════════════════════════════════════
+
+─── En tu terminal local ───
+git add .
+git commit -m "Tu mensaje aquí"
+git push origin main
+
+─── Luego, conectarse al servidor ───
+ssh root@94.143.141.241
+
+─── En el servidor ───
+cd /var/www/bigartist
+bash deploy.sh
+
+
+═══════════════════════════════════════════════════════════════════════
+🔧 COMANDOS ÚTILES EN EL SERVIDOR
+═══════════════════════════════════════════════════════════════════════
+
+─── Ver logs del backend ───
+pm2 logs bigartist-api
+
+─── Ver logs en tiempo real ───
+pm2 logs bigartist-api --lines 100
+
+─── Reiniciar backend ───
+pm2 restart bigartist-api
+
+─── Ver estado de PM2 ───
+pm2 status
+
+─── Ver logs de Nginx ───
+tail -f /var/log/nginx/error.log
+
+─── Ver logs de acceso de Nginx ───
+tail -f /var/log/nginx/access.log
+
+─── Reiniciar Nginx ───
+systemctl restart nginx
+
+─── Ver estado de Nginx ───
+systemctl status nginx
+
+─── Verificar configuración de Nginx ───
+nginx -t
+
+
+═══════════════════════════════════════════════════════════════════════
+🆘 SOLUCIÓN DE PROBLEMAS
+═══════════════════════════════════════════════════════════════════════
+
+─── Si git pull falla en el servidor ───
+ssh root@94.143.141.241
+cd /var/www/bigartist
+git reset --hard origin/main
+git pull origin main
+bash deploy.sh
+
+─── Si el backend no arranca ───
+ssh root@94.143.141.241
+pm2 delete bigartist-api
+cd /var/www/bigartist/server
+pm2 start server.js --name bigartist-api
+pm2 save
+
+─── Si necesitas limpiar todo y empezar de cero ───
+ssh root@94.143.141.241
+cd /var/www/bigartist
+rm -rf node_modules dist
+npm install
+npm run build
+cd server
+rm -rf node_modules
+npm install
+cd ..
+pm2 restart bigartist-api
+systemctl restart nginx
+
+─── Ver espacio en disco ───
+df -h
+
+─── Ver memoria RAM ───
+free -h
+
+─── Ver procesos de Node.js ───
+ps aux | grep node
+
+
+═══════════════════════════════════════════════════════════════════════
+🌐 URLs
+═══════════════════════════════════════════════════════════════════════
+
+Frontend: https://app.bigartist.es
+Backend:  https://app.bigartist.es/api
+Repo:     https://github.com/AritzArrieta1987/Bamroyaltiessystemv2.git
+
+
+═══════════════════════════════════════════════════════════════════════
+💾 INFORMACIÓN DEL SERVIDOR
+═══════════════════════════════════════════════════════════════════════
+
+IP:              94.143.141.241
+Usuario SSH:     root
+Proyecto:        /var/www/bigartist
+Puerto Backend:  3001
+Base de datos:   MySQL (localhost:3306)
+DB Name:         bigartist_royalties
+DB User:         bigartist_user
+
+
+═══════════════════════════════════════════════════════════════════════
+🎯 WORKFLOW RECOMENDADO
+═══════════════════════════════════════════════════════════════════════
+
+1. Haces cambios en Figma Make
+2. Descargas el código
+3. Ejecutas: bash deploy-local.sh "Descripción del cambio"
+4. El script hace TODO automáticamente
+5. Abres https://app.bigartist.es
+6. ¡Listo! ✅
+
+
+═══════════════════════════════════════════════════════════════════════
+📝 NOTAS IMPORTANTES
+═══════════════════════════════════════════════════════════════════════
+
+• Asegúrate de tener configurada tu clave SSH para el servidor
+• Si cambias archivos de configuración (.env, nginx), debes hacerlo
+  manualmente en el servidor
+• Los cambios en el frontend requieren rebuild (npm run build)
+• Los cambios en el backend requieren restart de PM2
+• Si no ves los cambios en el navegador: Ctrl + Shift + R (hard reload)
