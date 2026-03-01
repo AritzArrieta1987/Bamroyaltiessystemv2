@@ -1,0 +1,179 @@
+Last login: Sat Feb 28 20:28:18 on ttys001
+/Users/aritzarrieta/.zprofile:1: no such file or directory: /opt/homebrew/bin/brew
+/Users/aritzarrieta/.zprofile:2: no such file or directory: /usr/local/bin/brew
+aritzarrieta@MBP-de-Aritz ~ % ssh root@94.143.141.241
+root@94.143.141.241's password: 
+Welcome to Ubuntu 24.04.4 LTS (GNU/Linux 6.8.0-101-generic x86_64)
+
+ * Documentation:  https://help.ubuntu.com
+ * Management:     https://landscape.canonical.com
+ * Support:        https://ubuntu.com/pro
+
+ System information as of Sat Feb 28 21:00:15 UTC 2026
+
+  System load:  0.08              Processes:             119
+  Usage of /:   3.4% of 76.45GB   Users logged in:       1
+  Memory usage: 36%               IPv4 address for ens6: 94.143.141.241
+  Swap usage:   0%
+
+
+Expanded Security Maintenance for Applications is not enabled.
+
+0 updates can be applied immediately.
+
+Enable ESM Apps to receive additional future security updates.
+See https://ubuntu.com/esm or run: sudo pro status
+
+
+Last login: Sat Feb 28 19:29:17 2026 from 207.188.130.38
+root@ubuntu:~# ssh root@94.143.141.241
+sudo certbot --nginx -d app.bigartist.es
+The authenticity of host '94.143.141.241 (94.143.141.241)' can't be established.
+ED25519 key fingerprint is SHA256:pan3EHiZLegd7+Vy3P3wqNy6LGzhv1XGqV4pGbkJ4oE.
+This key is not known by any other names.
+Are you sure you want to continue connecting (yes/no/[fingerprint])? yes
+Warning: Permanently added '94.143.141.241' (ED25519) to the list of known hosts.
+root@94.143.141.241's password: 
+Welcome to Ubuntu 24.04.4 LTS (GNU/Linux 6.8.0-101-generic x86_64)
+
+ * Documentation:  https://help.ubuntu.com
+ * Management:     https://landscape.canonical.com
+ * Support:        https://ubuntu.com/pro
+
+ System information as of Sat Feb 28 21:00:15 UTC 2026
+
+  System load:  0.08              Processes:             119
+  Usage of /:   3.4% of 76.45GB   Users logged in:       1
+  Memory usage: 36%               IPv4 address for ens6: 94.143.141.241
+  Swap usage:   0%
+
+
+Expanded Security Maintenance for Applications is not enabled.
+
+0 updates can be applied immediately.
+
+Enable ESM Apps to receive additional future security updates.
+See https://ubuntu.com/esm or run: sudo pro status
+
+
+Last login: Sat Feb 28 21:00:16 2026 from 207.188.130.38
+root@ubuntu:~# #!/bin/bash
+
+# ====================================
+# BIGARTIST - Setup Completo en Servidor
+# ====================================
+
+set -e
+
+echo "========================================="
+echo "  BIGARTIST - Instalación Completa"
+echo "========================================="
+echo ""
+
+# Crear directorios
+echo "📁 Creando directorios..."
+mkdir -p /var/www/bigartist/{frontend,server,backups}
+cd /var/www/bigartist
+
+# Instalar Node.js si no existe
+if ! command -v node &> /dev/null; then
+    echo "📦 Instalando Node.js 20.x..."
+    curl -fsSL https://deb.nodesource.com/setup_20.x | bash -
+    apt-get install -y nodejs
+echo ""  Todo listo!"bigartist-api"es""========"ontend/dists-enabled/)$ {avascri
+=========================================
+  BIGARTIST - Instalación Completa
+=========================================
+
+📁 Creando directorios...
+✅ Node.js v20.20.0 instalado
+📦 Instalando PM2...
+
+added 133 packages in 9s
+
+13 packages are looking for funding
+  run `npm fund` for details
+npm notice
+npm notice New major version of npm available! 10.8.2 -> 11.11.0
+npm notice Changelog: https://github.com/npm/cli/releases/tag/v11.11.0
+npm notice To update run: npm install -g npm@11.11.0
+npm notice
+✅ PM2 instalado
+📥 Clonando repositorio...
+Cloning into 'repo'...
+remote: Enumerating objects: 267, done.
+remote: Counting objects: 100% (267/267), done.
+remote: Compressing objects: 100% (250/250), done.
+remote: Total 267 (delta 82), reused 2 (delta 0), pack-reused 0 (from 0)
+Receiving objects: 100% (267/267), 4.98 MiB | 10.91 MiB/s, done.
+Resolving deltas: 100% (82/82), done.
+✅ Código descargado
+🔨 Building frontend...
+
+added 119 packages, and audited 120 packages in 25s
+
+13 packages are looking for funding
+  run `npm fund` for details
+
+1 moderate severity vulnerability
+
+To address all issues, run:
+  npm audit fix --force
+
+Run `npm audit` for details.
+
+> Bam Royalties System@0.1.0 build
+> vite build
+
+vite v6.3.5 building for production...
+[plugin vite:esbuild] src/components/ArtistPortal.tsx: Duplicate key "marginBottom" in object literal
+2846|                letterSpacing: '-0.5px',
+2847|                margin: 0,
+2848|                marginBottom: isMobile ? '8px' : '12px'
+   |                ^
+2849|              }}>
+2850|                Bienvenido, {data.name}
+
+✓ 2397 modules transformed.
+build/index.html                                                        0.44 kB │ gzip:   0.28 kB
+build/assets/aa0296e2522220bcfcda71f86c708cb2cbc616b9-HygGYkAN.png     49.35 kB
+build/assets/0a2a9faa1b59d5fa1e388a2eec5b08498dd7a493-C-zGM-oV.png  4,888.06 kB
+build/assets/index-DaFE30Ir.css                                        10.62 kB │ gzip:   2.95 kB
+build/assets/index-CfbnUJhH.js                                        911.69 kB │ gzip: 248.64 kB
+
+(!) Some chunks are larger than 500 kB after minification. Consider:
+- Using dynamic import() to code-split the application
+- Use build.rollupOptions.output.manualChunks to improve chunking: https://rollupjs.org/configuration-options/#output-manualchunks
+- Adjust chunk size limit for this warning via build.chunkSizeWarningLimit.
+✓ built in 4.87s
+📤 Desplegando frontend...
+cp: cannot stat 'dist': No such file or directory
+Connection to 94.143.141.241 closed.
+Saving debug log to /var/log/letsencrypt/letsencrypt.log
+Certificate not yet due for renewal
+
+You have an existing certificate that has exactly the same domains or certificate name you requested and isn't close to expiry.
+(ref: /etc/letsencrypt/renewal/app.bigartist.es.conf)
+
+What would you like to do?
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+1: Attempt to reinstall this existing certificate
+2: Renew & replace the certificate (may be subject to CA rate limits)
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Select the appropriate number [1-2] then [enter] (press 'c' to cancel): 
+
+** Invalid input **
+Select the appropriate number [1-2] then [enter] (press 'c' to cancel): 
+
+** Invalid input **
+Select the appropriate number [1-2] then [enter] (press 'c' to cancel): 1
+Deploying certificate
+Successfully deployed certificate for app.bigartist.es to /etc/nginx/sites-enabled/bigartist
+Congratulations! You have successfully enabled HTTPS on https://app.bigartist.es
+
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+If you like Certbot, please consider supporting our work by:
+ * Donating to ISRG / Let's Encrypt:   https://letsencrypt.org/donate
+ * Donating to EFF:                    https://eff.org/donate-le
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+root@ubuntu:~# 

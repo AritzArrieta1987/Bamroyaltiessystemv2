@@ -1,0 +1,76 @@
+Last login: Sat Feb 28 23:00:05 on ttys000
+/Users/aritzarrieta/.zprofile:1: no such file or directory: /opt/homebrew/bin/brew
+/Users/aritzarrieta/.zprofile:2: no such file or directory: /usr/local/bin/brew
+aritzarrieta@MBP-de-Aritz ~ % ssh root@94.143.141.241
+root@94.143.141.241's password: 
+Welcome to Ubuntu 24.04.4 LTS (GNU/Linux 6.8.0-101-generic x86_64)
+
+ * Documentation:  https://help.ubuntu.com
+ * Management:     https://landscape.canonical.com
+ * Support:        https://ubuntu.com/pro
+
+ System information as of Sat Feb 28 22:37:20 UTC 2026
+
+  System load:  0.0               Processes:             113
+  Usage of /:   4.2% of 76.45GB   Users logged in:       1
+  Memory usage: 40%               IPv4 address for ens6: 94.143.141.241
+  Swap usage:   0%
+
+
+Expanded Security Maintenance for Applications is not enabled.
+
+0 updates can be applied immediately.
+
+Enable ESM Apps to receive additional future security updates.
+See https://ubuntu.com/esm or run: sudo pro status
+
+
+Last login: Sat Feb 28 22:00:24 2026 from 207.188.130.38
+root@ubuntu:~# # 1. Ver el contenido del archivo JS buscando la URL de la API
+cat /var/www/bigartist/dist/assets/index-CTOrjcN2.js | grep -oP '(https?://[^"]+|/api/[^"]+|localhost[^"]+)' | head -20
+
+# 2. Buscar específicamente la configuración de la API o axios/fetch
+cat /var/www/bigartist/dist/assets/index-CTOrjcN2.js | grep -oP '(baseURL|API_URL|VITE_API|api_url)[^,}]+' | head -10
+
+# 3. Ver las primeras 5000 caracteres del JS para entender la estructura
+head -c 5000 /var/www/bigartist/dist/assets/index-CTOrjcN2.js
+
+# 4. Buscar la función de login en el código fuente original
+cd /var/www/bigartist-source
+find . -name "*.tsx" -o -name "*.ts" -o -name "*.jsx" -o -name "*.js" | xargs grep -l "login" | head -5
+https://reactjs.org/docs/error-decoder.html?invariant=
+http://www.w3.org/1999/xlink
+http://www.w3.org/XML/1998/namespace
+http://www.w3.org/1999/xlink
+http://www.w3.org/2000/svg
+http://www.w3.org/1998/Math/MathML
+http://www.w3.org/1999/xhtml
+http://www.w3.org/1999/xhtml
+http://www.w3.org/2000/svg
+http://www.w3.org/1999/xhtml
+http://www.w3.org/2000/svg
+http://www.w3.org/1999/xhtml
+http://www.w3.org/1999/xhtml
+http://localhost
+https://reactrouter.com/en/main/routers/picking-a-router.`}function ag(o){let l=_.useContext(Wr);return De(l,Is(o)),l}function lg(o){let l=_.useContext(ha);return De(l,Is(o)),l}function ig(o){let l=_.useContext(Mn);return De(l,Is(o)),l}function Fs(o){let l=ig(o),i=l.matches[l.matches.length-1];return De(i.route.id,`${o} can only be used on routes that contain a unique 
+https://reactrouter.com/en/main/routers/picking-a-router.`}function If(o){let l=_.useContext(Wr);return De(l,Xg(o)),l}function Jg(o,{target:l,replace:i,unstable_mask:u,state:c,preventScrollReset:d,relative:h,viewTransition:m,unstable_defaultShouldRevalidate:y,unstable_useTransitions:g}={}){let R=Lf(),p=Zn(),S=ga(o,{relative:h});return _.useCallback(T=>{if(Pg(T,l)){T.preventDefault();let I=i!==void 0?i:Nn(p)===Nn(S),F=()=>R(o,{replace:I,unstable_mask:u,state:c,preventScrollReset:d,relative:h,viewTransition:m,unstable_defaultShouldRevalidate:y});g?_.startTransition(()=>F()):F()}},[p,R,S,i,u,c,l,o,d,h,m,y,g])}var Zg=0,qg=()=>`__${String(++Zg)}__`;function ey(){let{router:o}=If(
+https://app.bigartist.es/api
+http://www.w3.org/2000/svg
+http://www.w3.org/2000/svg
+http://www.w3.org/2000/svg
+VITE_API_URL||"https://app.bigartist.es/api"
+function Eh(o,l){for(var i=0;i<l.length;i++){const u=l[i];if(typeof u!="string"&&!Array.isArray(u)){for(const c in u)if(c!=="default"&&!(c in o)){const d=Object.getOwnPropertyDescriptor(u,c);d&&Object.defineProperty(o,c,d.get?d:{enumerable:!0,get:()=>u[c]})}}}return Object.freeze(Object.defineProperty(o,Symbol.toStringTag,{value:"Module"}))}(function(){const l=document.createElement("link").relList;if(l&&l.supports&&l.supports("modulepreload"))return;for(const c of document.querySelectorAll('link[rel="modulepreload"]'))u(c);new MutationObserver(c=>{for(const d of c)if(d.type==="childList")for(const h of d.addedNodes)h.tagName==="LINK"&&h.rel==="modulepreload"&&u(h)}).observe(document,{childList:!0,subtree:!0});function i(c){const d={};return c.integrity&&(d.integrity=c.integrity),c.referrerPolicy&&(d.referrerPolicy=c.referrerPolicy),c.crossOrigin==="use-credentials"?d.credentials="include":c.crossOrigin==="anonymous"?d.credentials="omit":d.credentials="same-origin",d}function u(c){if(c.ep)return;c.ep=!0;const d=i(c);fetch(c.href,d)}})();function tf(o){return o&&o.__esModule&&Object.prototype.hasOwnProperty.call(o,"default")?o.default:o}var ds={exports:{}},ta={},fs={exports:{}},be={};/**
+ * @license React
+ * react.production.min.js
+ *
+ * Copyright (c) Facebook, Inc. and its affiliates.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ */var dd;function kh(){if(dd)return be;dd=1;var o=Symbol.for("react.element"),l=Symbol.for("react.portal"),i=Symbol.for("react.fragment"),u=Symbol.for("react.strict_mode"),c=Symbol.for("react.profiler"),d=Symbol.for("react.provider"),h=Symbol.for("react.context"),m=Symbol.for("react.forward_ref"),y=Symbol.for("react.suspense"),g=Symbol.for("react.memo"),R=Symbol.for("react.lazy"),p=Symbol.iterator;function S(C){return C===null||typeof C!="object"?null:(C=p&&C[p]||C["@@iterator"],typeof C=="function"?C:null)}var T={isMounted:function(){return!1},enqueueForceUpdate:function(){},enqueueReplaceState:function(){},enqueueSetState:function(){}},I=Object.assign,F={};function N(C,M,Q){this.props=C,this.context=M,this.refs=F,this.updater=Q||T}N.prototype.isReactComponent={},N.prototype.setState=function(C,M){if(typeof C!="object"&&typeof C!="function"&&C!=null)throw Error("setState(...): takes an object of state variables to update or a function which returns an object of state variables.");this.updater.enqueueSetState(this,C,M,"setState")},N.prototype.forceUpdate=function(C){this.updater.enqueueForceUpdate(this,C,"forceUpdate")};function H(){}H.prototype=N.prototype;function X(C,M,Q){this.props=C,this.context=M,this.refs=F,this.updater=Q||T}var ee=X.prototype=new H;ee.constructor=X,I(ee,N.prototype),ee.isPureReactComponent=!0;var Se=Array.isArray,we=Object.prototype.hasOwnProperty,ge={current:null},_e={key:!0,ref:!0,__self:!0,__source:!0};function j(C,M,Q){var J,re={},fe=null,Te=null;if(M!=null)for(J in M.ref!==void 0&&(Te=M.ref),M.key!==void 0&&(fe=""+M.key),M)we.call(M,J)&&!_e.hasOwnProperty(J)&&(re[J]=M[J]);var se=arguments.length-2;if(se===1)re.children=Q;else if(1<se){for(var Ne=Array(se),lt=0;lt<se;lt++)Ne[lt]=arguments[lt+2];re.children=Ne}if(C&&C.defaultProps)for(J in se=C.defaultProps,se)re[J]===void 0&&(re[J]=se[J]);return{$$typeof:o,type:C,key:fe,ref:Te,props:re,_owner:ge.current}}function Le(C,M){return{$$typeof:o,type:C.type,key:M,ref:C.ref,props:C.props,_owner:C._owner}}function Pe(C){return typeof C=="object"&&C!==null&&C.$$typeof===o}function $e(C){var M={"=":"=0",":":"=2"};return"$"+C.replace(/[=:]/g,function(Q){return M[Q]})}var Ee=/\/+/g;function ze(C,M){return typeof C=="object"&&C!==null&&C.key!=null?$e(""+C.key):M.toString(36)}function je(C,M,Q,J,re){var fe=typeof C;(fe==="undefined"||fe==="boolean")&&(C=null);var Te=!1;if(C===null)Te=!0;else switch(fe){case"string":case"number":Te=!0;break;case"object":switch(C.$$typeof){case o:case l:Te=!0}}if(Te)return Te=C,re=re(Te),C=J===""?"."+ze(Te,0):J,Se(re)?(Q="",C!=null&&(Q=C.replace(Ee,"$&/")+"/"),je(re,M,Q,"",function(lt){return lt})):re!=null&&(Pe(re)&&(re=Le(re,Q+(!re.key||Te&&Te.key===re.key?"":(""+re.key).replace(Ee,"$&/")+"/")+C)),M.push(re)),1;if(Te=0,J=J===""?".":J+":",Se(C))for(var se=0;se<C.length;se++){fe=C[se];var Ne=J+ze(fe,se);Te+=je(fe,M,Q,Ne,re)}else if(Ne=S(C),typeof Ne=="function")for(C=Ne.call(C),se=0;!(fe=C.next()).done;)fe=fe.value,Ne=J+ze(fe,se++),Te+=je(fe,M,Q,Ne,re);else if(fe==="object")throw M=String(C),Error("Objects are not valid as a React child (found: "+(M==="[object Object]"?"object with keys {"+Object.keys(C).join(", ")+"}":M)+"). If you meant to render a collection of children, use an array instead.");return Te}function xe(C,M,Q){if(C==null)return C;var J=[],re=0;return je(C,J,"","",function(fe){return M.call(Q,fe,re++)}),J}function ae(C){if(C._status===-1){var M=C._result;M=M(),M.then(function(Q){(C._status===0||C._status===-1)&&(C._status=1,C._result=Q)},function(Q){(C._status===0||C._status===-1)&&(C._sta./build/assets/index-CTOrjcN2.js
+./node_modules/@reduxjs/toolkit/src/query/tests/buildHooks.test.tsx
+./node_modules/react-router/dist/production/index.d.ts
+./node_modules/react-router/dist/production/instrumentation--6Pioq_G.d.ts
+./node_modules/react-router/dist/production/index-react-server.d.ts
+xargs: grep: terminated by signal 13
+root@ubuntu:/var/www/bigartist-source# 

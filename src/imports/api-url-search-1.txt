@@ -1,0 +1,323 @@
+Last login: Sat Feb 28 23:00:05 on ttys000
+/Users/aritzarrieta/.zprofile:1: no such file or directory: /opt/homebrew/bin/brew
+/Users/aritzarrieta/.zprofile:2: no such file or directory: /usr/local/bin/brew
+aritzarrieta@MBP-de-Aritz ~ % ssh root@94.143.141.241
+root@94.143.141.241's password: 
+Welcome to Ubuntu 24.04.4 LTS (GNU/Linux 6.8.0-101-generic x86_64)
+
+ * Documentation:  https://help.ubuntu.com
+ * Management:     https://landscape.canonical.com
+ * Support:        https://ubuntu.com/pro
+
+ System information as of Sat Feb 28 22:37:20 UTC 2026
+
+  System load:  0.0               Processes:             113
+  Usage of /:   4.2% of 76.45GB   Users logged in:       1
+  Memory usage: 40%               IPv4 address for ens6: 94.143.141.241
+  Swap usage:   0%
+
+
+Expanded Security Maintenance for Applications is not enabled.
+
+0 updates can be applied immediately.
+
+Enable ESM Apps to receive additional future security updates.
+See https://ubuntu.com/esm or run: sudo pro status
+
+
+Last login: Sat Feb 28 22:00:24 2026 from 207.188.130.38
+root@ubuntu:~# # 1. Ver el contenido del archivo JS buscando la URL de la API
+cat /var/www/bigartist/dist/assets/index-CTOrjcN2.js | grep -oP '(https?://[^"]+|/api/[^"]+|localhost[^"]+)' | head -20
+
+# 2. Buscar específicamente la configuración de la API o axios/fetch
+cat /var/www/bigartist/dist/assets/index-CTOrjcN2.js | grep -oP '(baseURL|API_URL|VITE_API|api_url)[^,}]+' | head -10
+
+# 3. Ver las primeras 5000 caracteres del JS para entender la estructura
+head -c 5000 /var/www/bigartist/dist/assets/index-CTOrjcN2.js
+
+# 4. Buscar la función de login en el código fuente original
+cd /var/www/bigartist-source
+find . -name "*.tsx" -o -name "*.ts" -o -name "*.jsx" -o -name "*.js" | xargs grep -l "login" | head -5
+https://reactjs.org/docs/error-decoder.html?invariant=
+http://www.w3.org/1999/xlink
+http://www.w3.org/XML/1998/namespace
+http://www.w3.org/1999/xlink
+http://www.w3.org/2000/svg
+http://www.w3.org/1998/Math/MathML
+http://www.w3.org/1999/xhtml
+http://www.w3.org/1999/xhtml
+http://www.w3.org/2000/svg
+http://www.w3.org/1999/xhtml
+http://www.w3.org/2000/svg
+http://www.w3.org/1999/xhtml
+http://www.w3.org/1999/xhtml
+http://localhost
+https://reactrouter.com/en/main/routers/picking-a-router.`}function ag(o){let l=_.useContext(Wr);return De(l,Is(o)),l}function lg(o){let l=_.useContext(ha);return De(l,Is(o)),l}function ig(o){let l=_.useContext(Mn);return De(l,Is(o)),l}function Fs(o){let l=ig(o),i=l.matches[l.matches.length-1];return De(i.route.id,`${o} can only be used on routes that contain a unique 
+https://reactrouter.com/en/main/routers/picking-a-router.`}function If(o){let l=_.useContext(Wr);return De(l,Xg(o)),l}function Jg(o,{target:l,replace:i,unstable_mask:u,state:c,preventScrollReset:d,relative:h,viewTransition:m,unstable_defaultShouldRevalidate:y,unstable_useTransitions:g}={}){let R=Lf(),p=Zn(),S=ga(o,{relative:h});return _.useCallback(T=>{if(Pg(T,l)){T.preventDefault();let I=i!==void 0?i:Nn(p)===Nn(S),F=()=>R(o,{replace:I,unstable_mask:u,state:c,preventScrollReset:d,relative:h,viewTransition:m,unstable_defaultShouldRevalidate:y});g?_.startTransition(()=>F()):F()}},[p,R,S,i,u,c,l,o,d,h,m,y,g])}var Zg=0,qg=()=>`__${String(++Zg)}__`;function ey(){let{router:o}=If(
+https://app.bigartist.es/api
+http://www.w3.org/2000/svg
+http://www.w3.org/2000/svg
+http://www.w3.org/2000/svg
+VITE_API_URL||"https://app.bigartist.es/api"
+function Eh(o,l){for(var i=0;i<l.length;i++){const u=l[i];if(typeof u!="string"&&!Array.isArray(u)){for(const c in u)if(c!=="default"&&!(c in o)){const d=Object.getOwnPropertyDescriptor(u,c);d&&Object.defineProperty(o,c,d.get?d:{enumerable:!0,get:()=>u[c]})}}}return Object.freeze(Object.defineProperty(o,Symbol.toStringTag,{value:"Module"}))}(function(){const l=document.createElement("link").relList;if(l&&l.supports&&l.supports("modulepreload"))return;for(const c of document.querySelectorAll('link[rel="modulepreload"]'))u(c);new MutationObserver(c=>{for(const d of c)if(d.type==="childList")for(const h of d.addedNodes)h.tagName==="LINK"&&h.rel==="modulepreload"&&u(h)}).observe(document,{childList:!0,subtree:!0});function i(c){const d={};return c.integrity&&(d.integrity=c.integrity),c.referrerPolicy&&(d.referrerPolicy=c.referrerPolicy),c.crossOrigin==="use-credentials"?d.credentials="include":c.crossOrigin==="anonymous"?d.credentials="omit":d.credentials="same-origin",d}function u(c){if(c.ep)return;c.ep=!0;const d=i(c);fetch(c.href,d)}})();function tf(o){return o&&o.__esModule&&Object.prototype.hasOwnProperty.call(o,"default")?o.default:o}var ds={exports:{}},ta={},fs={exports:{}},be={};/**
+ * @license React
+ * react.production.min.js
+ *
+ * Copyright (c) Facebook, Inc. and its affiliates.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ */var dd;function kh(){if(dd)return be;dd=1;var o=Symbol.for("react.element"),l=Symbol.for("react.portal"),i=Symbol.for("react.fragment"),u=Symbol.for("react.strict_mode"),c=Symbol.for("react.profiler"),d=Symbol.for("react.provider"),h=Symbol.for("react.context"),m=Symbol.for("react.forward_ref"),y=Symbol.for("react.suspense"),g=Symbol.for("react.memo"),R=Symbol.for("react.lazy"),p=Symbol.iterator;function S(C){return C===null||typeof C!="object"?null:(C=p&&C[p]||C["@@iterator"],typeof C=="function"?C:null)}var T={isMounted:function(){return!1},enqueueForceUpdate:function(){},enqueueReplaceState:function(){},enqueueSetState:function(){}},I=Object.assign,F={};function N(C,M,Q){this.props=C,this.context=M,this.refs=F,this.updater=Q||T}N.prototype.isReactComponent={},N.prototype.setState=function(C,M){if(typeof C!="object"&&typeof C!="function"&&C!=null)throw Error("setState(...): takes an object of state variables to update or a function which returns an object of state variables.");this.updater.enqueueSetState(this,C,M,"setState")},N.prototype.forceUpdate=function(C){this.updater.enqueueForceUpdate(this,C,"forceUpdate")};function H(){}H.prototype=N.prototype;function X(C,M,Q){this.props=C,this.context=M,this.refs=F,this.updater=Q||T}var ee=X.prototype=new H;ee.constructor=X,I(ee,N.prototype),ee.isPureReactComponent=!0;var Se=Array.isArray,we=Object.prototype.hasOwnProperty,ge={current:null},_e={key:!0,ref:!0,__self:!0,__source:!0};function j(C,M,Q){var J,re={},fe=null,Te=null;if(M!=null)for(J in M.ref!==void 0&&(Te=M.ref),M.key!==void 0&&(fe=""+M.key),M)we.call(M,J)&&!_e.hasOwnProperty(J)&&(re[J]=M[J]);var se=arguments.length-2;if(se===1)re.children=Q;else if(1<se){for(var Ne=Array(se),lt=0;lt<se;lt++)Ne[lt]=arguments[lt+2];re.children=Ne}if(C&&C.defaultProps)for(J in se=C.defaultProps,se)re[J]===void 0&&(re[J]=se[J]);return{$$typeof:o,type:C,key:fe,ref:Te,props:re,_owner:ge.current}}function Le(C,M){return{$$typeof:o,type:C.type,key:M,ref:C.ref,props:C.props,_owner:C._owner}}function Pe(C){return typeof C=="object"&&C!==null&&C.$$typeof===o}function $e(C){var M={"=":"=0",":":"=2"};return"$"+C.replace(/[=:]/g,function(Q){return M[Q]})}var Ee=/\/+/g;function ze(C,M){return typeof C=="object"&&C!==null&&C.key!=null?$e(""+C.key):M.toString(36)}function je(C,M,Q,J,re){var fe=typeof C;(fe==="undefined"||fe==="boolean")&&(C=null);var Te=!1;if(C===null)Te=!0;else switch(fe){case"string":case"number":Te=!0;break;case"object":switch(C.$$typeof){case o:case l:Te=!0}}if(Te)return Te=C,re=re(Te),C=J===""?"."+ze(Te,0):J,Se(re)?(Q="",C!=null&&(Q=C.replace(Ee,"$&/")+"/"),je(re,M,Q,"",function(lt){return lt})):re!=null&&(Pe(re)&&(re=Le(re,Q+(!re.key||Te&&Te.key===re.key?"":(""+re.key).replace(Ee,"$&/")+"/")+C)),M.push(re)),1;if(Te=0,J=J===""?".":J+":",Se(C))for(var se=0;se<C.length;se++){fe=C[se];var Ne=J+ze(fe,se);Te+=je(fe,M,Q,Ne,re)}else if(Ne=S(C),typeof Ne=="function")for(C=Ne.call(C),se=0;!(fe=C.next()).done;)fe=fe.value,Ne=J+ze(fe,se++),Te+=je(fe,M,Q,Ne,re);else if(fe==="object")throw M=String(C),Error("Objects are not valid as a React child (found: "+(M==="[object Object]"?"object with keys {"+Object.keys(C).join(", ")+"}":M)+"). If you meant to render a collection of children, use an array instead.");return Te}function xe(C,M,Q){if(C==null)return C;var J=[],re=0;return je(C,J,"","",function(fe){return M.call(Q,fe,re++)}),J}function ae(C){if(C._status===-1){var M=C._result;M=M(),M.then(function(Q){(C._status===0||C._status===-1)&&(C._status=1,C._result=Q)},function(Q){(C._status===0||C._status===-1)&&(C._sta./build/assets/index-CTOrjcN2.js
+./node_modules/@reduxjs/toolkit/src/query/tests/buildHooks.test.tsx
+./node_modules/react-router/dist/production/index.d.ts
+./node_modules/react-router/dist/production/instrumentation--6Pioq_G.d.ts
+./node_modules/react-router/dist/production/index-react-server.d.ts
+xargs: grep: terminated by signal 13
+root@ubuntu:/var/www/bigartist-source# # 1. Ver los archivos que contienen "login"
+cd /var/www/bigartist-source
+grep -r "auth/login" --include="*.tsx" --include="*.ts" --include="*.jsx" --include="*.js" . | head -10
+
+# 2. Buscar el archivo de autenticación o API service
+find . -type f \( -name "*auth*.tsx" -o -name "*auth*.ts" -o -name "*api*.tsx" -o -name "*api*.ts" \) | grep -v node_modules
+
+# 3. Ver el archivo .env o configuración de Vite
+cat .env 2>/dev/null || echo "No .env file"
+cat .env.production 2>/dev/null || echo "No .env.production file"
+
+# 4. Ver la estructura de carpetas del src
+ls -la src/
+./build/assets/index-CTOrjcN2.js:Please change the parent <Route path="${N}"> to <Route path="${N==="/"?"*":`${N}/*`}">.`)}let R=Zn(),p;p=R;let S=p.pathname||"/",T=S;if(y!=="/"){let N=y.replace(/^\//,"").split("/");T="/"+S.replace(/^\//,"").split("/").slice(N.length).join("/")}let I=Cr(o,{pathname:T});return st(g||I!=null,`No routes matched location "${p.pathname}${p.search}${p.hash}" `),st(I==null||I[I.length-1].route.element!==void 0||I[I.length-1].route.Component!==void 0||I[I.length-1].route.lazy!==void 0,`Matched leaf route at location "${p.pathname}${p.search}${p.hash}" does not have an element or Component. This means it will render an <Outlet /> with a null value by default resulting in an "empty" page.`),og(I&&I.map(N=>Object.assign({},N,{params:Object.assign({},h,N.params),pathname:kn([y,u.encodeLocation?u.encodeLocation(N.pathname.replace(/\?/g,"%3F").replace(/#/g,"%23")).pathname:N.pathname]),pathnameBase:N.pathnameBase==="/"?y:kn([y,u.encodeLocation?u.encodeLocation(N.pathnameBase.replace(/\?/g,"%3F").replace(/#/g,"%23")).pathname:N.pathnameBase])})),c,i)}function eg(){let o=ug(),l=ca(o)?`${o.status} ${o.statusText}`:o instanceof Error?o.message:JSON.stringify(o),i=o instanceof Error?o.stack:null,u="rgba(200,200,200, 0.5)",c={padding:"0.5rem",backgroundColor:u},d={padding:"2px 4px",backgroundColor:u},h=null;return console.error("Error handled by React Router default ErrorBoundary:",o),h=_.createElement(_.Fragment,null,_.createElement("p",null,"💿 Hey developer 👋"),_.createElement("p",null,"You can provide a way better UX than this when your app throws errors by providing your own ",_.createElement("code",{style:d},"ErrorBoundary")," or"," ",_.createElement("code",{style:d},"errorElement")," prop on your route.")),_.createElement(_.Fragment,null,_.createElement("h2",null,"Unexpected Application Error!"),_.createElement("h3",{style:{fontStyle:"italic"}},l),i?_.createElement("pre",{style:c},i):null,h)}var tg=_.createElement(eg,null),Tf=class extends _.Component{constructor(o){super(o),this.state={location:o.location,revalidation:o.revalidation,error:o.error}}static getDerivedStateFromError(o){return{error:o}}static getDerivedStateFromProps(o,l){return l.location!==o.location||l.revalidation!=="idle"&&o.revalidation==="idle"?{error:o.error,location:o.location,revalidation:o.revalidation}:{error:o.error!==void 0?o.error:l.error,location:l.location,revalidation:o.revalidation||l.revalidation}}componentDidCatch(o,l){this.props.onError?this.props.onError(o,l):console.error("React Router caught the following error during render",o)}render(){let o=this.state.error;if(this.context&&typeof o=="object"&&o&&"digest"in o&&typeof o.digest=="string"){const i=Km(o.digest);i&&(o=i)}let l=o!==void 0?_.createElement(Mn.Provider,{value:this.props.routeContext},_.createElement(Ms.Provider,{value:o,children:this.props.component})):this.props.children;return this.context?_.createElement(ng,{error:o},l):l}};Tf.contextType=Rf;var ws=new WeakMap;function ng({children:o,error:l}){let{basename:i}=_.useContext(un);if(typeof l=="object"&&l&&"digest"in l&&typeof l.digest=="string"){let u=Qm(l.digest);if(u){let c=ws.get(l);if(c)throw c;let d=df(u.location,i);if(cf&&!ws.get(l))if(d.isExternal||u.reloadDocument)window.location.href=d.absoluteURL||d.to;else{const h=Promise.resolve().then(()=>window.__reactRouterDataRouter.navigate(d.to,{replace:u.replace}));throw ws.set(l,h),h}return _.createElement("meta",{httpEquiv:"refresh",content:`0;url=${d.absoluteURL||d.to}`})}}return o}function rg({routeContext:o,match:l,children:i}){let u=_.useContext(Wr);return u&&u.static&&u.staticContext&&(l.route.errorElement||l.route.ErrorBoundary)&&(u.staticContext._deepestRenderedBoundaryId=l.route.id),_.createElement(Mn.Provider,{value:o},i)}function og(o,l=[],i){let u=i?.state;if(o==null){if(!u)return null;if(u.errors)o=u.matches;else if(l.length===0&&!u.initialized&&u.matches.length>0)o=u.matches;else return null}let c=o,d=u?.errors;if(d!=null){let R=c.findIndex(p=>p.route.id&&d?.[p.route.id]!==void 0);De(R>=0,`Could not find a matching route for errors on route IDs: ${Object.keys(d).join(",")}`),c=c.slice(0,Math.min(c.length,R+1))}let h=!1,m=-1;if(i&&u){h=u.renderFallback;for(let R=0;R<c.length;R++){let p=c[R];if((p.route.HydrateFallback||p.route.hydrateFallbackElement)&&(m=R),p.route.id){let{loaderData:S,errors:T}=u,I=p.route.loader&&!S.hasOwnProperty(p.route.id)&&(!T||T[p.route.id]===void 0);if(p.route.lazy||I){i.isStatic&&(h=!0),m>=0?c=c.slice(0,m+1):c=[c[0]];break}}}}let y=i?.onError,g=u&&y?(R,p)=>{y(R,{location:u.location,params:u.matches?.[0]?.params??{},unstable_pattern:pa(u.matches),errorInfo:p})}:void 0;return c.reduceRight((R,p,S)=>{let T,I=!1,F=null,N=null;u&&(T=d&&p.route.id?d[p.route.id]:void 0,F=p.route.errorElement||tg,h&&(m<0&&S===0?(zf("route-fallback",!1,"No `HydrateFallback` element provided to render during initial hydration"),I=!0,N=null):m===S&&(I=!0,N=p.route.hydrateFallbackElement||null)));let H=l.concat(c.slice(0,S+1)),X=()=>{let ee;return T?ee=F:I?ee=N:p.route.Component?ee=_.createElement(p.route.Component,null):p.route.element?ee=p.route.element:ee=R,_.createElement(rg,{match:p,routeContext:{outlet:R,matches:H,isDataRoute:u!=null},children:ee})};return u&&(p.route.ErrorBoundary||p.route.errorElement||S===0)?_.createElement(Tf,{location:u.location,revalidation:u.revalidation,component:F,error:T,children:X(),routeContext:{outlet:null,matches:H,isDataRoute:!0},onError:g}):X()},null)}function Is(o){return`${o} must be used within a data router.  See https://reactrouter.com/en/main/routers/picking-a-router.`}function ag(o){let l=_.useContext(Wr);return De(l,Is(o)),l}function lg(o){let l=_.useContext(ha);return De(l,Is(o)),l}function ig(o){let l=_.useContext(Mn);return De(l,Is(o)),l}function Fs(o){let l=ig(o),i=l.matches[l.matches.length-1];return De(i.route.id,`${o} can only be used on routes that contain a unique "id"`),i.route.id}function sg(){return Fs("useRouteId")}function ug(){let o=_.useContext(Ms),l=lg("useRouteError"),i=Fs("useRouteError");return o!==void 0?o:l.errors?.[i]}function cg(){let{router:o}=ag("useNavigate"),l=Fs("useNavigate"),i=_.useRef(!1);return jf(()=>{i.current=!0}),_.useCallback(async(c,d={})=>{st(i.current,_f),i.current&&(typeof c=="number"?await o.navigate(c):await o.navigate(c,{fromRouteId:l,...d}))},[o,l])}var Hd={};function zf(o,l,i){!l&&!Hd[o]&&(Hd[o]=!0,st(!1,i))}var Wd={};function Vd(o,l){!o&&!Wd[l]&&(Wd[l]=!0,console.warn(l))}var dg="useOptimistic",Yd=zh[dg],fg=()=>{};function pg(o){return Yd?Yd(o):[o,fg]}function hg(o){let l={hasErrorBoundary:o.hasErrorBoundary||o.ErrorBoundary!=null||o.errorElement!=null};return o.Component&&(o.element&&st(!1,"You should not include both `Component` and `element` on your route - `Component` will be used."),Object.assign(l,{element:_.createElement(o.Component),Component:void 0})),o.HydrateFallback&&(o.hydrateFallbackElement&&st(!1,"You should not include both `HydrateFallback` and `hydrateFallbackElement` on your route - `HydrateFallback` will be used."),Object.assign(l,{hydrateFallbackElement:_.createElement(o.HydrateFallback),HydrateFallback:void 0})),o.ErrorBoundary&&(o.errorElement&&st(!1,"You should not include both `ErrorBoundary` and `errorElement` on your route - `ErrorBoundary` will be used."),Object.assign(l,{errorElement:_.createElement(o.ErrorBoundary),ErrorBoundary:void 0})),l}var mg=["HydrateFallback","hydrateFallbackElement"],gg=class{constructor(){this.status="pending",this.promise=new Promise((o,l)=>{this.resolve=i=>{this.status==="pending"&&(this.status="resolved",o(i))},this.reject=i=>{this.status==="pending"&&(this.status="rejected",l(i))}})}};function yg({router:o,flushSync:l,onError:i,unstable_useTransitions:u}){u=Hm()||u;let[d,h]=_.useState(o.state),[m,y]=pg(d),[g,R]=_.useState(),[p,S]=_.useState({isTransitioning:!1}),[T,I]=_.useState(),[F,N]=_.useState(),[H,X]=_.useState(),ee=_.useRef(new Map),Se=_.useCallback((j,{deletedFetchers:Le,newErrors:Pe,flushSync:$e,viewTransitionOpts:Ee})=>{Pe&&i&&Object.values(Pe).forEach(je=>i(je,{location:j.location,params:j.matches[0]?.params??{},unstable_pattern:pa(j.matches)})),j.fetchers.forEach((je,xe)=>{je.data!==void 0&&ee.current.set(xe,je.data)}),Le.forEach(je=>ee.current.delete(je)),Vd($e===!1||l!=null,'You provided the `flushSync` option to a router update, but you are not using the `<RouterProvider>` from `react-router/dom` so `ReactDOM.flushSync()` is unavailable.  Please update your app to `import { RouterProvider } from "react-router/dom"` and ensure you have `react-dom` installed as a dependency to use the `flushSync` option.');let ze=o.window!=null&&o.window.document!=null&&typeof o.window.document.startViewTransition=="function";if(Vd(Ee==null||ze,"You provided the `viewTransition` option to a router update, but you do not appear to be running in a DOM environment as `window.startViewTransition` is not available."),!Ee||!ze){l&&$e?l(()=>h(j)):u===!1?h(j):_.startTransition(()=>{u===!0&&y(je=>Qd(je,j)),h(j)});return}if(l&&$e){l(()=>{F&&(T?.resolve(),F.skipTransition()),S({isTransitioning:!0,flushSync:!0,currentLocation:Ee.currentLocation,nextLocation:Ee.nextLocation})});let je=o.window.document.startViewTransition(()=>{l(()=>h(j))});je.finished.finally(()=>{l(()=>{I(void 0),N(void 0),R(void 0),S({isTransitioning:!1})})}),l(()=>N(je));return}F?(T?.resolve(),F.skipTransition(),X({state:j,currentLocation:Ee.currentLocation,nextLocation:Ee.nextLocation})):(R(j),S({isTransitioning:!0,flushSync:!1,currentLocation:Ee.currentLocation,nextLocation:Ee.nextLocation}))},[o.window,l,F,T,u,y,i]);_.useLayoutEffect(()=>o.subscribe(Se),[o,Se]),_.useEffect(()=>{p.isTransitioning&&!p.flushSync&&I(new gg)},[p]),_.useEffect(()=>{if(T&&g&&o.window){let j=g,Le=T.promise,Pe=o.window.document.startViewTransition(async()=>{u===!1?h(j):_.startTransition(()=>{u===!0&&y($e=>Qd($e,j)),h(j)}),await Le});Pe.finished.finally(()=>{I(void 0),N(void 0),R(void 0),S({isTransitioning:!1})}),N(Pe)}},[g,T,o.window,u,y]),_.useEffect(()=>{T&&g&&m.location.key===g.location.key&&T.resolve()},[T,F,m.location,g]),_.useEffect(()=>{!p.isTransitioning&&H&&(R(H.state),S({isTransitioning:!0,flushSync:!1,currentLocation:H.currentLocation,nextLocation:H.nextLocation}),X(void 0))},[p.isTransitioning,H]);let we=_.useMemo(()=>({createHref:o.createHref,encodeLocation:o.encodeLocation,go:j=>o.navigate(j),push:(j,Le,Pe)=>o.navigate(j,{state:Le,preventScrollReset:Pe?.preventScrollReset}),replace:(j,Le,Pe)=>o.navigate(j,{replace:!0,state:Le,preventScrollReset:Pe?.preventScrollReset})}),[o]),ge=o.basename||"/",_e=_.useMemo(()=>({router:o,navigator:we,static:!1,basename:ge,onError:i}),[o,we,ge,i]);return _.createElement(_.Fragment,null,_.createElement(Wr.Provider,{value:_e},_.createElement(ha.Provider,{value:m},_.createElement(Cf.Provider,{value:ee.current},_.createElement(Ns.Provider,{value:p},_.createElement(Sg,{basename:ge,location:m.location,navigationType:m.historyAction,navigator:we,unstable_useTransitions:u},_.createElement(vg,{routes:o.routes,future:o.future,state:m,isStatic:!1,onError:i})))))),null)}function Qd(o,l){return{...o,navigation:l.navigation.state!=="idle"?l.navigation:o.navigation,revalidation:l.revalidation!=="idle"?l.revalidation:o.revalidation,actionData:l.navigation.state!=="submitting"?l.actionData:o.actionData,fetchers:l.fetchers}}var vg=_.memo(xg);function xg({routes:o,future:l,state:i,isStatic:u,onError:c}){return qm(o,void 0,{state:i,isStatic:u,onError:c})}function wg(o){return Zm(o.context)}function Sg({basename:o="/",children:l=null,location:i,navigationType:u="POP",navigator:c,static:d=!1,unstable_useTransitions:h}){De(!ma(),"You cannot render a <Router> inside another <Router>. You should never have more than one in your app.");let m=o.replace(/^\/*/,"/"),y=_.useMemo(()=>({basename:m,navigator:c,static:d,unstable_useTransitions:h,future:{}}),[m,c,d,h]);typeof i=="string"&&(i=Jn(i));let{pathname:g="/",search:R="",hash:p="",state:S=null,key:T="default",unstable_mask:I}=i,F=_.useMemo(()=>{let N=sn(g,m);return N==null?null:{location:{pathname:N,search:R,hash:p,state:S,key:T,unstable_mask:I},navigationType:u}},[m,g,R,p,S,T,u,I]);return st(F!=null,`<Router basename="${m}"> is not able to match the URL "${g}${R}${p}" because it does not start with the basename, so the <Router> won't render anything.`),F==null?null:_.createElement(un.Provider,{value:y},_.createElement(Tl.Provider,{children:l,value:F}))}var kl="get",Rl="application/x-www-form-urlencoded";function zl(o){return typeof HTMLElement<"u"&&o instanceof HTMLElement}function Eg(o){return zl(o)&&o.tagName.toLowerCase()==="button"}function kg(o){return zl(o)&&o.tagName.toLowerCase()==="form"}function Rg(o){return zl(o)&&o.tagName.toLowerCase()==="input"}function Cg(o){return!!(o.metaKey||o.altKey||o.ctrlKey||o.shiftKey)}function Pg(o,l){return o.button===0&&(!l||l==="_self")&&!Cg(o)}var wl=null;function _g(){if(wl===null)try{new FormData(document.createElement("form"),0),wl=!1}catch{wl=!0}return wl}var jg=new Set(["application/x-www-form-urlencoded","multipart/form-data","text/plain"]);function Ss(o){return o!=null&&!jg.has(o)?(st(!1,`"${o}" is not a valid \`encType\` for \`<Form>\`/\`<fetcher.Form>\` and will default to "${Rl}"`),null):o}function Lg(o,l){let i,u,c,d,h;if(kg(o)){let m=o.getAttribute("action");u=m?sn(m,l):null,i=o.getAttribute("method")||kl,c=Ss(o.getAttribute("enctype"))||Rl,d=new FormData(o)}else if(Eg(o)||Rg(o)&&(o.type==="submit"||o.type==="image")){let m=o.form;if(m==null)throw new Error('Cannot submit a <button> or <input type="submit"> without a <form>');let y=o.getAttribute("formaction")||m.getAttribute("action");if(u=y?sn(y,l):null,i=o.getAttribute("formmethod")||m.getAttribute("method")||kl,c=Ss(o.getAttribute("formenctype"))||Ss(m.getAttribute("enctype"))||Rl,d=new FormData(m,o),!_g()){let{name:g,type:R,value:p}=o;if(R==="image"){let S=g?`${g}.`:"";d.append(`${S}x`,"0"),d.append(`${S}y`,"0")}else g&&d.append(g,p)}}else{if(zl(o))throw new Error('Cannot submit element that is not <form>, <button>, or <input type="submit|image">');i=kl,u=null,c=Rl,h=o}return d&&c==="text/plain"&&(h=d,d=void 0),{action:u,method:i.toLowerCase(),encType:c,formData:d,body:h}}Object.getOwnPropertyNames(Object.prototype).sort().join("\0");function Os(o,l){if(o===!1||o===null||typeof o>"u")throw new Error(l)}function Tg(o,l,i,u){let c=typeof o=="string"?new URL(o,typeof window>"u"?"server://singlefetch/":window.location.origin):o;return i?c.pathname.endsWith("/")?c.pathname=`${c.pathname}_.${u}`:c.pathname=`${c.pathname}.${u}`:c.pathname==="/"?c.pathname=`_root.${u}`:l&&sn(c.pathname,l)==="/"?c.pathname=`${l.replace(/\/$/,"")}/_root.${u}`:c.pathname=`${c.pathname.replace(/\/$/,"")}.${u}`,c}async function zg(o,l){if(o.id in l)return l[o.id];try{let i=await import(o.module);return l[o.id]=i,i}catch(i){return console.error(`Error loading route module \`${o.module}\`, reloading page...`),console.error(i),window.__reactRouterContext&&window.__reactRouterContext.isSpaMode,window.location.reload(),new Promise(()=>{})}}function bg(o){return o==null?!1:o.href==null?o.rel==="preload"&&typeof o.imageSrcSet=="string"&&typeof o.imageSizes=="string":typeof o.rel=="string"&&typeof o.href=="string"}async function Dg(o,l,i){let u=await Promise.all(o.map(async c=>{let d=l.routes[c.route.id];if(d){let h=await zg(d,i);return h.links?h.links():[]}return[]}));return Fg(u.flat(1).filter(bg).filter(c=>c.rel==="stylesheet"||c.rel==="preload").map(c=>c.rel==="stylesheet"?{...c,rel:"prefetch",as:"style"}:{...c,rel:"prefetch"}))}function Kd(o,l,i,u,c,d){let h=(y,g)=>i[g]?y.route.id!==i[g].route.id:!0,m=(y,g)=>i[g].pathname!==y.pathname||i[g].route.path?.endsWith("*")&&i[g].params["*"]!==y.params["*"];return d==="assets"?l.filter((y,g)=>h(y,g)||m(y,g)):d==="data"?l.filter((y,g)=>{let R=u.routes[y.route.id];if(!R||!R.hasLoader)return!1;if(h(y,g)||m(y,g))return!0;if(y.route.shouldRevalidate){let p=y.route.shouldRevalidate({currentUrl:new URL(c.pathname+c.search+c.hash,window.origin),currentParams:i[0]?.params||{},nextUrl:new URL(o,window.origin),nextParams:y.params,defaultShouldRevalidate:!0});if(typeof p=="boolean")return p}return!0}):[]}function Ng(o,l,{includeHydrateFallback:i}={}){return Mg(o.map(u=>{let c=l.routes[u.route.id];if(!c)return[];let d=[c.module];return c.clientActionModule&&(d=d.concat(c.clientActionModule)),c.clientLoaderModule&&(d=d.concat(c.clientLoaderModule)),i&&c.hydrateFallbackModule&&(d=d.concat(c.hydrateFallbackModule)),c.imports&&(d=d.concat(c.imports)),d}).flat(1))}function Mg(o){return[...new Set(o)]}function Ig(o){let l={},i=Object.keys(o).sort();for(let u of i)l[u]=o[u];return l}function Fg(o,l){let i=new Set;return new Set(l),o.reduce((u,c)=>{let d=JSON.stringify(Ig(c));return i.has(d)||(i.add(d),u.push({key:d,link:c})),u},[])}function bf(){let o=_.useContext(Wr);return Os(o,"You must render this element inside a <DataRouterContext.Provider> element"),o}function Og(){let o=_.useContext(ha);return Os(o,"You must render this element inside a <DataRouterStateContext.Provider> element"),o}var Bs=_.createContext(void 0);Bs.displayName="FrameworkContext";function Df(){let o=_.useContext(Bs);return Os(o,"You must render this element inside a <HydratedRouter> element"),o}function Bg(o,l){let i=_.useContext(Bs),[u,c]=_.useState(!1),[d,h]=_.useState(!1),{onFocus:m,onBlur:y,onMouseEnter:g,onMouseLeave:R,onTouchStart:p}=l,S=_.useRef(null);_.useEffect(()=>{if(o==="render"&&h(!0),o==="viewport"){let F=H=>{H.forEach(X=>{h(X.isIntersecting)})},N=new IntersectionObserver(F,{threshold:.5});return S.current&&N.observe(S.current),()=>{N.disconnect()}}},[o]),_.useEffect(()=>{if(u){let F=setTimeout(()=>{h(!0)},100);return()=>{clearTimeout(F)}}},[u]);let T=()=>{c(!0)},I=()=>{c(!1),h(!1)};return i?o!=="intent"?[d,S,{}]:[d,S,{onFocus:oa(m,T),onBlur:oa(y,I),onMouseEnter:oa(g,T),onMouseLeave:oa(R,I),onTouchStart:oa(p,T)}]:[!1,S,{}]}function oa(o,l){return i=>{o&&o(i),i.defaultPrevented||l(i)}}function Ag({page:o,...l}){let{router:i}=bf(),u=_.useMemo(()=>Cr(i.routes,o,i.basename),[i.routes,o,i.basename]);return u?_.createElement($g,{page:o,matches:u,...l}):null}function Ug(o){let{manifest:l,routeModules:i}=Df(),[u,c]=_.useState([]);return _.useEffect(()=>{let d=!1;return Dg(o,l,i).then(h=>{d||c(h)}),()=>{d=!0}},[o,l,i]),u}function $g({page:o,matches:l,...i}){let u=Zn(),{future:c,manifest:d,routeModules:h}=Df(),{basename:m}=bf(),{loaderData:y,matches:g}=Og(),R=_.useMemo(()=>Kd(o,l,g,d,u,"data"),[o,l,g,d,u]),p=_.useMemo(()=>Kd(o,l,g,d,u,"assets"),[o,l,g,d,u]),S=_.useMemo(()=>{if(o===u.pathname+u.search+u.hash)return[];let F=new Set,N=!1;if(l.forEach(X=>{let ee=d.routes[X.route.id];!ee||!ee.hasLoader||(!R.some(Se=>Se.route.id===X.route.id)&&X.route.id in y&&h[X.route.id]?.shouldRevalidate||ee.hasClientLoader?N=!0:F.add(X.route.id))}),F.size===0)return[];let H=Tg(o,m,c.unstable_trailingSlashAwareDataRequests,"data");return N&&F.size>0&&H.searchParams.set("_routes",l.filter(X=>F.has(X.route.id)).map(X=>X.route.id).join(",")),[H.pathname+H.search]},[m,c.unstable_trailingSlashAwareDataRequests,y,u,d,R,l,o,h]),T=_.useMemo(()=>Ng(p,d),[p,d]),I=Ug(p);return _.createElement(_.Fragment,null,S.map(F=>_.createElement("link",{key:F,rel:"prefetch",as:"fetch",href:F,...i})),T.map(F=>_.createElement("link",{key:F,rel:"modulepreload",href:F,...i})),I.map(({key:F,link:N})=>_.createElement("link",{key:F,nonce:i.nonce,...N,crossOrigin:N.crossOrigin??i.crossOrigin})))}function Hg(...o){return l=>{o.forEach(i=>{typeof i=="function"?i(l):i!=null&&(i.current=l)})}}var Wg=typeof window<"u"&&typeof window.document<"u"&&typeof window.document.createElement<"u";try{Wg&&(window.__reactRouterVersion="7.13.1")}catch{}function Vg(o,l){return vm({basename:l?.basename,getContext:l?.getContext,future:l?.future,history:Nh({window:l?.window}),hydrationData:Yg(),routes:o,mapRouteProperties:hg,hydrationRouteProperties:mg,dataStrategy:l?.dataStrategy,patchRoutesOnNavigation:l?.patchRoutesOnNavigation,window:l?.window,unstable_instrumentations:l?.unstable_instrumentations}).initialize()}function Yg(){let o=window?.__staticRouterHydrationData;return o&&o.errors&&(o={...o,errors:Qg(o.errors)}),o}function Qg(o){if(!o)return null;let l=Object.entries(o),i={};for(let[u,c]of l)if(c&&c.__type==="RouteErrorResponse")i[u]=new fa(c.status,c.statusText,c.data,c.internal===!0);else if(c&&c.__type==="Error"){if(c.__subType){let d=window[c.__subType];if(typeof d=="function")try{let h=new d(c.message);h.stack="",i[u]=h}catch{}}if(i[u]==null){let d=new Error(c.message);d.stack="",i[u]=d}}else i[u]=c;return i}var Nf=/^(?:[a-z][a-z0-9+.-]*:|\/\/)/i,Mf=_.forwardRef(function({onClick:l,discover:i="render",prefetch:u="none",relative:c,reloadDocument:d,replace:h,unstable_mask:m,state:y,target:g,to:R,preventScrollReset:p,viewTransition:S,unstable_defaultShouldRevalidate:T,...I},F){let{basename:N,navigator:H,unstable_useTransitions:X}=_.useContext(un),ee=typeof R=="string"&&Nf.test(R),Se=df(R,N);R=Se.to;let we=Gm(R,{relative:c}),ge=Zn(),_e=null;if(m){let xe=Ll(m,[],ge.unstable_mask?ge.unstable_mask.pathname:"/",!0);N!=="/"&&(xe.pathname=xe.pathname==="/"?N:kn([N,xe.pathname])),_e=H.createHref(xe)}let[j,Le,Pe]=Bg(u,I),$e=Jg(R,{replace:h,unstable_mask:m,state:y,target:g,preventScrollReset:p,relative:c,viewTransition:S,unstable_defaultShouldRevalidate:T,unstable_useTransitions:X});function Ee(xe){l&&l(xe),xe.defaultPrevented||$e(xe)}let ze=!(Se.isExternal||d),je=_.createElement("a",{...I,...Pe,href:(ze?_e:void 0)||Se.absoluteURL||we,onClick:ze?Ee:l,ref:Hg(F,Le),target:g,"data-discover":!ee&&i==="render"?"true":void 0});return j&&!ee?_.createElement(_.Fragment,null,je,_.createElement(Ag,{page:we})):je});Mf.displayName="Link";var Kg=_.forwardRef(function({"aria-current":l="page",caseSensitive:i=!1,className:u="",end:c=!1,style:d,to:h,viewTransition:m,children:y,...g},R){let p=ga(h,{relative:g.relative}),S=Zn(),T=_.useContext(ha),{navigator:I,basename:F}=_.useContext(un),N=T!=null&&ny(p)&&m===!0,H=I.encodeLocation?I.encodeLocation(p).pathname:p.pathname,X=S.pathname,ee=T&&T.navigation&&T.navigation.location?T.navigation.location.pathname:null;i||(X=X.toLowerCase(),ee=ee?ee.toLowerCase():null,H=H.toLowerCase()),ee&&F&&(ee=sn(ee,F)||ee);const Se=H!=="/"&&H.endsWith("/")?H.length-1:H.length;let we=X===H||!c&&X.startsWith(H)&&X.charAt(Se)==="/",ge=ee!=null&&(ee===H||!c&&ee.startsWith(H)&&ee.charAt(H.length)==="/"),_e={isActive:we,isPending:ge,isTransitioning:N},j=we?l:void 0,Le;typeof u=="function"?Le=u(_e):Le=[u,we?"active":null,ge?"pending":null,N?"transitioning":null].filter(Boolean).join(" ");let Pe=typeof d=="function"?d(_e):d;return _.createElement(Mf,{...g,"aria-current":j,className:Le,ref:R,style:Pe,to:h,viewTransition:m},typeof y=="function"?y(_e):y)});Kg.displayName="NavLink";var Gg=_.forwardRef(({discover:o="render",fetcherKey:l,navigate:i,reloadDocument:u,replace:c,state:d,method:h=kl,action:m,onSubmit:y,relative:g,preventScrollReset:R,viewTransition:p,unstable_defaultShouldRevalidate:S,...T},I)=>{let{unstable_useTransitions:F}=_.useContext(un),N=ey(),H=ty(m,{relative:g}),X=h.toLowerCase()==="get"?"get":"post",ee=typeof m=="string"&&Nf.test(m),Se=we=>{if(y&&y(we),we.defaultPrevented)return;we.preventDefault();let ge=we.nativeEvent.submitter,_e=ge?.getAttribute("formmethod")||h,j=()=>N(ge||we.currentTarget,{fetcherKey:l,method:_e,navigate:i,replace:c,state:d,relative:g,preventScrollReset:R,viewTransition:p,unstable_defaultShouldRevalidate:S});F&&i!==!1?_.startTransition(()=>j()):j()};return _.createElement("form",{ref:I,method:X,action:H,onSubmit:u?y:Se,...T,"data-discover":!ee&&o==="render"?"true":void 0})});Gg.displayName="Form";function Xg(o){return`${o} must be used within a data router.  See https://reactrouter.com/en/main/routers/picking-a-router.`}function If(o){let l=_.useContext(Wr);return De(l,Xg(o)),l}function Jg(o,{target:l,replace:i,unstable_mask:u,state:c,preventScrollReset:d,relative:h,viewTransition:m,unstable_defaultShouldRevalidate:y,unstable_useTransitions:g}={}){let R=Lf(),p=Zn(),S=ga(o,{relative:h});return _.useCallback(T=>{if(Pg(T,l)){T.preventDefault();let I=i!==void 0?i:Nn(p)===Nn(S),F=()=>R(o,{replace:I,unstable_mask:u,state:c,preventScrollReset:d,relative:h,viewTransition:m,unstable_defaultShouldRevalidate:y});g?_.startTransition(()=>F()):F()}},[p,R,S,i,u,c,l,o,d,h,m,y,g])}var Zg=0,qg=()=>`__${String(++Zg)}__`;function ey(){let{router:o}=If("useSubmit"),{basename:l}=_.useContext(un),i=sg(),u=o.fetch,c=o.navigate;return _.useCallback(async(d,h={})=>{let{action:m,method:y,encType:g,formData:R,body:p}=Lg(d,l);if(h.navigate===!1){let S=h.fetcherKey||qg();await u(S,i,h.action||m,{unstable_defaultShouldRevalidate:h.unstable_defaultShouldRevalidate,preventScrollReset:h.preventScrollReset,formData:R,body:p,formMethod:h.method||y,formEncType:h.encType||g,flushSync:h.flushSync})}else await c(h.action||m,{unstable_defaultShouldRevalidate:h.unstable_defaultShouldRevalidate,preventScrollReset:h.preventScrollReset,formData:R,body:p,formMethod:h.method||y,formEncType:h.encType||g,replace:h.replace,state:h.state,fromRouteId:i,flushSync:h.flushSync,viewTransition:h.viewTransition})},[u,c,l,i])}function ty(o,{relative:l}={}){let{basename:i}=_.useContext(un),u=_.useContext(Mn);De(u,"useFormAction must be used inside a RouteContext");let[c]=u.matches.slice(-1),d={...ga(o||".",{relative:l})},h=Zn();if(o==null){d.search=h.search;let m=new URLSearchParams(d.search),y=m.getAll("index");if(y.some(R=>R==="")){m.delete("index"),y.filter(p=>p).forEach(p=>m.append("index",p));let R=m.toString();d.search=R?`?${R}`:""}}return(!o||o===".")&&c.route.index&&(d.search=d.search?d.search.replace(/^\?/,"?index&"):"?index"),i!=="/"&&(d.pathname=d.pathname==="/"?i:kn([i,d.pathname])),Nn(d)}function ny(o,{relative:l}={}){let i=_.useContext(Ns);De(i!=null,"`useViewTransitionState` must be used within `react-router-dom`'s `RouterProvider`.  Did you accidentally import `RouterProvider` from `react-router`?");let{basename:u}=If("useViewTransitionState"),c=ga(o,{relative:l});if(!i.isTransitioning)return!1;let d=sn(i.currentLocation.pathname,u)||i.currentLocation.pathname,h=sn(i.nextLocation.pathname,u)||i.nextLocation.pathname;return Cl(c.pathname,h)!=null||Cl(c.pathname,d)!=null}const ry={},Ff=typeof import.meta<"u"&&ry?.VITE_API_URL||"https://app.bigartist.es/api",Gd={dashboard:"/dashboard",contracts:"/contracts",artists:"/artists",tracks:"/tracks",csvUploads:"/csv-uploads",payments:"/payments",disputes:"/disputes",users:"/users"},Xd=async(o,l)=>{const i=localStorage.getItem("auth_token"),u={...l,headers:{"Content-Type":"application/json",...i&&{Authorization:`Bearer ${i}`},...l?.headers}},c=await fetch(`${Ff}${o}`,u);if(!c.ok){const d=await c.json().catch(()=>({message:"Error en la petición"}));throw new Error(d.message||"Error en la petición")}return c.json()},oy=async(o,l)=>{try{const i=await fetch(`${Ff}/auth/login`,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({email:o,password:l})}),u=await i.json();if(!i.ok)throw new Error(u.message||"Error al iniciar sesión");return u}catch(i){throw i instanceof Error?i:new Error("Error de conexión con el servidor")}},ay="/assets/0a2a9faa1b59d5fa1e388a2eec5b08498dd7a493-C-zGM-oV.png",ly="/assets/aa0296e2522220bcfcda71f86c708cb2cbc616b9-HygGYkAN.png",iy=()=>w.jsxs("svg",{width:"18",height:"18",viewBox:"0 0 24 24",fill:"none",stroke:"currentColor",strokeWidth:"2",strokeLinecap:"round",strokeLinejoin:"round",children:[w.jsx("path",{d:"M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"}),w.jsx("circle",{cx:"12",cy:"12",r:"3"})]}),sy=()=>w.jsxs("svg",{width:"18",height:"18",viewBox:"0 0 24 24",fill:"none",stroke:"currentColor",strokeWidth:"2",strokeLinecap:"round",strokeLinejoin:"round",children:[w.jsx("path",{d:"M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"}),w.jsx("line",{x1:"1",y1:"1",x2:"23",y2:"23"})]});function uy({onLoginSuccess:o}){const[l,i]=_.useState(""),[u,c]=_.useState(""),[d,h]=_.useState(!1),[m,y]=_.useState(""),[g,R]=_.useState(!1),p=async S=>{S.preventDefault(),R(!0),y("");try{const T=await oy(l,u);if(T.success)localStorage.setItem("authToken",T.token),localStorage.setItem("user",JSON.stringify({id:T.user.id,email:T.user.email,name:T.user.name,type:T.user.type})),o();else throw new Error(T.message||"Usuario o contraseña incorrectos")}catch(T){const I=T instanceof Error?T.message:"Error al conectar con el servidor";y(I)}finally{R(!1)}};return w.jsxs("div",{style:{position:"relative",minHeight:"100vh",width:"100%",display:"flex",overflow:"hidden",fontFamily:'-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif'},children:[w.jsx("div",{style:{position:"absolute",inset:0,backgroundImage:`url(${ay})`,backgroundSize:"cover",backgroundPosition:"center",backgroundRepeat:"no-repeat",zIndex:0}}),w.jsx("div",{style:{position:"absolute",inset:0,background:"linear-gradient(135deg, rgba(13, 31, 35, 0.88) 0%, rgba(19, 46, 53, 0.85) 50%, rgba(45, 74, 83, 0.82) 100%)",zIndex:1}}),w.jsx("div",{style:{position:"relative",width:"55%",overflow:"hidden",display:"flex",alignItems:"center",justifyContent:"center",zIndex:2},children:w.jsxs("div",{style:{textAlign:"center",width:"80%"},children:[w.jsx("img",{src:ly,alt:"BIGARTIST Logo",style:{width:"100%",maxWidth:"600px",height:"auto",marginBottom:"12px",filter:"drop-shadow(0 0 30px rgba(201, 165, 116, 0.4))"}}),w.jsx("div",{style:{width:"200px",height:"2px",background:"linear-gradient(to right, transparent, #c9a574, transparent)",margin:"0 auto 12px auto",boxShadow:"0 0 10px rgba(201, 165, 116, 0.5)"}}),w.jsx("div",{style:{color:"#c9a574",fontSize:"24px",fontWeight:"300",letterSpacing:"4px",textTransform:"uppercase",textShadow:"0 0 20px rgba(201, 165, 116, 0.3)"},children:"Royalties System"})]})}),w.jsx("div",{style:{position:"relative",width:"45%",display:"flex",alignItems:"center",justifyContent:"center",padding:"60px",zIndex:2},children:w.jsxs("div",{style:{width:"100%",maxWidth:"440px"},children:[w.jsxs("div",{style:{marginBottom:"48px"},children:[w.jsx("h2",{style:{fontSize:"32px",fontWeight:"700",color:"#ffffff",marginBottom:"12px",letterSpacing:"-0.5px"},children:"Admin Panel"}),w.jsx("p",{style:{fontSize:"15px",color:"#AFB3B7",fontWeight:"400"},children:"Ingresa tus credenciales para continuar"})]}),w.jsxs("form",{onSubmit:p,children:[m&&w.jsxs("div",{style:{backgroundColor:"rgba(239, 68, 68, 0.1)",border:"1px solid #ef4444",color:"#fca5a5",padding:"14px 16px",borderRadius:"10px",fontSize:"14px",marginBottom:"24px",display:"flex",alignItems:"center",gap:"10px"},children:[w.jsx("span",{style:{fontSize:"18px"},children:"⚠️"}),m]}),w.jsxs("div",{style:{marginBottom:"24px"},children:[w.jsx("label",{style:{display:"block",fontSize:"14px",fontWeight:"600",color:"#AFB3B7",marginBottom:"10px",letterSpacing:"0.3px"},children:"Email"}),w.jsx("input",{type:"email",value:l,onChange:S=>i(S.target.value),placeholder:"",required:!0,style:{width:"100%",padding:"14px 16px",fontSize:"15px",color:"#ffffff",backgroundColor:"rgba(0, 0, 0, 0.2)",border:"2px solid rgba(201, 165, 116, 0.3)",borderRadius:"10px",outline:"none",transition:"all 0.2s ease",fontWeight:"500"},onFocus:S=>{S.target.style.borderColor="#c9a574",S.target.style.backgroundColor="rgba(0, 0, 0, 0.3)"},onBlur:S=>{S.target.style.borderColor="rgba(201, 165, 116, 0.3)",S.target.style.backgroundColor="rgba(0, 0, 0, 0.2)"}})]}),w.jsxs("div",{style:{marginBottom:"32px"},children:[w.jsx("label",{style:{display:"block",fontSize:"14px",fontWeight:"600",color:"#AFB3B7",marginBottom:"10px",letterSpacing:"0.3px"},children:"Contraseña"}),w.jsxs("div",{style:{position:"relative"},children:[w.jsx("input",{type:d?"text":"password",value:u,onChange:S=>c(S.target.value),placeholder:"",required:!0,style:{width:"100%",padding:"14px 48px 14px 16px",fontSize:"15px",color:"#ffffff",backgroundColor:"rgba(0, 0, 0, 0.2)",border:"2px solid rgba(201, 165, 116, 0.3)",borderRadius:"10px",outline:"none",transition:"all 0.2s ease",fontWeight:"500"},onFocus:S=>{S.target.style.borderColor="#c9a574",S.target.style.backgroundColor="rgba(0, 0, 0, 0.3)"},onBlur:S=>{S.target.style.borderColor="rgba(201, 165, 116, 0.3)",S.target.style.backgroundColor="rgba(0, 0, 0, 0.2)"}}),w.jsx("button",{type:"button",onClick:()=>h(!d),style:{position:"absolute",right:"16px",top:"50%",transform:"translateY(-50%)",background:"none",border:"none",color:"#69818D",cursor:"pointer",padding:"4px",display:"flex",alignItems:"center",transition:"color 0.2s ease"},onMouseEnter:S=>S.currentTarget.style.color="#c9a574",onMouseLeave:S=>S.currentTarget.style.color="#69818D",children:d?w.jsx(sy,{}):w.jsx(iy,{})})]})]}),w.jsx("button",{type:"submit",disabled:g,style:{width:"100%",padding:"16px",fontSize:"15px",fontWeight:"600",color:"#0D1F23",background:g?"rgba(201, 165, 116, 0.5)":"linear-gradient(135deg, #c9a574 0%, #d4b589 100%)",border:"none",borderRadius:"10px",cursor:g?"not-allowed":"pointer",letterSpacing:"1px",textTransform:"uppercase",transition:"all 0.3s ease",boxShadow:"0 4px 12px rgba(201, 165, 116, 0.3)",opacity:g?.6:1},onMouseEnter:S=>{g||(S.currentTarget.style.transform="translateY(-2px)",S.currentTarget.style.boxShadow="0 6px 20px rgba(201, 165, 116, 0.5)")},onMouseLeave:S=>{g||(S.currentTarget.style.transform="translateY(0)",S.currentTarget.style.boxShadow="0 4px 12px rgba(201, 165, 116, 0.3)")},children:g?"Iniciando...":"Iniciar Sesión"})]}),w.jsx("div",{style:{marginTop:"48px",paddingTop:"24px",borderTop:"1px solid rgba(175, 179, 183, 0.2)",textAlign:"center"},children:w.jsx("p",{style:{fontSize:"13px",color:"#69818D",fontWeight:"400"},children:"© 2026 Big Artist Management S.L."})})]})})]})}function cy({onLogout:o,artistData:l}){return w.jsx("div",{style:{minHeight:"100vh",background:"linear-gradient(135deg, #0d1f23 0%, #1a2e35 100%)",padding:"40px"},children:w.jsxs("div",{style:{maxWidth:"1200px",margin:"0 auto"},children:[w.jsxs("div",{style:{marginBottom:"32px",display:"flex",justifyContent:"space-between",alignItems:"center"},children:[w.jsxs("h1",{style:{fontSize:"32px",fontWeight:"700",color:"#ffffff"},children:["Portal del Artista: ",l.name]}),w.jsx("button",{onClick:o,style:{padding:"10px 20px",background:"rgba(201, 165, 116, 0.1)",border:"1px solid rgba(201, 165, 116, 0.3)",borderRadius:"8px",color:"#c9a574",cursor:"pointer"},children:"Cerrar Sesión"})]}),w.jsxs("div",{style:{background:"rgba(42, 63, 63, 0.4)",border:"1px solid rgba(201, 165, 116, 0.2)",borderRadius:"16px",padding:"32px"},children:[w.jsx("h2",{style:{color:"#c9a574",marginBottom:"16px"},children:"Estadísticas"}),w.jsxs("p",{style:{color:"#AFB3B7"},children:["Email: ",l.email]}),w.jsxs("p",{style:{color:"#AFB3B7"},children:["Total Revenue: €",l.totalRevenue?.toFixed(2)||0]}),w.jsxs("p",{style:{color:"#AFB3B7"},children:["Total Streams: ",l.totalStreams?.toLocaleString()||0]})]})]})})}/**
+./src/utils/api.ts:    const response = await fetch(`${API_URL}/auth/login`, {
+./src/utils/api.ts
+No .env file
+No .env.production file
+total 104
+drwxr-xr-x 11 root root  4096 Feb 28 21:44 .
+drwxr-xr-x  6 root root  4096 Feb 28 21:52 ..
+-rw-r--r--  1 root root  4980 Feb 28 21:44 App.tsx
+-rw-r--r--  1 root root   303 Feb 28 21:44 Attributions.md
+-rw-r--r--  1 root root  6133 Feb 28 21:44 DEPLOYMENT.md
+drwxr-xr-x  2 root root  4096 Feb 28 21:44 assets
+drwxr-xr-x  4 root root  4096 Feb 28 21:44 components
+-rw-r--r--  1 root root  7008 Feb 28 21:44 deploy-complete.sh
+-rw-r--r--  1 root root  3834 Feb 28 21:44 deploy-frontend-only.sh
+-rw-r--r--  1 root root  6769 Feb 28 21:44 deploy-to-server.sh
+drwxr-xr-x  2 root root  4096 Feb 28 21:44 deployment
+drwxr-xr-x  2 root root  4096 Feb 28 21:44 guidelines
+drwxr-xr-x  2 root root  4096 Feb 28 21:44 imports
+-rw-r--r--  1 root root 11415 Feb 28 21:44 index.css
+-rw-r--r--  1 root root   172 Feb 28 21:44 main.tsx
+drwxr-xr-x  2 root root  4096 Feb 28 21:44 pages
+-rw-r--r--  1 root root  1436 Feb 28 21:44 routes.ts
+drwxr-xr-x  2 root root  4096 Feb 28 21:44 server
+drwxr-xr-x  2 root root  4096 Feb 28 21:44 styles
+drwxr-xr-x  2 root root  4096 Feb 28 21:51 utils
+root@ubuntu:/var/www/bigartist-source# # 1. Ver el contenido completo del archivo api.ts
+cat /var/www/bigartist-source/src/utils/api.ts
+
+# 2. Ver también si hay algún archivo de tipos o interfaces
+ls -la /var/www/bigartist-source/src/utils/
+
+# 3. Ver el vite.config para entender cómo se compila
+cat /var/www/bigartist-source/vite.config.ts 2>/dev/null || cat /var/www/bigartist-source/vite.config.js 2>/dev/null || echo "No vite config"
+// API Configuration
+const API_URL = (typeof import.meta !== 'undefined' && import.meta.env?.VITE_API_URL) || 'https://app.bigartist.es/api';
+
+// API Endpoints for data fetching
+export const API_ENDPOINTS = {
+  dashboard: '/dashboard',
+  contracts: '/contracts',
+  artists: '/artists',
+  tracks: '/tracks',
+  csvUploads: '/csv-uploads',
+  payments: '/payments',
+  disputes: '/disputes',
+  users: '/users',
+};
+
+// Generic API request function
+export const apiRequest = async (endpoint: string, options?: RequestInit) => {
+  const token = localStorage.getItem('auth_token');
+  
+  const config: RequestInit = {
+    ...options,
+    headers: {
+      'Content-Type': 'application/json',
+      ...(token && { 'Authorization': `Bearer ${token}` }),
+      ...options?.headers,
+    },
+  };
+
+  const response = await fetch(`${API_URL}${endpoint}`, config);
+  
+  if (!response.ok) {
+    const error = await response.json().catch(() => ({ message: 'Error en la petición' }));
+    throw new Error(error.message || 'Error en la petición');
+  }
+  
+  return response.json();
+};
+
+// Login function
+export const login = async (email: string, password: string) => {
+  try {
+    const response = await fetch(`${API_URL}/auth/login`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ email, password }),
+    });
+
+    const data = await response.json();
+    
+    if (!response.ok) {
+      throw new Error(data.message || 'Error al iniciar sesión');
+    }
+
+    return data;
+  } catch (error) {
+    if (error instanceof Error) {
+      throw error;
+    }
+    throw new Error('Error de conexión con el servidor');
+  }
+};
+
+// Verify token function
+export const verifyToken = async (token: string) => {
+  try {
+    const response = await fetch(`${API_URL}/auth/verify`, {
+      method: 'GET',
+      headers: {
+        'Authorization': `Bearer ${token}`,
+        'Content-Type': 'application/json',
+      },
+    });
+
+    const data = await response.json();
+    
+    if (!response.ok) {
+      throw new Error(data.message || 'Token inválido');
+    }
+
+    return data;
+  } catch (error) {
+    if (error instanceof Error) {
+      throw error;
+    }
+    throw new Error('Error de conexión con el servidor');
+  }
+};
+
+// Create user function (admin only)
+export const createUser = async (token: string, userData: {
+  email: string;
+  password: string;
+  name: string;
+  type?: string;
+}) => {
+  try {
+    const response = await fetch(`${API_URL}/users`, {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${token}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(userData),
+    });
+
+    const data = await response.json();
+    
+    if (!response.ok) {
+      throw new Error(data.message || 'Error al crear usuario');
+    }
+
+    return data;
+  } catch (error) {
+    if (error instanceof Error) {
+      throw error;
+    }
+    throw new Error('Error de conexión con el servidor');
+  }
+};total 20
+drwxr-xr-x  2 root root 4096 Feb 28 21:51 .
+drwxr-xr-x 11 root root 4096 Feb 28 21:44 ..
+-rw-r--r--  1 root root 2984 Feb 28 21:51 api.ts
+-rw-r--r--  1 root root 2974 Feb 28 21:51 api.ts.backup
+-rw-r--r--  1 root root  417 Feb 28 21:44 debug.ts
+
+  import { defineConfig } from 'vite';
+  import react from '@vitejs/plugin-react-swc';
+  import path from 'path';
+
+  export default defineConfig({
+    plugins: [react()],
+    resolve: {
+      extensions: ['.js', '.jsx', '.ts', '.tsx', '.json'],
+      alias: {
+        'sonner@2.0.3': 'sonner',
+        'figma:asset/aa0296e2522220bcfcda71f86c708cb2cbc616b9.png': path.resolve(__dirname, './src/assets/aa0296e2522220bcfcda71f86c708cb2cbc616b9.png'),
+        'figma:asset/0a2a9faa1b59d5fa1e388a2eec5b08498dd7a493.png': path.resolve(__dirname, './src/assets/0a2a9faa1b59d5fa1e388a2eec5b08498dd7a493.png'),
+        '@': path.resolve(__dirname, './src'),
+      },
+    },
+    build: {
+      target: 'esnext',
+      outDir: 'build',
+    },
+    server: {
+      port: 3000,
+      open: true,
+    },
+  });root@ubuntu:/var/www/bigartist-sou# 1. Modificar temporalmente el backend para loggear TODO lo que recibeecibe
+cat > /tmp/debug-login.js << 'EOF'
+app.post('/api/auth/login', async (req, res) => {
+  console.log('========== LOGIN REQUEST DEBUG ==========');
+  console.log('Headers:', JSON.stringify(req.headers, null, 2));
+  console.log('Body:', JSON.stringify(req.body, null, 2));
+  console.log('Email:', req.body.email);
+  console.log('Password:', req.body.password);
+  console.log('========================================');
+  // ... resto del código original
+});
+EOF
+
+# 2. Ver las líneas del server.js alrededor del login (líneas 35-65)
+sed -n '35,65p' /var/www/bigartist/server/server.js
+
+# 3. Agregar logging temporal al server.js justo después de la línea del POST
+cd /var/www/bigartist/server
+cp server.js server.js.backup2
+app.post('/api/auth/login', async (req, res) => {
+  try {
+    const { email, password } = req.body;
+    if (!email || !password) return res.status(400).json({ error: 'Email y contraseña requeridos' });
+    const [users] = await pool.query('SELECT * FROM users WHERE email = ? AND active = TRUE', [email]);
+    if (users.length === 0) return res.status(401).json({ error: 'Credenciales inválidas' });
+    const user = users[0];
+    const validPassword = await bcrypt.compare(password, user.password_hash);
+    if (!validPassword) return res.status(401).json({ error: 'Credenciales inválidas' });
+    await pool.query('UPDATE users SET last_login = NOW() WHERE id = ?', [user.id]);
+    const token = jwt.sign({ id: user.id, email: user.email, type: user.type }, JWT_SECRET, { expiresIn: '24h' });
+    res.json({ token, user: { id: user.id, email: user.email, name: user.name, type: user.type } });
+  } catch (error) {
+    console.error('Login error:', error);
+    res.status(500).json({ error: 'Error del servidor' });
+  }
+});
+
+app.get('/api/auth/me', authenticateToken, async (req, res) => {
+  try {
+    const [users] = await pool.query('SELECT id, email, name, type FROM users WHERE id = ?', [req.user.id]);
+    if (users.length === 0) return res.status(404).json({ error: 'Usuario no encontrado' });
+    res.json({ user: users[0] });
+  } catch (error) {
+    res.status(500).json({ error: 'Error del servidor' });
+  }
+});
+
+app.get('/api/health', (req, res) => {
+  res.json({ status: 'ok', timestamp: new Date().toISOString() });
+});
+root@ubuntu:/var/www/bigartist/server# 

@@ -1,0 +1,60 @@
+ls -la /var/www/bigartist/server/.env
+
+# 2. Ver el contenido del .env (sin usar !)
+cat /var/www/bigartist/server/.env
+
+# 3. Reiniciar PM2 para cargar el .env
+cd /var/www/bigartist/server
+pm2 restart bigartist-api
+
+# 4. Ver los logs para confirmar
+pm2 logs bigartist-api --lines 20
+
+# 5. Probar el login
+curl -X POST https://app.bigartist.es/api/auth/login \
+  -H "Content-Type: application/json" \
+  -d '{"email":"admin@bigartist.es","password":"Admin123!"}'
+-rw-r--r-- 1 root root 125 Feb 28 21:13 /var/www/bigartist/server/.env
+PORT=3001
+DB_HOST=localhost
+DB_USER=root
+DB_PASSWORD=BigArtist2018!@?
+DB_NAME=bigartist
+JWT_SECRET=bigartist-jwt-secret-2026
+Use --update-env to update environment variables
+[PM2] Applying action restartProcessId on app [bigartist-api](ids: [ 0 ])
+[PM2] [bigartist-api](0) ✓
+┌────┬────────────────────┬──────────┬──────┬───────────┬──────────┬──────────┐
+│ id │ name               │ mode     │ ↺    │ status    │ cpu      │ memory   │
+├────┼────────────────────┼──────────┼──────┼───────────┼──────────┼──────────┤
+│ 0  │ bigartist-api      │ fork     │ 1    │ online    │ 0%       │ 19.3mb   │
+└────┴────────────────────┴──────────┴──────┴───────────┴──────────┴──────────┘
+[TAILING] Tailing last 20 lines for [bigartist-api] process (change the value with --lines option)
+/root/.pm2/logs/bigartist-api-error.log last 20 lines:
+0|bigartis | Login error: Error: Access denied for user 'root'@'localhost'
+0|bigartis |     at PromisePool.query (/var/www/bigartist/server/node_modules/mysql2/lib/promise/pool.js:36:22)
+0|bigartis |     at /var/www/bigartist/server/server.js:39:32
+0|bigartis |     at Layer.handle [as handle_request] (/var/www/bigartist/server/node_modules/express/lib/router/layer.js:95:5)
+0|bigartis |     at next (/var/www/bigartist/server/node_modules/express/lib/router/route.js:149:13)
+0|bigartis |     at Route.dispatch (/var/www/bigartist/server/node_modules/express/lib/router/route.js:119:3)
+0|bigartis |     at Layer.handle [as handle_request] (/var/www/bigartist/server/node_modules/express/lib/router/layer.js:95:5)
+0|bigartis |     at /var/www/bigartist/server/node_modules/express/lib/router/index.js:284:15
+0|bigartis |     at Function.process_params (/var/www/bigartist/server/node_modules/express/lib/router/index.js:346:12)
+0|bigartis |     at next (/var/www/bigartist/server/node_modules/express/lib/router/index.js:280:10)
+0|bigartis |     at /var/www/bigartist/server/node_modules/body-parser/lib/read.js:137:5 {
+0|bigartis |   code: 'ER_ACCESS_DENIED_NO_PASSWORD_ERROR',
+0|bigartis |   errno: 1698,
+0|bigartis |   sql: undefined,
+0|bigartis |   sqlState: '28000',
+0|bigartis |   sqlMessage: "Access denied for user 'root'@'localhost'"
+0|bigartis | }
+
+/root/.pm2/logs/bigartist-api-out.log last 20 lines:
+0|bigartis | 🚀 BIGARTIST API running on port 3001
+0|bigartis | 🚀 BIGARTIST API running on port 3001
+0|bigartis | 🚀 BIGARTIST API running on port 3001
+0|bigartis | 🚀 BIGARTIST API running on port 3001
+0|bigartis | 🚀 BIGARTIST API running on port 3001
+
+0|bigartist-api  | 🚀 BIGARTIST API running on port 3001
+

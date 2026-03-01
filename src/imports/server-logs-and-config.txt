@@ -1,0 +1,106 @@
+Last login: Sat Feb 28 23:54:33 on ttys000
+/Users/aritzarrieta/.zprofile:1: no such file or directory: /opt/homebrew/bin/brew
+/Users/aritzarrieta/.zprofile:2: no such file or directory: /usr/local/bin/brew
+aritzarrieta@MBP-de-Aritz ~ % ssh root@94.143.141.241
+root@94.143.141.241's password: 
+Welcome to Ubuntu 24.04.4 LTS (GNU/Linux 6.8.0-101-generic x86_64)
+
+ * Documentation:  https://help.ubuntu.com
+ * Management:     https://landscape.canonical.com
+ * Support:        https://ubuntu.com/pro
+
+ System information as of Sun Mar  1 11:20:34 UTC 2026
+
+  System load:  0.0               Processes:             113
+  Usage of /:   4.2% of 76.45GB   Users logged in:       0
+  Memory usage: 41%               IPv4 address for ens6: 94.143.141.241
+  Swap usage:   0%
+
+ * Strictly confined Kubernetes makes edge and IoT secure. Learn how MicroK8s
+   just raised the bar for easy, resilient and secure K8s cluster deployment.
+
+   https://ubuntu.com/engage/secure-kubernetes-at-the-edge
+
+Expanded Security Maintenance for Applications is not enabled.
+
+0 updates can be applied immediately.
+
+Enable ESM Apps to receive additional future security updates.
+See https://ubuntu.com/esm or run: sudo pro status
+
+
+Last login: Sat Feb 28 22:54:51 2026 from 207.188.130.38
+root@ubuntu:~# # 1. Ver el index.html del frontend
+cat /var/www/bigartist/dist/index.html
+
+# 2. Ver la configuración de Nginx
+cat /etc/nginx/sites-available/bigartist
+
+# 3. Buscar en el código JS del frontend la URL de la API
+cd /var/www/bigartist/dist
+grep -o "https\?://[^\"']*/api" assets/*.js | head -5
+
+# 4. Verificar que el backend está corriendo
+pm2 list
+
+# 5. Probar el login desde el servidor (esto debería funcionar)
+curl -X POST https://app.bigartist.es/api/auth/login \
+  -H "Content-Type: application/json" \
+  -d '{"email":"admin@bigartist.es","password":"admin123"}'
+
+  <!DOCTYPE html>
+  <html lang="en">
+    <head>
+      <meta charset="UTF-8" />
+      <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <title>Bam Royalties System</title>
+      <script type="module" crossorigin src="/assets/index-CTOrjcN2.js"></script>
+      <link rel="stylesheet" crossorigin href="/assets/index-ClWTg1v2.css">
+    </head>
+
+    <body>
+      <div id="root"></div>
+    </body>
+  </html>
+  server {
+    listen 443 ssl http2;
+    server_name app.bigartist.es;
+
+    ssl_certificate /etc/letsencrypt/live/app.bigartist.es/fullchain.pem;
+    ssl_certificate_key /etc/letsencrypt/live/app.bigartist.es/privkey.pem;
+
+    # Frontend
+    root /var/www/bigartist/dist;
+    index index.html;
+
+    # API proxy - CORREGIDO con /api/ al final
+    location /api/ {
+        proxy_pass http://localhost:3001/api/;
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection 'upgrade';
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+        proxy_cache_bypass $http_upgrade;
+    }
+
+    # Frontend routing
+    location / {
+        try_files $uri $uri/ /index.html;
+    }
+}
+
+server {
+    listen 80;
+    server_name app.bigartist.es;
+    return 301 https://$server_name$request_uri;
+}
+https://app.bigartist.es/api
+┌────┬────────────────────┬──────────┬──────┬───────────┬──────────┬──────────┐
+│ id │ name               │ mode     │ ↺    │ status    │ cpu      │ memory   │
+├────┼────────────────────┼──────────┼──────┼───────────┼──────────┼──────────┤
+│ 0  │ bigartist-api      │ fork     │ 5    │ online    │ 0%       │ 66.7mb   │
+└────┴────────────────────┴──────────┴──────┴───────────┴──────────┴──────────┘
+{"token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZW1haWwiOiJhZG1pbkBiaWdhcnRpc3QuZXMiLCJ0eXBlIjoiYWRtaW4iLCJpYXQiOjE3NzIzNjQwNDQsImV4cCI6MTc3MjQ1MDQ0NH0.ClUuUDi8kvrDK-NTTt9vCAJly7gPCZ5JQ7fH1bQ1hy0","user":{"id":1,"email":"admin@bigartist.es","name":"Administrator","type":"admin"}}root@ubuntu:/var/www/bigartist/dist# 
