@@ -40,15 +40,22 @@ const JWT_SECRET = process.env.JWT_SECRET || 'bigartist-secret-key-change-in-pro
 const verifyToken = (req, res, next) => {
   const token = req.headers['authorization']?.replace('Bearer ', '');
   
+  console.log('🔐 Verificando token...');
+  console.log('📋 Headers recibidos:', req.headers['authorization']);
+  console.log('🔑 Token extraído:', token ? token.substring(0, 20) + '...' : 'NO TOKEN');
+  
   if (!token) {
+    console.log('❌ Token no proporcionado');
     return res.status(403).json({ success: false, message: 'Token no proporcionado' });
   }
 
   try {
     const decoded = jwt.verify(token, JWT_SECRET);
+    console.log('✅ Token válido para usuario:', decoded.id);
     req.userId = decoded.id;
     next();
   } catch (error) {
+    console.log('❌ Token inválido:', error.message);
     return res.status(401).json({ success: false, message: 'Token inválido' });
   }
 };

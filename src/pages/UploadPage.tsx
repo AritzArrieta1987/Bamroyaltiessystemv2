@@ -58,6 +58,15 @@ export function UploadPage() {
 
       const token = localStorage.getItem('authToken');
       
+      // Debug: Verificar el token
+      console.log('🔑 Token obtenido:', token);
+      console.log('📤 Enviando a:', `${API_URL}/royalties/import`);
+      
+      if (!token) {
+        toast.error('No hay sesión activa. Por favor, inicia sesión de nuevo.');
+        return;
+      }
+      
       const response = await fetch(`${API_URL}/royalties/import`, {
         method: 'POST',
         headers: {
@@ -67,6 +76,8 @@ export function UploadPage() {
       });
 
       const data = await response.json();
+      
+      console.log('📥 Respuesta del servidor:', data);
 
       if (data.success) {
         setUploadSuccess(true);

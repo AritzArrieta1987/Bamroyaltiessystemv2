@@ -1,0 +1,1151 @@
+Last login: Mon Mar  2 12:48:48 on ttys001
+/Users/aritzarrieta/.zprofile:1: no such file or directory: /opt/homebrew/bin/brew
+/Users/aritzarrieta/.zprofile:2: no such file or directory: /usr/local/bin/brew
+aritzarrieta@MBP-de-Aritz ~ % ssh root@94.143.141.241
+root@94.143.141.241's password: 
+Welcome to Ubuntu 24.04.4 LTS (GNU/Linux 6.8.0-101-generic x86_64)
+
+ * Documentation:  https://help.ubuntu.com
+ * Management:     https://landscape.canonical.com
+ * Support:        https://ubuntu.com/pro
+
+ System information as of Mon Mar  2 12:58:26 UTC 2026
+
+  System load:  0.0               Processes:             113
+  Usage of /:   5.6% of 76.45GB   Users logged in:       0
+  Memory usage: 46%               IPv4 address for ens6: 94.143.141.241
+  Swap usage:   0%
+
+ * Strictly confined Kubernetes makes edge and IoT secure. Learn how MicroK8s
+   just raised the bar for easy, resilient and secure K8s cluster deployment.
+
+   https://ubuntu.com/engage/secure-kubernetes-at-the-edge
+
+Expanded Security Maintenance for Applications is not enabled.
+
+0 updates can be applied immediately.
+
+Enable ESM Apps to receive additional future security updates.
+See https://ubuntu.com/esm or run: sudo pro status
+
+
+Last login: Mon Mar  2 11:49:26 2026 from 94.143.141.241
+root@ubuntu:~# cd /var/www/bigartist/server
+
+# 1. Ver el server.js actual (primeras 30 líneas)
+head -30 server.js
+
+# 2. Verificar el .env
+cat .env
+
+# 3. SOLUCIÓN: Agregar variables de entorno directamente a PM2
+pm2 delete bigartist-api
+
+# 4. Crear un archivo de configuración PM2
+cat > ecosystem.config.js << 'EOF'
+module.exports = {
+  apps: [{
+    name: 'bigartist-api',
+    script: './server.js',
+    env: {
+      NODE_ENV: 'production',
+      PORT: 3001,
+      DB_HOST: 'localhost',
+      DB_USER: 'root',
+      DB_PASSWORD: 'BigArtist2018!@?',
+      DB_NAME: 'bigartist_db',
+echo "=========================================="igArtist2024"}' \
+require('dotenv').config();
+const express = require('express');
+const mysql = require('mysql2/promise');
+const bcrypt = require('bcrypt');
+const cors = require('cors');
+
+const app = express();
+const PORT = process.env.PORT || 3001;
+
+// Middleware
+app.use(cors());
+app.use(express.json());
+
+// Configuración de MySQL
+const pool = mysql.createPool({
+  host: process.env.DB_HOST || 'localhost',
+  user: process.env.DB_USER || 'root',
+  password: process.env.DB_PASSWORD,
+  database: process.env.DB_NAME || 'bigartist_db',
+  waitForConnections: true,
+  connectionLimit: 10,
+  queueLimit: 0
+});
+
+// Verificar conexión
+pool.getConnection()
+  .then(connection => {
+    console.log('✅ Conexión a MySQL exitosa');
+    connection.release();
+  })
+DB_HOST=localhost
+DB_USER=root
+DB_PASSWORD=BigArtist2018!@?
+DB_NAME=bigartist_db
+PORT=3001
+JWT_SECRET=BigArtist2024_JWT_Secret_Key
+[PM2] Applying action deleteProcessId on app [bigartist-api](ids: [ 0 ])
+[PM2] [bigartist-api](0) ✓
+┌────┬────────────────────┬──────────┬──────┬───────────┬──────────┬──────────┐
+│ id │ name               │ mode     │ ↺    │ status    │ cpu      │ memory   │
+└────┴────────────────────┴──────────┴──────┴───────────┴──────────┴──────────┘
+[PM2][WARN] Applications bigartist-api not running, starting...
+[PM2] App [bigartist-api] launched (1 instances)
+┌────┬────────────────────┬──────────┬──────┬───────────┬──────────┬──────────┐
+│ id │ name               │ mode     │ ↺    │ status    │ cpu      │ memory   │
+├────┼────────────────────┼──────────┼──────┼───────────┼──────────┼──────────┤
+│ 0  │ bigartist-api      │ fork     │ 0    │ online    │ 0%       │ 14.3mb   │
+└────┴────────────────────┴──────────┴──────┴───────────┴──────────┴──────────┘
+[PM2] Saving current process list...
+[PM2] Successfully saved in /root/.pm2/dump.pm2
+[1] 67130
+[TAILING] Tailing last 20 lines for [bigartist-api] process (change the value with --lines option)
+/root/.pm2/logs/bigartist-api-error.log last 20 lines:
+0|bigartis | ❌ Error de conexión a MySQL: Access denied for user 'root'@'localhost' (using password: NO)
+0|bigartis | Error en login: Error: Access denied for user 'root'@'localhost' (using password: NO)
+0|bigartis |     at PromisePool.execute (/var/www/bigartist/server/node_modules/mysql2/lib/promise/pool.js:54:22)
+0|bigartis |     at /var/www/bigartist/server/server.js:44:32
+0|bigartis |     at Layer.handle [as handle_request] (/var/www/bigartist/server/node_modules/express/lib/router/layer.js:95:5)
+0|bigartis |     at next (/var/www/bigartist/server/node_modules/express/lib/router/route.js:149:13)
+0|bigartis |     at Route.dispatch (/var/www/bigartist/server/node_modules/express/lib/router/route.js:119:3)
+0|bigartis |     at Layer.handle [as handle_request] (/var/www/bigartist/server/node_modules/express/lib/router/layer.js:95:5)
+0|bigartis |     at /var/www/bigartist/server/node_modules/express/lib/router/index.js:284:15
+0|bigartis |     at Function.process_params (/var/www/bigartist/server/node_modules/express/lib/router/index.js:346:12)
+0|bigartis |     at next (/var/www/bigartist/server/node_modules/express/lib/router/index.js:280:10)
+0|bigartis |     at /var/www/bigartist/server/node_modules/body-parser/lib/read.js:137:5 {
+0|bigartis |   code: 'ER_ACCESS_DENIED_ERROR',
+0|bigartis |   errno: 1045,
+0|bigartis |   sql: undefined,
+0|bigartis |   sqlState: '28000',
+0|bigartis |   sqlMessage: "Access denied for user 'root'@'localhost' (using password: NO)"
+0|bigartis | }
+
+/root/.pm2/logs/bigartist-api-out.log last 20 lines:
+0|bigartis | API corriendo en puerto 3001
+0|bigartis | API corriendo en puerto 3001
+0|bigartis | ✅ Conexión a MySQL exitosa
+0|bigartis | API corriendo en puerto 3001
+0|bigartis | ✅ Conexión a MySQL exitosa
+0|bigartis | API corriendo en puerto 3001
+0|bigartis | ✅ Conexión a MySQL exitosa
+
+
+==========================================
+🧪 PROBANDO LOGIN...
+==========================================
+{"success":true,"user":{"id":1,"name":"Admin","email":"admin@bigartist.es","role":"admin","created_at":"2026-03-01T13:30:41.000Z"},"message":"Login exitoso"}
+
+==========================================
+✅ Si ves 'success: true', ¡TODO FUNCIONA!
+==========================================
+root@ubuntu:/var/www/bigartist/server# # 1. Crear las tablas en MySQL
+cd /var/www/bigartist/server
+mysql -u root -p'BigArtist2018!@?' < database/schema.sql
+
+# 2. Verificar que se crearon
+mysql -u root -p'BigArtist2018!@?' bigartist_db -e "SHOW TABLES;"
+
+# 3. Importar el CSV (esto tomará varios minutos)
+node scripts/importCSV.js ../imports/Oct2017_fullreport_big_artist_EU.csv
+
+echo ""
+echo "=========================================="
+echo "✅ COMPLETADO - Verificar estadísticas:"
+echo "=========================================="
+
+# 4. Ver estadísticas de la importación
+mysql -u root -p'BigArtist2018!@?' bigartist_db -e "
+SELECT 
+  (SELECT COUNT(*) FROM artists) as total_artists,
+  (SELECT COUNT(*) FROM tracks) as total_tracks,
+  (SELECT COUNT(*) FROM platforms) as total_platforms,
+  (SELECT COUNT(*) FROM royalties) as total_royalties,
+  (SELECT SUM(net_receipts) FROM royalties) as total_revenue;
+echo "==========================================""
+[1]+  Terminated              pm2 logs bigartist-api --lines 20
+-bash: database/schema.sql: No such file or directory
+mysql: [Warning] Using a password on the command line interface can be insecure.
++------------------------+
+| Tables_in_bigartist_db |
++------------------------+
+| royalties              |
+| users                  |
++------------------------+
+node:internal/modules/cjs/loader:1210
+  throw err;
+  ^
+
+Error: Cannot find module '/var/www/bigartist/server/scripts/importCSV.js'
+    at Module._resolveFilename (node:internal/modules/cjs/loader:1207:15)
+    at Module._load (node:internal/modules/cjs/loader:1038:27)
+    at Function.executeUserEntryPoint [as runMain] (node:internal/modules/run_main:164:12)
+    at node:internal/main/run_main_module:28:49 {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: []
+}
+
+Node.js v20.20.0
+
+==========================================
+✅ COMPLETADO - Verificar estadísticas:
+==========================================
+mysql: [Warning] Using a password on the command line interface can be insecure.
+ERROR 1146 (42S02) at line 2: Table 'bigartist_db.artists' doesn't exist
+
+==========================================
+🎯 Si ves números arriba, ¡TODO ESTÁ LISTO!
+==========================================
+root@ubuntu:/var/www/bigartist/server# cd /var/www/bigartist/server
+
+# 1. Crear directorio database
+mkdir -p database
+
+# 2. Crear schema.sql
+cat > database/schema.sql << 'EOF'
+-- BIGARTIST ROYALTIES SYSTEM - DATABASE SCHEMA
+-- Estructura completa de base de datos para gestión de royalties
+
+USE bigartist_db;
+
+-- Tabla: artists (artistas)
+CREATE TABLE IF NOT EXISTS artists (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  name VARCHAR(255) NOT NULL UNIQUE,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  INDEX idx_name (name)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- Tabla: tracks (canciones/pistas)
+CREATE TABLE IF NOT EXISTS tracks (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  title VARCHAR(255) NOT NULL,
+sv"o "2. node scripts/importCSV.js ../imports/Oct2017_fullreport_big_artist_EU.c
+✅ schema.sql creado
+✅ importCSV.js creado
+
+added 1 package, and audited 156 packages in 832ms
+
+23 packages are looking for funding
+  run `npm fund` for details
+
+3 high severity vulnerabilities
+
+To address all issues (including breaking changes), run:
+  npm audit fix --force
+
+Run `npm audit` for details.
+
+==========================================
+✅ ARCHIVOS CREADOS - Ahora ejecutar:
+==========================================
+-bash: !@?': event not found
+2. node scripts/importCSV.js ../imports/Oct2017_fullreport_big_artist_EU.csv
+root@ubuntu:/var/www/bigartist/server# # 1. Crear las tablas (escapando correctamente la contraseña)
+mysql -u root -p'BigArtist2018!@?' < database/schema.sql
+
+# 2. Verificar las tablas creadas
+mysql -u root -p'BigArtist2018!@?' bigartist_db -e "SHOW TABLES;"
+
+# 3. Verificar que existe el CSV
+ls -lh ../imports/Oct2017_fullreport_big_artist_EU.csv
+
+# 4. Importar el CSV (esto puede tardar varios minutos)
+echo ""
+echo "=========================================="
+echo "🚀 INICIANDO IMPORTACIÓN DEL CSV..."
+echo "=========================================="
+node scripts/importCSV.js ../imports/Oct2017_fullreport_big_artist_EU.csv
+
+# 5. Ver estadísticas finales
+echo ""
+echo "=========================================="
+echo "📊 ESTADÍSTICAS FINALES:"
+echo "=========================================="
+mysql -u root -p'BigArtist2018!@?' bigartist_db -e "
+SELECT 
+" (SELECT SUM(net_receipts) FROM royalty_details) as total_net_receipts;
+mysql: [Warning] Using a password on the command line interface can be insecure.
+mysql: [Warning] Using a password on the command line interface can be insecure.
++------------------------+
+| Tables_in_bigartist_db |
++------------------------+
+| artists                |
+| periods                |
+| platforms              |
+| royalties              |
+| royalty_details        |
+| royalty_summary        |
+| royalty_types          |
+| territories            |
+| tracks                 |
+| users                  |
++------------------------+
+ls: cannot access '../imports/Oct2017_fullreport_big_artist_EU.csv': No such file or directory
+
+==========================================
+🚀 INICIANDO IMPORTACIÓN DEL CSV...
+==========================================
+🚀 Iniciando importación de CSV...
+📁 Archivo: ../imports/Oct2017_fullreport_big_artist_EU.csv
+✅ Conectado a MySQL
+node:events:502
+      throw er; // Unhandled 'error' event
+      ^
+
+Error: ENOENT: no such file or directory, open '../imports/Oct2017_fullreport_big_artist_EU.csv'
+Emitted 'error' event on ReadStream instance at:
+    at emitErrorNT (node:internal/streams/destroy:169:8)
+    at emitErrorCloseNT (node:internal/streams/destroy:128:3)
+    at process.processTicksAndRejections (node:internal/process/task_queues:82:21) {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '../imports/Oct2017_fullreport_big_artist_EU.csv'
+}
+
+Node.js v20.20.0
+
+==========================================
+📊 ESTADÍSTICAS FINALES:
+==========================================
+mysql: [Warning] Using a password on the command line interface can be insecure.
++---------------+--------------+-----------------+-------------------+---------------------+-----------------------+--------------------+
+| total_artists | total_tracks | total_platforms | total_territories | total_royalty_types | total_royalty_details | total_net_receipts |
++---------------+--------------+-----------------+-------------------+---------------------+-----------------------+--------------------+
+|             0 |            0 |               0 |                 0 |                   0 |                     0 |               NULL |
++---------------+--------------+-----------------+-------------------+---------------------+-----------------------+--------------------+
+root@ubuntu:/var/www/bigartist/server# # Buscar el archivo CSV en el servidor
+echo "🔍 Buscando archivo CSV..."
+find /var/www/bigartist -name "*.csv" -type f 2>/dev/null
+
+echo ""
+echo "🔍 Buscando en /root..."
+find /root -name "*.csv" -type f 2>/dev/null
+
+echo ""
+echo "🔍 Listando directorio /var/www/bigartist/imports..."
+ls -lh /var/www/bigartist/imports/ 2>/dev/null || echo "❌ Directorio no existe" 
+
+echo ""
+echo "=========================================="
+echo "📁 ¿Dónde está el archivo CSV?"
+echo "=========================================="
+🔍 Buscando archivo CSV...
+
+🔍 Buscando en /root...
+
+🔍 Listando directorio /var/www/bigartist/imports...
+❌ Directorio no existe
+
+==========================================
+📁 ¿Dónde está el archivo CSV?
+==========================================
+root@ubuntu:/var/www/bigartist/server# [200~cd /var/www/bigartist/server
+[200~cd: command not found
+root@ubuntu:/var/www/bigartist/server# 
+root@ubuntu:/var/www/bigartist/server# # 1. Actualizar importCSV.js con el formato correcto
+root@ubuntu:/var/www/bigartist/server# cat > scripts/importCSV.js << 'EOFSCRIPT'
+> const fs = require('fs');
+> const readline = require('readline');
+> const mysql = require('mysql2/promise');
+> require('dotenv').config();
+> 
+> const dbConfig = {
+>   host: process.env.DB_HOST || 'localhost',
+>   user: process.env.DB_USER || 'root',
+>   password: process.env.DB_PASSWORD,
+>   database: process.env.DB_NAME || 'bigartist_db'
+> };
+> 
+> let connection;
+> 
+> const caches = {
+>   artists: new Map(),
+>   tracks: new Map(),
+>   platforms: new Map(),
+>   territories: new Map(),
+>   royalty_types: new Map(),
+>   periods: new Map()
+> };
+> 
+> // Parsear números europeos (1,234 -> 1.234)
+> function parseEuropeanNumber(str) {
+>   if (!str || str === '') return 0;
+>   return parseFloat(str.replace(',', '.'));
+> }
+> 
+> // Parsear período (2017M10 -> { year: 2017, month: 10 })
+> function parsePeriod(periodStr) {
+>   const match = periodStr.match(/(\d{4})M(\d+)/);
+>   if (!match) return { year: 2017, month: 10 };
+>   return { year: parseInt(match[1]), month: parseInt(match[2]) };
+> }
+> 
+> async function getOrCreateArtist(name) {
+>   if (!name || name === '') name = 'Unknown';
+>   if (caches.artists.has(name)) return caches.artists.get(name);
+>   
+>   const [rows] = await connection.execute('SELECT id FROM artists WHERE name = ?', [name]);
+>   if (rows.length > 0) {
+>     caches.artists.set(name, rows[0].id);
+>     return rows[0].id;
+>   }
+>   
+>   const [result] = await connection.execute('INSERT INTO artists (name) VALUES (?)', [name]);
+>   caches.artists.set(name, result.insertId);
+>   return result.insertId;
+> }
+> 
+> async function getOrCreateTrack(title, isrc, upc, artistId) {
+>   if (!title || title === '') title = 'Unknown';
+>   const key = `${title}_${isrc}_${artistId}`;
+>   if (caches.tracks.has(key)) return caches.tracks.get(key);
+>   
+>   const [rows] = await connection.execute(
+>     'SELECT id FROM tracks WHERE title = ? AND artist_id = ?',
+>     [title, artistId]
+>   );
+>   if (rows.length > 0) {
+>     caches.tracks.set(key, rows[0].id);
+>     return rows[0].id;
+>   }
+>   
+>   const [result] = await connection.execute(
+>     'INSERT INTO tracks (title, isrc, upc, artist_id) VALUES (?, ?, ?, ?)',
+>     [title, isrc || null, upc || null, artistId]
+>   );
+>   caches.tracks.set(key, result.insertId);
+>   return result.insertId;
+> }
+> 
+> async function getOrCreatePlatform(name) {
+>   if (!name || name === '') name = 'Unknown';
+>   if (caches.platforms.has(name)) return caches.platforms.get(name);
+>   
+>   const [rows] = await connection.execute('SELECT id FROM platforms WHERE name = ?', [name]);
+>   if (rows.length > 0) {
+>     caches.platforms.set(name, rows[0].id);
+>     return rows[0].id;
+>   }
+>   
+>   const [result] = await connection.execute('INSERT INTO platforms (name) VALUES (?)', [name]);
+>   caches.platforms.set(name, result.insertId);
+>   return result.insertId;
+> }
+> 
+> async function getOrCreateTerritory(code) {
+>   if (!code || code === '') code = 'XX';
+>   if (caches.territories.has(code)) return caches.territories.get(code);
+>   
+>   const [rows] = await connection.execute('SELECT id FROM territories WHERE code = ?', [code]);
+>   if (rows.length > 0) {
+>     caches.territories.set(code, rows[0].id);
+>     return rows[0].id;
+>   }
+>   
+>   const [result] = await connection.execute('INSERT INTO territories (code) VALUES (?)', [code]);
+>   caches.territories.set(code, result.insertId);
+>   return result.insertId;
+> }
+> 
+> async function getOrCreateRoyaltyType(name) {
+>   if (!name || name === '') name = 'Unknown';
+>   if (caches.royalty_types.has(name)) return caches.royalty_types.get(name);
+>   
+>   const [rows] = await connection.execute('SELECT id FROM royalty_types WHERE name = ?', [name]);
+>   if (rows.length > 0) {
+>     caches.royalty_types.set(name, rows[0].id);
+>     return rows[0].id;
+>   }
+>   
+>   const [result] = await connection.execute('INSERT INTO royalty_types (name) VALUES (?)', [name]);
+>   caches.royalty_types.set(name, result.insertId);
+>   return result.insertId;
+> }
+> 
+> async function getOrCreatePeriod(periodStr) {
+>   if (caches.periods.has(periodStr)) return caches.periods.get(periodStr);
+>   
+>   const { year, month } = parsePeriod(periodStr);
+>   const startDate = `${year}-${String(month).padStart(2, '0')}-01`;
+>   const endDate = new Date(year, month, 0);
+>   const endDateStr = endDate.toISOString().split('T')[0];
+>   
+>   const [rows] = await connection.execute(
+>     'SELECT id FROM periods WHERE year = ? AND month = ?',
+>     [year, month]
+>   );
+>   if (rows.length > 0) {
+>     caches.periods.set(periodStr, rows[0].id);
+>     return rows[0].id;
+>   }
+>   
+>   const [result] = await connection.execute(
+>     'INSERT INTO periods (start_date, end_date, year, month) VALUES (?, ?, ?, ?)',
+>     [startDate, endDateStr, year, month]
+>   );
+>   caches.periods.set(periodStr, result.insertId);
+>   return result.insertId;
+> }
+> 
+> async function importCSV(filePath) {
+>   try {
+>     console.log('🚀 Iniciando importación de CSV...');
+>     console.log(`📁 Archivo: ${filePath}`);
+>     
+>     connection = await mysql.createConnection(dbConfig);
+>     console.log('✅ Conectado a MySQL');
+>     
+>     const fileStream = fs.createReadStream(filePath);
+>     const rl = readline.createInterface({
+>       input: fileStream,
+>       crlfDelay: Infinity
+>     });
+>     
+>     let headers = [];
+>     let isFirstLine = true;
+>     let processed = 0;
+>     let errors = 0;
+>     
+>     for await (const line of rl) {
+>       if (isFirstLine) {
+>         headers = line.split(';').map(h => h.trim());
+>         console.log(`📋 Columnas detectadas: ${headers.length}`);
+>         isFirstLine = false;
+>         continue;
+>       }
+>       
+>       try {
+>         const values = line.split(';');
+>         const row = {};
+>         headers.forEach((header, index) => {
+>           row[header] = values[index] ? values[index].trim() : '';
+>         });
+>         
+>         const artistId = await getOrCreateArtist(row['Artist Name'] || row['Imprint Label']);
+>         const trackId = await getOrCreateTrack(
+>           row['Track Name'],
+>           row['ISRC'],
+>           row['Orchard UPC'],
+>           artistId
+>         );
+>         const platformId = await getOrCreatePlatform(row['DMS']);
+>         const territoryId = await getOrCreateTerritory(row['Territory']);
+>         const royaltyTypeId = await getOrCreateRoyaltyType(row['Trans Type']);
+>         const periodId = await getOrCreatePeriod(row['Period']);
+>         
+>         const quantity = parseInt(row['Quantity'] || 0);
+>         const netReceipts = parseEuropeanNumber(row['Label Share Net Receipts']);
+>         
+>         await connection.execute(
+>           `INSERT INTO royalty_details 
+>           (track_id, platform_id, territory_id, royalty_type_id, period_id, 
+>            quantity, revenue, commission, net_receipts)
+>           VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+>           [trackId, platformId, territoryId, royaltyTypeId, periodId, 
+>            quantity, netReceipts, 0, netReceipts]
+>         );
+>         
+>         processed++;
+>         if (processed % 100 === 0) {
+>           console.log(`⏳ Procesadas ${processed} filas...`);
+>         }
+>         
+>       } catch (error) {
+>         errors++;
+>         if (errors <= 5) {
+>           console.error(`❌ Error en fila ${processed + errors}: ${error.message}`);
+>         }
+>       }
+>     }
+>     
+>     console.log('');
+>     console.log('==========================================');
+>     console.log('✅ IMPORTACIÓN COMPLETADA');
+>     console.log('==========================================');
+>     console.log(`✅ Filas procesadas: ${processed}`);
+>     console.log(`❌ Errores: ${errors}`);
+>     console.log(`📊 Artistas: ${caches.artists.size}`);
+>     console.log(`🎵 Tracks: ${caches.tracks.size}`);
+>     console.log(`📱 Plataformas: ${caches.platforms.size}`);
+>     console.log(`🌍 Territorios: ${caches.territories.size}`);
+>     console.log('==========================================');
+>     
+>     await connection.end();
+>     
+>   } catch (error) {
+>     console.error('❌ Error fatal:', error);
+>     if (connection) await connection.end();
+>     process.exit(1);
+>   }
+> }
+> 
+> const csvFile = process.argv[2];
+> if (!csvFile) {
+>   console.error('❌ Uso: node importCSV.js <archivo.csv>');
+>   process.exit(1);
+> }
+> 
+> importCSV(csvFile);
+> EOFSCRIPT
+root@ubuntu:/var/www/bigartist/server# 
+root@ubuntu:/var/www/bigartist/server# echo "✅ Script actualizado"
+✅ Script actualizado
+root@ubuntu:/var/www/bigartist/server# echo ""
+
+root@ubuntu:/var/www/bigartist/server# echo "=========================================="
+==========================================
+root@ubuntu:/var/www/bigartist/server# echo "📤 AHORA COPIA Y PEGA TODO EL CSV"
+📤 AHORA COPIA Y PEGA TODO EL CSV
+root@ubuntu:/var/www/bigartist/server# echo "=========================================="~^C
+root@ubuntu:/var/www/bigartist/server# # En el servidor, crear el archivo CSV con todos los datos
+cd /var/www/bigartist/server
+
+# Descargar desde tu Mac usando SCP (ejecuta esto desde UNA NUEVA TERMINAL en tu Mac, NO en SSH)
+# En tu Mac, abre una nueva terminal y ejecuta:
+scp /ruta/a/Oct2017_fullreport_big_artist_EU-1.csv root@94.143.141.241:/var/www/bigartist/server/data.csv
+scp: stat local "/ruta/a/Oct2017_fullreport_big_artist_EU-1.csv": No such file or directory
+root@ubuntu:/var/www/bigartist/server# # 1. Conectar al servidor
+ssh root@94.143.141.241
+
+# 2. Ir al directorio del servidor
+cd /var/www/bigartist/server
+
+# 3. Hacer backup rápido (opcional pero recomendado)
+cp -r /var/www/bigartist/server /var/www/bigartist/server_backup_$(date +%Y%m%d_%H%M%S)
+
+# 4. Traer los últimos cambios de GitHub
+git pull origin main
+
+# 5. Instalar dependencias nuevas (multer)
+npm install
+
+# 6. Reiniciar el servidor con PM2
+pm2 restart bigartist-api
+
+# 7. Verificar que está funcionando
+pm2 logs bigartist-api --lines 20
+
+# 8. Probar el endpoint
+curl http://localhost:3001/api/health
+root@94.143.141.241's password: 
+Welcome to Ubuntu 24.04.4 LTS (GNU/Linux 6.8.0-101-generic x86_64)
+
+ * Documentation:  https://help.ubuntu.com
+ * Management:     https://landscape.canonical.com
+ * Support:        https://ubuntu.com/pro
+
+ System information as of Mon Mar  2 13:38:59 UTC 2026
+
+  System load:  0.04              Processes:             115
+  Usage of /:   5.7% of 76.45GB   Users logged in:       1
+  Memory usage: 46%               IPv4 address for ens6: 94.143.141.241
+  Swap usage:   0%
+
+ * Strictly confined Kubernetes makes edge and IoT secure. Learn how MicroK8s
+   just raised the bar for easy, resilient and secure K8s cluster deployment.
+
+   https://ubuntu.com/engage/secure-kubernetes-at-the-edge
+
+Expanded Security Maintenance for Applications is not enabled.
+
+0 updates can be applied immediately.
+
+Enable ESM Apps to receive additional future security updates.
+See https://ubuntu.com/esm or run: sudo pro status
+
+
+Last login: Mon Mar  2 12:58:27 2026 from 207.188.130.38
+root@ubuntu:~# # 2. Ir al directorio del servidor
+cd /var/www/bigartist/server
+
+# 3. Hacer backup rápido (opcional pero recomendado)
+cp -r /var/www/bigartist/server /var/www/bigartist/server_backup_$(date +%Y%m%d_%H%M%S)
+
+# 4. Traer los últimos cambios de GitHub
+git pull origin main
+
+# 5. Instalar dependencias nuevas (multer)
+npm install
+
+# 6. Reiniciar el servidor con PM2
+pm2 restart bigartist-api
+
+# 7. Verificar que está funcionando
+pm2 logs bigartist-api --lines 20
+
+# 8. Probar el endpoint
+curl http://localhost:3001/api/health
+remote: Enumerating objects: 56, done.
+remote: Counting objects: 100% (56/56), done.
+remote: Compressing objects: 100% (45/45), done.
+remote: Total 46 (delta 18), reused 0 (delta 0), pack-reused 0 (from 0)
+Unpacking objects: 100% (46/46), 81.11 KiB | 480.00 KiB/s, done.
+From github.com:AritzArrieta1987/Bamroyaltiessystemv2
+ * branch            main       -> FETCH_HEAD
+   1f5f7d1..2e36162  main       -> origin/main
+Updating 1f5f7d1..2e36162
+error: Your local changes to the following files would be overwritten by merge:
+	server/package-lock.json
+	server/package.json
+	server/server.js
+Please commit your changes or stash them before you merge.
+Aborting
+
+up to date, audited 156 packages in 659ms
+
+23 packages are looking for funding
+  run `npm fund` for details
+
+3 high severity vulnerabilities
+
+To address all issues (including breaking changes), run:
+  npm audit fix --force
+
+Run `npm audit` for details.
+Use --update-env to update environment variables
+[PM2] Applying action restartProcessId on app [bigartist-api](ids: [ 0 ])
+[PM2] [bigartist-api](0) ✓
+┌────┬────────────────────┬──────────┬──────┬───────────┬──────────┬──────────┐
+│ id │ name               │ mode     │ ↺    │ status    │ cpu      │ memory   │
+├────┼────────────────────┼──────────┼──────┼───────────┼──────────┼──────────┤
+│ 0  │ bigartist-api      │ fork     │ 1    │ online    │ 0%       │ 18.9mb   │
+└────┴────────────────────┴──────────┴──────┴───────────┴──────────┴──────────┘
+[TAILING] Tailing last 20 lines for [bigartist-api] process (change the value with --lines option)
+/root/.pm2/logs/bigartist-api-error.log last 20 lines:
+0|bigartis | ❌ Error de conexión a MySQL: Access denied for user 'root'@'localhost' (using password: NO)
+0|bigartis | Error en login: Error: Access denied for user 'root'@'localhost' (using password: NO)
+0|bigartis |     at PromisePool.execute (/var/www/bigartist/server/node_modules/mysql2/lib/promise/pool.js:54:22)
+0|bigartis |     at /var/www/bigartist/server/server.js:44:32
+0|bigartis |     at Layer.handle [as handle_request] (/var/www/bigartist/server/node_modules/express/lib/router/layer.js:95:5)
+0|bigartis |     at next (/var/www/bigartist/server/node_modules/express/lib/router/route.js:149:13)
+0|bigartis |     at Route.dispatch (/var/www/bigartist/server/node_modules/express/lib/router/route.js:119:3)
+0|bigartis |     at Layer.handle [as handle_request] (/var/www/bigartist/server/node_modules/express/lib/router/layer.js:95:5)
+0|bigartis |     at /var/www/bigartist/server/node_modules/express/lib/router/index.js:284:15
+0|bigartis |     at Function.process_params (/var/www/bigartist/server/node_modules/express/lib/router/index.js:346:12)
+0|bigartis |     at next (/var/www/bigartist/server/node_modules/express/lib/router/index.js:280:10)
+0|bigartis |     at /var/www/bigartist/server/node_modules/body-parser/lib/read.js:137:5 {
+0|bigartis |   code: 'ER_ACCESS_DENIED_ERROR',
+0|bigartis |   errno: 1045,
+0|bigartis |   sql: undefined,
+0|bigartis |   sqlState: '28000',
+0|bigartis |   sqlMessage: "Access denied for user 'root'@'localhost' (using password: NO)"
+0|bigartis | }
+
+/root/.pm2/logs/bigartist-api-out.log last 20 lines:
+0|bigartis | API corriendo en puerto 3001
+0|bigartis | API corriendo en puerto 3001
+0|bigartis | ✅ Conexión a MySQL exitosa
+0|bigartis | API corriendo en puerto 3001
+0|bigartis | ✅ Conexión a MySQL exitosa
+0|bigartis | API corriendo en puerto 3001
+0|bigartis | ✅ Conexión a MySQL exitosa
+
+0|bigartist-api  | API corriendo en puerto 3001
+0|bigartist-api  | ✅ Conexión a MySQL exitosa
+^C
+{"status":"ok","message":"API funcionando correctamente"}root@ubuntu:/var/www/bigartist/server# cd /var/www/bigartist/scd /var/www/bigartist/server
+echo "🔄 Reseteando cambios locales..."
+git reset --hard HEAD
+git clean -fd
+echo "📥 Descargando desde GitHub..."
+git pull origin main
+echo "📦 Instalando dependencias..."
+npm install
+echo "🔄 Reiniciando API..."
+pm2 restart bigartist-api
+echo "✅ Esperando 3 segundos..."
+sleep 3
+echo "📊 Estado del servidor:"
+pm2 status
+echo ""
+echo "🧪 Probando endpoint /api/health:"
+curl http://localhost:3001/api/health
+echo ""
+echo ""
+echo "🧪 Probando endpoint /api/royalties/import:"
+curl -X OPTIONS http://localhost:3001/api/royalties/import
+echo ""
+echo "✅ DEPLOY COMPLETADO"
+🔄 Reseteando cambios locales...
+HEAD is now at 1f5f7d1 Eliminar archivos que deben ser ignorados
+Removing database/
+Removing ecosystem.config.js
+Removing scripts/
+📥 Descargando desde GitHub...
+From github.com:AritzArrieta1987/Bamroyaltiessystemv2
+ * branch            main       -> FETCH_HEAD
+Updating 1f5f7d1..2e36162
+Fast-forward
+ .gitignore                                         |   30 -
+ server/package-lock.json                           | 1727 ----------
+ server/package.json                                |   17 -
+ server/server.js                                   |  120 -
+ src/COMANDOS-DEPLOY-CSV.md                         |  248 ++
+ src/COMANDOS-SSH-CSV-UPLOAD.txt                    |  282 ++
+ src/DEPLOY-AHORA.txt                               |  143 +
+ src/DEPLOY-COMPLETO.sh                             |  117 +
+ src/DEPLOY-CSV-UPLOAD.sh                           |   89 +
+ src/INSTRUCCIONES-UPLOAD-CSV.md                    |  255 ++
+ src/LEER-PRIMERO.md                                |  111 +
+ src/QUICK-DEPLOY.sh                                |   38 +
+ src/README-CSV-UPLOAD.md                           |  393 +++
+ src/RESUMEN-FUNCIONALIDAD-CSV.md                   |  370 +++
+ src/UPDATE-SERVER-JS.sh                            |   52 +
+ src/imports/Oct2017_fullreport_big_artist_EU-1.csv |   32 +
+ src/imports/Oct2017_fullreport_big_artist_EU.csv   |   32 +
+ src/imports/bigartist-api-config.md                |  324 ++
+ src/imports/bigartist-api-config.txt               |  205 ++
+ src/imports/env-setup-logs.txt                     |   89 +
+ src/imports/mysql-commands-1.txt                   |  300 ++
+ src/imports/mysql-commands.txt                     |  104 +
+ src/imports/mysql-db-commands-1.txt                |  452 +++
+ src/imports/mysql-db-commands.txt                  |  178 +
+ src/imports/pm2-config-error.txt                   |  148 +
+ src/imports/server-config-1.txt                    |  350 ++
+ src/imports/server-config-2.txt                    |  607 ++++
+ src/imports/server-config.txt                      |  250 ++
+ src/imports/server-deploy-log-1.txt                |   92 +
+ src/imports/server-deploy-log-2.txt                |  255 ++
+ src/imports/server-deploy-log-3.txt                |  313 ++
+ src/imports/server-deploy-log-4.txt                |  321 ++
+ src/imports/server-deploy-log-5.txt                | 3481 ++++++++++++++++++++
+ src/imports/server-log.txt                         |   60 +
+ src/pages/UploadPage.tsx                           |  272 +-
+ src/server/SETUP_INSTRUCTIONS.md                   |  191 ++
+ src/server/database/schema.sql                     |  143 +
+ src/server/package.json                            |    5 +-
+ src/server/scripts/importCSV.js                    |  286 ++
+ src/server/scripts/setup-database.sh               |   67 +
+ src/server/server.js                               |  395 ++-
+ src/utils/api.ts                                   |   15 +-
+ 42 files changed, 10920 insertions(+), 2039 deletions(-)
+ delete mode 100644 .gitignore
+ delete mode 100644 server/package-lock.json
+ delete mode 100644 server/package.json
+ delete mode 100644 server/server.js
+ create mode 100644 src/COMANDOS-DEPLOY-CSV.md
+ create mode 100644 src/COMANDOS-SSH-CSV-UPLOAD.txt
+ create mode 100644 src/DEPLOY-AHORA.txt
+ create mode 100644 src/DEPLOY-COMPLETO.sh
+ create mode 100644 src/DEPLOY-CSV-UPLOAD.sh
+ create mode 100644 src/INSTRUCCIONES-UPLOAD-CSV.md
+ create mode 100644 src/LEER-PRIMERO.md
+ create mode 100644 src/QUICK-DEPLOY.sh
+ create mode 100644 src/README-CSV-UPLOAD.md
+ create mode 100644 src/RESUMEN-FUNCIONALIDAD-CSV.md
+ create mode 100644 src/UPDATE-SERVER-JS.sh
+ create mode 100644 src/imports/Oct2017_fullreport_big_artist_EU-1.csv
+ create mode 100644 src/imports/Oct2017_fullreport_big_artist_EU.csv
+ create mode 100644 src/imports/bigartist-api-config.md
+ create mode 100644 src/imports/bigartist-api-config.txt
+ create mode 100644 src/imports/env-setup-logs.txt
+ create mode 100644 src/imports/mysql-commands-1.txt
+ create mode 100644 src/imports/mysql-commands.txt
+ create mode 100644 src/imports/mysql-db-commands-1.txt
+ create mode 100644 src/imports/mysql-db-commands.txt
+ create mode 100644 src/imports/pm2-config-error.txt
+ create mode 100644 src/imports/server-config-1.txt
+ create mode 100644 src/imports/server-config-2.txt
+ create mode 100644 src/imports/server-config.txt
+ create mode 100644 src/imports/server-deploy-log-1.txt
+ create mode 100644 src/imports/server-deploy-log-2.txt
+ create mode 100644 src/imports/server-deploy-log-3.txt
+ create mode 100644 src/imports/server-deploy-log-4.txt
+ create mode 100644 src/imports/server-deploy-log-5.txt
+ create mode 100644 src/imports/server-log.txt
+ create mode 100644 src/server/SETUP_INSTRUCTIONS.md
+ create mode 100644 src/server/database/schema.sql
+ create mode 100644 src/server/scripts/importCSV.js
+ create mode 100644 src/server/scripts/setup-database.sh
+📦 Instalando dependencias...
+npm error code ENOENT
+npm error syscall open
+npm error path /var/www/bigartist/server/package.json
+npm error errno -2
+npm error enoent Could not read package.json: Error: ENOENT: no such file or directory, open '/var/www/bigartist/server/package.json'
+npm error enoent This is related to npm not being able to find a file.
+npm error enoent
+npm error A complete log of this run can be found in: /root/.npm/_logs/2026-03-02T13_41_31_582Z-debug-0.log
+🔄 Reiniciando API...
+Use --update-env to update environment variables
+[PM2] Applying action restartProcessId on app [bigartist-api](ids: [ 0 ])
+[PM2] [bigartist-api](0) ✓
+┌────┬────────────────────┬──────────┬──────┬───────────┬──────────┬──────────┐
+│ id │ name               │ mode     │ ↺    │ status    │ cpu      │ memory   │
+├────┼────────────────────┼──────────┼──────┼───────────┼──────────┼──────────┤
+│ 0  │ bigartist-api      │ fork     │ 2    │ online    │ 0%       │ 21.1mb   │
+└────┴────────────────────┴──────────┴──────┴───────────┴──────────┴──────────┘
+✅ Esperando 3 segundos...
+📊 Estado del servidor:
+┌────┬────────────────────┬──────────┬──────┬───────────┬──────────┬──────────┐
+│ id │ name               │ mode     │ ↺    │ status    │ cpu      │ memory   │
+├────┼────────────────────┼──────────┼──────┼───────────┼──────────┼──────────┤
+│ 0  │ bigartist-api      │ fork     │ 17   │ errored   │ 0%       │ 0b       │
+└────┴────────────────────┴──────────┴──────┴───────────┴──────────┴──────────┘
+
+🧪 Probando endpoint /api/health:
+curl: (7) Failed to connect to localhost port 3001 after 0 ms: Couldn't connect to server
+
+
+🧪 Probando endpoint /api/royalties/import:
+curl: (7) Failed to connect to localhost port 3001 after 0 ms: Couldn't connect to server
+
+✅ DEPLOY COMPLETADO
+root@ubuntu:/var/www/bigartist/server# cd /var/www/bigartist
+
+# 1. Detener PM2
+pm2 delete bigartist-api
+
+# 2. Copiar los archivos del servidor desde src/ a la raíz
+cp -r src/server/* server/ 2>/dev/null || echo "Copiando archivos..."
+
+# 3. Verificar que package.json existe
+ls -la server/package.json
+
+# 4. Si NO existe, crear la estructura correctamente
+if [ ! -f "server/package.json" ]; then
+  echo "📦 Creando package.json..."
+  cat > server/package.json << 'EOF'
+{
+  "name": "bigartist-api",
+  "version": "1.0.0",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "nodemon server.js"
+  },
+  "dependencies": {
+pm2 logs bigartist-api --lines 30ist-api --env-file .env
+[PM2] Applying action deleteProcessId on app [bigartist-api](ids: [ 0 ])
+[PM2] [bigartist-api](0) ✓
+┌────┬────────────────────┬──────────┬──────┬───────────┬──────────┬──────────┐
+│ id │ name               │ mode     │ ↺    │ status    │ cpu      │ memory   │
+└────┴────────────────────┴──────────┴──────┴───────────┴──────────┴──────────┘
+-rw-r--r-- 1 root root 571 Mar  2 13:43 server/package.json
+npm warn deprecated multer@1.4.5-lts.2: Multer 1.x is impacted by a number of vulnerabilities, which have been patched in 2.x. You should upgrade to the latest 2.x version.
+
+added 44 packages, removed 57 packages, and audited 143 packages in 4s
+
+26 packages are looking for funding
+  run `npm fund` for details
+
+found 0 vulnerabilities
+-rw-r--r-- 1 root root 16019 Mar  2 13:43 server.js
+
+  error: unknown option `--env-file'
+
+[PM2] Saving current process list...
+[PM2][WARN] PM2 is not managing any process, skipping save...
+[PM2][WARN] To force saving use: pm2 save --force
+[TAILING] Tailing last 30 lines for [bigartist-api] process (change the value with --lines option)
+^C
+root@ubuntu:/var/www/bigartist/server# cd /var/www/bigartist/server
+
+# 1. Crear archivo ecosystem.config.js con las variables de entorno
+cat > ecosystem.config.js << 'EOF'
+module.exports = {
+  apps: [{
+    name: 'bigartist-api',
+    script: './server.js',
+    env: {
+      NODE_ENV: 'production',
+      PORT: 3001,
+      DB_HOST: 'localhost',
+      DB_USER: 'root',
+      DB_PASSWORD: 'BigArtist2018!@?',
+      DB_NAME: 'bigartist_db',
+      JWT_SECRET: 'BigArtist2024_JWT_Secret_Key'
+    }
+  }]
+};
+EOF
+
+# 2. Iniciar con PM2 usando el archivo de configuración
+pm2 start ecosystem.config.js
+
+echo "" OPTIONS http://localhost:3001/api/royalties/import
+[PM2][WARN] Applications bigartist-api not running, starting...
+[PM2] App [bigartist-api] launched (1 instances)
+┌────┬────────────────────┬──────────┬──────┬───────────┬──────────┬──────────┐
+│ id │ name               │ mode     │ ↺    │ status    │ cpu      │ memory   │
+├────┼────────────────────┼──────────┼──────┼───────────┼──────────┼──────────┤
+│ 0  │ bigartist-api      │ fork     │ 0    │ online    │ 0%       │ 17.5mb   │
+└────┴────────────────────┴──────────┴──────┴───────────┴──────────┴──────────┘
+[PM2] Saving current process list...
+[PM2] Successfully saved in /root/.pm2/dump.pm2
+┌────┬────────────────────┬──────────┬──────┬───────────┬──────────┬──────────┐
+│ id │ name               │ mode     │ ↺    │ status    │ cpu      │ memory   │
+├────┼────────────────────┼──────────┼──────┼───────────┼──────────┼──────────┤
+│ 0  │ bigartist-api      │ fork     │ 0    │ online    │ 0%       │ 66.2mb   │
+└────┴────────────────────┴──────────┴──────┴───────────┴──────────┴──────────┘
+[TAILING] Tailing last 30 lines for [bigartist-api] process (change the value with --lines option)
+/root/.pm2/logs/bigartist-api-error.log last 30 lines:
+0|bigartis |     at node:internal/main/run_main_module:28:49 {
+0|bigartis |   code: 'MODULE_NOT_FOUND',
+0|bigartis |   requireStack: []
+0|bigartis | }
+0|bigartis | Error: Cannot find module '/var/www/bigartist/server/server.js'
+0|bigartis |     at Module._resolveFilename (node:internal/modules/cjs/loader:1207:15)
+0|bigartis |     at Module._load (node:internal/modules/cjs/loader:1038:27)
+0|bigartis |     at Object.<anonymous> (/usr/lib/node_modules/pm2/lib/ProcessContainerFork.js:33:23)
+0|bigartis |     at Module._compile (node:internal/modules/cjs/loader:1521:14)
+0|bigartis |     at Module._extensions..js (node:internal/modules/cjs/loader:1623:10)
+0|bigartis |     at Module.load (node:internal/modules/cjs/loader:1266:32)
+0|bigartis |     at Module._load (node:internal/modules/cjs/loader:1091:12)
+0|bigartis |     at Function.executeUserEntryPoint [as runMain] (node:internal/modules/run_main:164:12)
+0|bigartis |     at node:internal/main/run_main_module:28:49 {
+0|bigartis |   code: 'MODULE_NOT_FOUND',
+0|bigartis |   requireStack: []
+0|bigartis | }
+0|bigartis | Error: Cannot find module '/var/www/bigartist/server/server.js'
+0|bigartis |     at Module._resolveFilename (node:internal/modules/cjs/loader:1207:15)
+0|bigartis |     at Module._load (node:internal/modules/cjs/loader:1038:27)
+0|bigartis |     at Object.<anonymous> (/usr/lib/node_modules/pm2/lib/ProcessContainerFork.js:33:23)
+0|bigartis |     at Module._compile (node:internal/modules/cjs/loader:1521:14)
+0|bigartis |     at Module._extensions..js (node:internal/modules/cjs/loader:1623:10)
+0|bigartis |     at Module.load (node:internal/modules/cjs/loader:1266:32)
+0|bigartis |     at Module._load (node:internal/modules/cjs/loader:1091:12)
+0|bigartis |     at Function.executeUserEntryPoint [as runMain] (node:internal/modules/run_main:164:12)
+0|bigartis |     at node:internal/main/run_main_module:28:49 {
+0|bigartis |   code: 'MODULE_NOT_FOUND',
+0|bigartis |   requireStack: []
+0|bigartis | }
+
+/root/.pm2/logs/bigartist-api-out.log last 30 lines:
+0|bigartis | API corriendo en puerto 3001
+0|bigartis | API corriendo en puerto 3001
+0|bigartis | ✅ Conexión a MySQL exitosa
+0|bigartis | API corriendo en puerto 3001
+0|bigartis | ✅ Conexión a MySQL exitosa
+0|bigartis | API corriendo en puerto 3001
+0|bigartis | ✅ Conexión a MySQL exitosa
+0|bigartis | API corriendo en puerto 3001
+0|bigartis | ✅ Conexión a MySQL exitosa
+0|bigartis | 🚀 Servidor corriendo en puerto 3001
+0|bigartis | 📊 Health check: http://localhost:3001/api/health
+
+
+🧪 Probando /api/health:
+{"status":"OK","timestamp":"2026-03-02T13:47:03.217Z"}
+
+🧪 Probando /api/royalties/import:
+
+root@ubuntu:/var/www/bigartist/server# curl -X POST http://localhost:3001/api/royalties/import \
+  -F "csv=@/dev/null" \
+  -H "Authorization: Bearer test"
+{"success":false,"message":"Token inválido"}root@ubuntu:/var/www/bigartist/server# ^C
+root@ubuntu:/var/www/bigartist/server# # 1. Hacer login y obtener el token
+TOKEN=$(curl -s -X POST http://localhost:3001/api/login \
+  -H "Content-Type: application/json" \
+  -d '{"email":"admin@bigartist.es","password":"admin123"}' \
+  | grep -o '"token":"[^"]*' | cut -d'"' -f4)
+
+echo "Token obtenido: $TOKEN"
+
+# 2. Probar el endpoint con el token real
+curl -X POST http://localhost:3001/api/royalties/import \
+  -F "csv=@/dev/null" \
+  -H "Authorization: Bearer $TOKEN"
+Token obtenido: 
+{"success":false,"message":"Token inválido"}root@ubuntu:/var/www/bigartist/server# ^C
+root@ubuntu:/var/www/bigartist/server# # Probar desde el dominio público
+curl https://app.bigartist.es/api/health
+root@ubuntu:/var/www/bigartist/server# console.log('Token guardado:', localStorage.getItem('authToken'));'Token guardado:', localStorage.getItem('authToken'));
+-bash: syntax error near unexpected token `'Token guardado:','
+root@ubuntu:/var/www/bigartist/server# # Conectar al servidor
+ssh root@94.143.141.241
+
+# Ir al directorio
+cd /var/www/bigartist/server
+
+# Ver el código actual del verifyToken
+grep -A 15 "const verifyToken" server.js
+
+# Actualizar el archivo server.js con los logs de debugging
+nano server.js
+root@94.143.141.241's password: 
+Welcome to Ubuntu 24.04.4 LTS (GNU/Linux 6.8.0-101-generic x86_64)
+
+ * Documentation:  https://help.ubuntu.com
+ * Management:     https://landscape.canonical.com
+ * Support:        https://ubuntu.com/pro
+
+ System information as of Mon Mar  2 13:58:39 UTC 2026
+
+  System load:  0.0               Processes:             118
+  Usage of /:   5.7% of 76.45GB   Users logged in:       1
+  Memory usage: 47%               IPv4 address for ens6: 94.143.141.241
+  Swap usage:   0%
+
+ * Strictly confined Kubernetes makes edge and IoT secure. Learn how MicroK8s
+   just raised the bar for easy, resilient and secure K8s cluster deployment.
+
+   https://ubuntu.com/engage/secure-kubernetes-at-the-edge
+
+Expanded Security Maintenance for Applications is not enabled.
+
+0 updates can be applied immediately.
+
+Enable ESM Apps to receive additional future security updates.
+See https://ubuntu.com/esm or run: sudo pro status
+
+
+Last login: Mon Mar  2 13:38:59 2026 from 94.143.141.241
+root@ubuntu:~# const verifyToken = (req, res, next) => {
+  const token = req.headers['authorization']?.replace('Bearer ', '');
+  
+  console.log('🔐 Verificando token...');
+  console.log('📋 Headers recibidos:', req.headers['authorization']);
+  console.log('🔑 Token extraído:', token ? token.substring(0, 20) + '...' : 'NO TOKEN');
+  
+  if (!token) {
+    console.log('❌ Token no proporcionado');
+    return res.status(403).json({ success: false, message: 'Token no proporcionado' });
+  }
+
+  try {
+    const decoded = jwt.verify(token, JWT_SECRET);
+    console.log('✅ Token válido para usuario:', decoded.id);
+    req.userId = decoded.id;
+    next();
+  } catch (error) {
+    console.log('❌ Token inválido:', error.message);
+    return res.status(401).json({ success: false, message: 'Token inválido' });
+  }
+};
+-bash: syntax error near unexpected token `('
+-bash: syntax error near unexpected token `('
+-bash: syntax error near unexpected token `'🔐 Verificando token...''
+-bash: syntax error near unexpected token `'📋 Headers recibidos:','
+-bash: syntax error near unexpected token `'🔑 Token extraído:','
+-bash: !token: event not found
+-bash: syntax error near unexpected token `'❌ Token no proporcionado''
+-bash: syntax error near unexpected token `('
+-bash: syntax error near unexpected token `}'
+Command 'try' not found, did you mean:
+  command 'trs' from deb konwert (1.8-13.2)
+  command 'tty' from deb coreutils (9.4-3ubuntu6.1)
+  command 'trf' from deb trf (4.09.1-6)
+  command 'tr' from deb coreutils (9.4-3ubuntu6.1)
+  command 'pry' from deb pry (0.14.2-1)
+  command 'trn' from deb trn4 (4.0-test77-16)
+  command 'tre' from deb tre-command (0.4.0-4)
+Try: apt install <deb name>
+-bash: syntax error near unexpected token `('
+-bash: syntax error near unexpected token `'✅ Token válido para usuario:','
+req.userId: command not found
+-bash: syntax error near unexpected token `;'
+-bash: syntax error near unexpected token `}'
+-bash: syntax error near unexpected token `'❌ Token inválido:','
+-bash: syntax error near unexpected token `('
+-bash: syntax error near unexpected token `}'
+-bash: syntax error near unexpected token `}'
+root@ubuntu:~# 

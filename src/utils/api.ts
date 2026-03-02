@@ -29,7 +29,7 @@ export const API_ENDPOINTS = {
 
 // Generic API request function
 export const apiRequest = async (endpoint: string, options?: RequestInit) => {
-  const token = localStorage.getItem('auth_token');
+  const token = localStorage.getItem('authToken'); // Cambiado de 'auth_token' a 'authToken'
   
   const config: RequestInit = {
     ...options,
