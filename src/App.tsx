@@ -1,98 +1,60 @@
 import { useState, useEffect } from 'react';
-import { RouterProvider, createBrowserRouter, Navigate } from 'react-router';
-import LoginPanel from './components/LoginPanel';
-import AdminLayout from './components/AdminLayout';
+import { RouterProvider } from 'react-router';
+import { router } from './routes';
+import LoginPanel from './imports/login-panel';
 import { Toaster } from './components/Toaster';
-import { HomePage } from './pages/HomePage';
-import { ArtistsPage } from './pages/ArtistsPage';
-import { CatalogPage } from './pages/CatalogPage';
-import { AddTrackPage } from './pages/AddTrackPage';
-import { ContractsPage } from './pages/ContractsPage';
-import { UploadPage } from './pages/UploadPage';
-import { FinancesPage } from './pages/FinancesPage';
-import { PhysicalSalesPage } from './pages/PhysicalSalesPage';
-import { ArtistPortalPage } from './pages/ArtistPortalPage';
 
-function App() {
+export default function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    // 🎨 DEMO MODE: Si estamos en Figma Make preview, saltar login
-    const isDemoMode = window.location.hostname.includes('figma') || window.location.hostname === 'localhost';
-    
-    if (isDemoMode) {
-      setIsLoggedIn(true);
-      setIsLoading(false);
-      return;
-    }
-    
+    // Verificar si hay una sesión activa al cargar la app
     const token = localStorage.getItem('authToken');
-    if (token) {
+    const user = localStorage.getItem('user');
+    
+    if (token && user) {
       setIsLoggedIn(true);
     }
+    
     setIsLoading(false);
   }, []);
 
-  const handleLogin = () => {
+  const handleLoginSuccess = () => {
     setIsLoggedIn(true);
   };
 
-  const handleLogout = () => {
-    localStorage.removeItem('authToken');
-    localStorage.removeItem('user');
-    setIsLoggedIn(false);
-    // Forzar navegación al home
-    window.location.href = '/';
-  };
-
+  // Mostrar loading mientras verifica la sesión
   if (isLoading) {
     return (
-      <div style={{ 
-        minHeight: '100vh', 
-        display: 'flex', 
-        alignItems: 'center', 
-        justifyContent: 'center',
-        background: '#1e2f3f'
+      <div style={{
+        minHeight: '100vh',
+        backgroundColor: '#0D1F23',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center'
       }}>
-        <div style={{ color: '#c9a574', fontSize: '18px' }}>Cargando...</div>
+        <div style={{
+          color: '#c9a574',
+          fontSize: '24px',
+          fontWeight: '600'
+        }}>
+          Cargando...
+        </div>
       </div>
     );
   }
 
+  // Mostrar LoginPanel si no está autenticado
   if (!isLoggedIn) {
-    return <LoginPanel onLoginSuccess={handleLogin} />;
+    return <LoginPanel onLoginSuccess={handleLoginSuccess} />;
   }
 
-  // ✅ Crear router con todas las rutas DESPUÉS del login
-  const router = createBrowserRouter([
-    {
-      path: "/",
-      element: <AdminLayout onLogout={handleLogout} />,
-      children: [
-        { index: true, element: <HomePage /> },
-        { path: "artists", element: <ArtistsPage /> },
-        { path: "catalog", element: <CatalogPage /> },
-        { path: "add-track", element: <AddTrackPage /> },
-        { path: "contracts", element: <ContractsPage /> },
-        { path: "upload", element: <UploadPage /> },
-        { path: "finances", element: <FinancesPage /> },
-        { path: "physical-sales", element: <PhysicalSalesPage /> },
-        { path: "artist-portal/:artistId", element: <ArtistPortalPage /> },
-      ],
-    },
-    {
-      path: "*",
-      element: <Navigate to="/" replace />,
-    },
-  ]);
-
+  // Mostrar la aplicación completa con router
   return (
     <>
-      <Toaster />
       <RouterProvider router={router} />
+      <Toaster />
     </>
   );
 }
-
-export default App;

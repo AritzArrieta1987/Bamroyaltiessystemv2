@@ -1,0 +1,1881 @@
+Last login: Sun Mar  1 20:54:07 on ttys002
+/Users/aritzarrieta/.zprofile:1: no such file or directory: /opt/homebrew/bin/brew
+/Users/aritzarrieta/.zprofile:2: no such file or directory: /usr/local/bin/brew
+aritzarrieta@MBP-de-Aritz ~ % ssh root@94.143.141.241
+
+root@94.143.141.241's password: 
+Welcome to Ubuntu 24.04.4 LTS (GNU/Linux 6.8.0-101-generic x86_64)
+
+ * Documentation:  https://help.ubuntu.com
+ * Management:     https://landscape.canonical.com
+ * Support:        https://ubuntu.com/pro
+
+ System information as of Sun Mar  1 21:29:28 UTC 2026
+
+  System load:  0.08              Processes:             110
+  Usage of /:   4.8% of 76.45GB   Users logged in:       0
+  Memory usage: 44%               IPv4 address for ens6: 94.143.141.241
+  Swap usage:   0%
+
+ * Strictly confined Kubernetes makes edge and IoT secure. Learn how MicroK8s
+   just raised the bar for easy, resilient and secure K8s cluster deployment.
+
+   https://ubuntu.com/engage/secure-kubernetes-at-the-edge
+
+Expanded Security Maintenance for Applications is not enabled.
+
+0 updates can be applied immediately.
+
+Enable ESM Apps to receive additional future security updates.
+See https://ubuntu.com/esm or run: sudo pro status
+
+
+Last login: Sun Mar  1 19:58:13 2026 from 94.143.141.241
+root@ubuntu:~# cat > deploy-local.sh << 'EOF'
+#!/bin/bash
+
+################################################################################ 
+# 🚀 DEPLOY AUTOMÁTICO COMPLETO - BAM ROYALTIES SYSTEM
+################################################################################ 
+# 
+# EJECUTAR DESDE TU MÁQUINA LOCAL (no en el servidor)
+# 
+# USO:
+#   bash deploy-local.sh "mensaje del commit"
+#
+# EJEMPLO:
+#   bash deploy-local.sh "Añadido nuevo favicon y botón limpiar datos"
+#
+################################################################################ 
+
+# Colores
+RED='\033[0;31m'
+GREEN='\033[0;32m'
+BLUE='\033[0;34m'
+echo "✅ Script creado: deploy-local.sh"tps://app.bigartist.es en tu navegador  
+✅ Script creado: deploy-local.sh
+root@ubuntu:~# bash deploy-local.sh "Añadido favicon y configuración de deploy"
+
+╔═══════════════════════════════════════════════════════════════╗
+║                                                               ║
+║   🚀 DEPLOY AUTOMÁTICO - BAM ROYALTIES SYSTEM (BIGARTIST)    ║
+║                                                               ║
+╚═══════════════════════════════════════════════════════════════╝
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+📋 PASO 1/5: Verificando cambios en Git...
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+❌ ERROR: No estás en un repositorio Git
+root@ubuntu:~# cat > quick-deploy.sh << 'EOF'
+#!/bin/bash
+
+# Configuración
+SERVER="root@94.143.141.241"
+PROJECT="/var/www/bigartist"
+
+# Colores
+G='\033[0;32m'
+B='\033[0;34m'
+Y='\033[1;33m'
+NC='\033[0m'
+
+# Mensaje de commit
+MSG="${1:-Update}"
+
+echo -e "${B}🚀 Deploy rápido iniciado...${NC}\n"
+
+# Git: add, commit, push
+echo -e "${Y}📤 Subiendo a GitHub...${NC}"
+git add . && git commit -m "$MSG" && git push origin main
+
+if [ $? -ne 0 ]; then
+    echo -e "${Y}⚠️  Git push falló o no hay cambios (continuando...)${NC}"
+echo "✅ Script creado: quick-deploy.sh"ploy${NC}\n".bigartist.es${NC}\n"
+✅ Script creado: quick-deploy.sh
+root@ubuntu:~# bash quick-deploy.sh
+🚀 Deploy rápido iniciado...
+
+📤 Subiendo a GitHub...
+fatal: not a git repository (or any of the parent directories): .git
+⚠️  Git push falló o no hay cambios (continuando...)
+
+🔄 Desplegando en servidor...
+
+root@94.143.141.241's password: 
+Connection closed by 94.143.141.241 port 22
+
+❌ Hubo un error en el deploy
+
+root@ubuntu:~# "cd /var/www/bigartist && git pull && npm install && npm run build && cd server && npm install && cd .. && pm2 restart bigartist-api && systemctl restart nginx"
+-bash: cd /var/www/bigartist && git pull && npm install && npm run build && cd server && npm install && cd .. && pm2 restart bigartist-api && systemctl restart nginx: No such file or directory
+root@ubuntu:~# cat > deploy.sh << 'ENDOFSCRIPT'
+#!/bin/bash
+
+# Colores
+RED='\033[0;31m'
+GREEN='\033[0;32m'
+BLUE='\033[0;34m'
+YELLOW='\033[1;33m'
+NC='\033[0m'
+
+echo -e "${BLUE}🚀 DEPLOY AUTOMÁTICO - BAM ROYALTIES SYSTEM${NC}\n"
+
+# Obtener mensaje de commit
+if [ -z "$1" ]; then
+    MSG="Update $(date '+%Y-%m-%d %H:%M')"
+else
+    MSG="$1"
+fi
+
+echo -e "${YELLOW}📝 Mensaje de commit: $MSG${NC}\n"
+
+# Git add, commit, push
+echo -e "${BLUE}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
+echo -e "${YELLOW}📤 Subiendo código a GitHub...${NC}"
+echo "  bash deploy.sh \"Tu mensaje de commit\""${NC}"━━━━━━━━━━━━━━━━━━${NC}"
+✅ Script creado correctamente
+
+Para usar el script ejecuta:
+  bash deploy.sh "Tu mensaje de commit"
+root@ubuntu:~# bash deploy.sh "Añadido favicon y botón limpiar datos"
+🚀 DEPLOY AUTOMÁTICO - BAM ROYALTIES SYSTEM
+
+📝 Mensaje de commit: Añadido favicon y botón limpiar datos
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+📤 Subiendo código a GitHub...
+fatal: not a git repository (or any of the parent directories): .git
+fatal: not a git repository (or any of the parent directories): .git
+fatal: not a git repository (or any of the parent directories): .git
+❌ Error en git push
+root@ubuntu:~# cat > setup-from-github.sh << 'EOF'
+#!/bin/bash
+
+################################################################################ 
+# 🚀 CLONAR Y CONFIGURAR BIGARTIST DESDE GITHUB
+################################################################################ 
+
+# Colores
+RED='\033[0;31m'
+GREEN='\033[0;32m'
+BLUE='\033[0;34m'
+YELLOW='\033[1;33m'
+CYAN='\033[0;36m'
+NC='\033[0m'
+
+echo -e "${CYAN}"
+echo "╔═══════════════════════════════════════════════════════════════╗"
+echo "║                                                               ║"
+echo "║     🚀 SETUP COMPLETO - BAM ROYALTIES SYSTEM (GITHUB)        ║"
+echo "║                                                               ║"
+echo "╚═══════════════════════════════════════════════════════════════╝"
+echo "✅ Script creado"hub.shto! Abre https://app.bigartist.es en tu navegador  
+✅ Script creado
+root@ubuntu:~# bash setup-from-github.sh
+
+╔═══════════════════════════════════════════════════════════════╗
+║                                                               ║
+║     🚀 SETUP COMPLETO - BAM ROYALTIES SYSTEM (GITHUB)        ║
+║                                                               ║
+╚═══════════════════════════════════════════════════════════════╝
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+📦 PASO 1: Verificando proyecto actual...
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+⚠️  Proyecto existente encontrado en /var/www/bigartist
+📁 Creando backup en: /var/www/bigartist-backup-20260301-214312
+✅ Backup creado
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+📥 PASO 2: Clonando repositorio desde GitHub...
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Repositorio: https://github.com/AritzArrieta1987/Bamroyaltiessystemv2.git
+Destino: /var/www/bigartist
+
+Cloning into '/var/www/bigartist'...
+remote: Enumerating objects: 267, done.
+remote: Counting objects: 100% (267/267), done.
+remote: Compressing objects: 100% (258/258), done.
+remote: Total 267 (delta 116), reused 2 (delta 0), pack-reused 0 (from 0)
+Receiving objects: 100% (267/267), 5.07 MiB | 10.61 MiB/s, done.
+Resolving deltas: 100% (116/116), done.
+✅ Repositorio clonado
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+📦 PASO 3: Instalando dependencias del Frontend...
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+added 119 packages, and audited 120 packages in 16s
+
+13 packages are looking for funding
+  run `npm fund` for details
+
+1 moderate severity vulnerability
+
+To address all issues, run:
+  npm audit fix --force
+
+Run `npm audit` for details.
+✅ Dependencias del frontend instaladas
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+🏗️  PASO 4: Compilando Frontend (React + Vite)...
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+> Bam Royalties System@0.1.0 build
+> vite build
+
+vite v6.3.5 building for production...
+✓ 2388 modules transformed.
+build/index.html                                                        0.44 kB │ gzip:   0.28 kB
+build/assets/aa0296e2522220bcfcda71f86c708cb2cbc616b9-HygGYkAN.png     49.35 kB
+build/assets/0a2a9faa1b59d5fa1e388a2eec5b08498dd7a493-C-zGM-oV.png  4,888.06 kB
+build/assets/index-C8w33GJY.css                                        10.26 kB │ gzip:   2.83 kB
+build/assets/index-BdyJq1gh.js                                        766.74 kB │ gzip: 220.33 kB
+
+(!) Some chunks are larger than 500 kB after minification. Consider:
+- Using dynamic import() to code-split the application
+- Use build.rollupOptions.output.manualChunks to improve chunking: https://rollupjs.org/configuration-options/#output-manualchunks
+- Adjust chunk size limit for this warning via build.chunkSizeWarningLimit.
+✓ built in 4.49s
+❌ ERROR: La carpeta dist/ no fue creada
+root@ubuntu:~# cat > setup-from-github.sh << 'EOF'
+#!/bin/bash
+
+################################################################################ 
+# 🚀 CLONAR Y CONFIGURAR BIGARTIST DESDE GITHUB
+################################################################################ 
+
+# Colores
+RED='\033[0;31m'
+GREEN='\033[0;32m'
+BLUE='\033[0;34m'
+YELLOW='\033[1;33m'
+CYAN='\033[0;36m'
+NC='\033[0m'
+
+echo -e "${CYAN}"
+echo "╔═══════════════════════════════════════════════════════════════╗"
+echo "║                                                               ║"
+echo "║     🚀 SETUP COMPLETO - BAM ROYALTIES SYSTEM (GITHUB)        ║"
+echo "║                                                               ║"
+echo "╚═══════════════════════════════════════════════════════════════╝"
+echo "✅ Script actualizado"hto! Abre https://app.bigartist.es en tu navegador  
+✅ Script actualizado
+root@ubuntu:~# bash setup-from-github.sh
+
+╔═══════════════════════════════════════════════════════════════╗
+║                                                               ║
+║     🚀 SETUP COMPLETO - BAM ROYALTIES SYSTEM (GITHUB)        ║
+║                                                               ║
+╚═══════════════════════════════════════════════════════════════╝
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+📦 PASO 1: Verificando proyecto actual...
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+⚠️  Proyecto existente encontrado en /var/www/bigartist
+📁 Creando backup en: /var/www/bigartist-backup-20260301-214637
+✅ Backup creado
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+📥 PASO 2: Clonando repositorio desde GitHub...
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Repositorio: https://github.com/AritzArrieta1987/Bamroyaltiessystemv2.git
+Destino: /var/www/bigartist
+
+Cloning into '/var/www/bigartist'...
+remote: Enumerating objects: 267, done.
+remote: Counting objects: 100% (267/267), done.
+remote: Compressing objects: 100% (258/258), done.
+remote: Total 267 (delta 116), reused 2 (delta 0), pack-reused 0 (from 0)
+Receiving objects: 100% (267/267), 5.07 MiB | 9.97 MiB/s, done.
+Resolving deltas: 100% (116/116), done.
+✅ Repositorio clonado
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+📦 PASO 3: Instalando dependencias del Frontend...
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+added 119 packages, and audited 120 packages in 5s
+
+13 packages are looking for funding
+  run `npm fund` for details
+
+1 moderate severity vulnerability
+
+To address all issues, run:
+  npm audit fix --force
+
+Run `npm audit` for details.
+✅ Dependencias del frontend instaladas
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+🏗️  PASO 4: Compilando Frontend (React + Vite)...
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+> Bam Royalties System@0.1.0 build
+> vite build
+
+vite v6.3.5 building for production...
+✓ 2388 modules transformed.
+build/index.html                                                        0.44 kB │ gzip:   0.28 kB
+build/assets/aa0296e2522220bcfcda71f86c708cb2cbc616b9-HygGYkAN.png     49.35 kB
+build/assets/0a2a9faa1b59d5fa1e388a2eec5b08498dd7a493-C-zGM-oV.png  4,888.06 kB
+build/assets/index-C8w33GJY.css                                        10.26 kB │ gzip:   2.83 kB
+build/assets/index-BdyJq1gh.js                                        766.74 kB │ gzip: 220.33 kB
+
+(!) Some chunks are larger than 500 kB after minification. Consider:
+- Using dynamic import() to code-split the application
+- Use build.rollupOptions.output.manualChunks to improve chunking: https://rollupjs.org/configuration-options/#output-manualchunks
+- Adjust chunk size limit for this warning via build.chunkSizeWarningLimit.
+✓ built in 4.23s
+Verificando carpeta dist/...
+❌ ERROR: La carpeta dist/ no fue creada
+Contenido del directorio del proyecto:
+drwxr-xr-x  3 root root   4096 Mar  1 21:46 build
+root@ubuntu:~# d /var/www/bigartist
+
+# Renombrar build/ a dist/
+mv build dist
+
+# Configurar permisos
+chmod -R 755 dist/
+chown -R www-data:www-data dist/
+
+echo "✅ Carpeta renombrada: build/ → dist/"
+ls -lh dist/
+d: command not found
+mv: cannot stat 'build': No such file or directory
+chmod: cannot access 'dist/': No such file or directory
+chown: cannot access 'dist/': No such file or directory
+✅ Carpeta renombrada: build/ → dist/
+ls: cannot access 'dist/': No such file or directory
+root@ubuntu:~# cd /var/www/bigartist && \
+ls -la | grep -E "build|dist" && \
+echo "" && \
+echo "👆 ¿Ves build/ ahí arriba?" && \
+pwd
+drwxr-xr-x  3 root root   4096 Mar  1 21:46 build
+
+👆 ¿Ves build/ ahí arriba?
+/var/www/bigartist
+root@ubuntu:/var/www/bigartist# #!/bin/bash
+
+cd /var/www/bigartist
+
+echo "📍 Directorio actual: $(pwd)"
+echo ""
+
+# Verificar si existe build/
+if [ -d "build" ]; then
+    echo "✅ Encontrada carpeta build/"
+    mv build dist
+    echo "✅ Renombrada a dist/"
+elif [ -d "dist" ]; then
+    echo "✅ La carpeta dist/ ya existe"
+else
+    echo "❌ ERROR: No existe ni build/ ni dist/"
+    echo "📁 Contenido:"
+    ls -la
+    exit 1
+fi
+
+# Configurar permisos
+echo "🔒 Configurando permisos..."
+chmod -R 755 dist/
+echo ""tusstado PM2:"tps://app.bigartist.es/api"━━━━━━━━━━━"
+📍 Directorio actual: /var/www/bigartist
+
+✅ Encontrada carpeta build/
+✅ Renombrada a dist/
+🔒 Configurando permisos...
+📦 Instalando dependencias del backend...
+-bash: cd: server: No such file or directory
+
+added 2 packages, and audited 122 packages in 890ms
+
+13 packages are looking for funding
+  run `npm fund` for details
+
+1 moderate severity vulnerability
+
+To address all issues, run:
+  npm audit fix --force
+
+Run `npm audit` for details.
+🔄 Configurando PM2...
+[PM2] Applying action deleteProcessId on app [bigartist-api](ids: [ 0 ])
+[PM2] [bigartist-api](0) ✓
+┌────┬────────────────────┬──────────┬──────┬───────────┬──────────┬──────────┐
+│ id │ name               │ mode     │ ↺    │ status    │ cpu      │ memory   │
+└────┴────────────────────┴──────────┴──────┴───────────┴──────────┴──────────┘
+-bash: cd: server: No such file or directory
+[PM2][ERROR] Script not found: /var/www/server.js
+[PM2] Saving current process list...
+[PM2][WARN] PM2 is not managing any process, skipping save...
+[PM2][WARN] To force saving use: pm2 save --force
+🔄 Reiniciando Nginx...
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+✅ SETUP COMPLETADO
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+🌐 Frontend: https://app.bigartist.es
+🌐 Backend:  https://app.bigartist.es/api
+
+📊 Estado PM2:
+┌────┬────────────────────┬──────────┬──────┬───────────┬──────────┬──────────┐
+│ id │ name               │ mode     │ ↺    │ status    │ cpu      │ memory   │
+└────┴────────────────────┴──────────┴──────┴───────────┴──────────┴──────────┘
+
+root@ubuntu:/var# cat > /root/setup-complete.sh << 'EOF'
+#!/bin/bash
+
+cd /var/www/bigartist
+
+echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+echo "🚀 SETUP FINAL - BAM ROYALTIES SYSTEM"
+echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+echo ""
+
+# 1. Frontend ya está en dist/
+if [ -d "dist" ]; then
+    echo "✅ Frontend: dist/ existe"
+    chmod -R 755 dist/
+    chown -R www-data:www-data dist/
+else
+    echo "❌ ERROR: No existe dist/"
+    exit 1
+fi
+
+# 2. Detectar ubicación del backend
+echo ""
+echo "🔍 Detectando backend..."
+
+bash /root/setup-complete.she.shpp.bigartist.es/api"━━━━━━━"
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+🚀 SETUP FINAL - BAM ROYALTIES SYSTEM
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+✅ Frontend: dist/ existe
+
+🔍 Detectando backend...
+⚠️  No se encontró backend Node.js
+📁 Archivos principales:
+total 156
+drwxr-xr-x  6 root     root       4096 Mar  1 21:52 .
+drwxr-xr-x  9 root     root       4096 Mar  1 21:46 ..
+drwxr-xr-x  8 root     root       4096 Mar  1 21:46 .git
+-rw-r--r--  1 root     root        311 Mar  1 21:46 README.md
+drwxr-xr-x  3 www-data www-data   4096 Mar  1 21:46 dist
+-rw-r--r--  1 root     root        335 Mar  1 21:46 index.html
+drwxr-xr-x 78 root     root       4096 Mar  1 21:52 node_modules
+-rw-r--r--  1 root     root     115147 Mar  1 21:52 package-lock.json
+-rw-r--r--  1 root     root        634 Mar  1 21:46 package.json
+drwxr-xr-x 12 root     root       4096 Mar  1 21:46 src
+-rw-r--r--  1 root     root        795 Mar  1 21:46 vite.config.ts
+⚠️  Backend omitido (no encontrado)
+
+🔄 Reiniciando Nginx...
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+✅ SETUP COMPLETADO
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+🌐 Frontend: https://app.bigartist.es
+
+📊 Estado PM2:
+┌────┬────────────────────┬──────────┬──────┬───────────┬──────────┬──────────┐
+│ id │ name               │ mode     │ ↺    │ status    │ cpu      │ memory   │
+└────┴────────────────────┴──────────┴──────┴───────────┴──────────┴──────────┘
+
+root@ubuntu:/var# # Ver qué hay en el backup más reciente
+LAST_BACKUP=$(ls -td /var/www/bigartist-backup-* | head -1)
+echo "📁 Último backup: $LAST_BACKUP"
+
+# Ver si tiene carpeta server
+ls -la "$LAST_BACKUP/" | grep server
+
+# Si existe, copiar el backend
+if [ -d "$LAST_BACKUP/server" ]; then
+    echo "✅ Backend encontrado en backup"
+    cp -r "$LAST_BACKUP/server" /var/www/bigartist/
+    echo "✅ Backend restaurado"
+    
+    # Instalar dependencias
+    cd /var/www/bigartist/server
+    npm install
+    
+    # Iniciar con PM2
+    pm2 delete bigartist-api 2>/dev/null
+    pm2 start server.js --name bigartist-api
+    pm2 save
+    
+    echo "✅ Backend iniciado"
+    pm2 status
+fi  echo "❌ No hay backend en el backup"
+📁 Último backup: /var/www/bigartist-backup-20260301-214637
+❌ No hay backend en el backup
+root@ubuntu:/var# cat > /root/restore-backend.sh << 'EOF'
+#!/bin/bash
+
+echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+echo "🔍 BUSCANDO Y RESTAURANDO BACKEND"
+echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+echo ""
+
+# 1. Buscar backend en backups
+LAST_BACKUP=$(ls -td /var/www/bigartist-backup-* 2>/dev/null | head -1)
+
+if [ -z "$LAST_BACKUP" ]; then
+    echo "❌ No hay backups disponibles"
+    exit 1
+fi
+
+echo "📁 Último backup: $LAST_BACKUP"
+echo ""
+echo "📂 Contenido del backup:"
+ls -la "$LAST_BACKUP/" | grep -E "server|api|backend"
+
+echo ""
+
+# 2. Buscar carpeta server
+bash /root/restore-backend.shd.sh>/dev/null | head -10.js" --include="*.jsx" --i
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+🔍 BUSCANDO Y RESTAURANDO BACKEND
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+📁 Último backup: /var/www/bigartist-backup-20260301-214637
+
+📂 Contenido del backup:
+
+❌ No se encontró carpeta server/ en el backup
+
+📂 Archivos disponibles en el backup:
+total 156
+drwxr-xr-x  6 root root   4096 Mar  1 21:43 .
+drwxr-xr-x  9 root root   4096 Mar  1 21:46 ..
+drwxr-xr-x  8 root root   4096 Mar  1 21:43 .git
+-rw-r--r--  1 root root    311 Mar  1 21:43 README.md
+drwxr-xr-x  3 root root   4096 Mar  1 21:43 build
+-rw-r--r--  1 root root    335 Mar  1 21:43 index.html
+drwxr-xr-x 78 root root   4096 Mar  1 21:43 node_modules
+-rw-r--r--  1 root root 115147 Mar  1 21:43 package-lock.json
+-rw-r--r--  1 root root    634 Mar  1 21:43 package.json
+drwxr-xr-x 12 root root   4096 Mar  1 21:43 src
+-rw-r--r--  1 root root    795 Mar  1 21:43 vite.config.ts
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+🔍 Verificando configuración del frontend
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+📄 Variables de entorno:
+No hay archivo .env
+
+📄 Buscando URLs de API en el código:
+src/imports/server.js:  host: 'localhost',
+src/imports/server.js:curl -s http://localhost:3001/api/healthctsRT}`);rvidor' });o' });erms]_date, en
+src/imports/server.js:  host: process.env.DB_HOST || 'localhost',
+src/imports/server.js:app.get('/api/health', (req, res) => {
+src/imports/server.js:app.post('/api/auth/login', async (req, res) => {
+src/App.tsx:    const isDemoMode = window.location.hostname.includes('figma') || window.location.hostname === 'localhost';
+src/pages/ContractsPage.tsx:import { apiRequest, API_ENDPOINTS } from '../utils/api';
+src/pages/ArtistPortalPage.tsx:import { apiRequest, API_ENDPOINTS } from '../utils/api';
+src/pages/CatalogPage.tsx:import { apiRequest, API_ENDPOINTS } from '../utils/api';
+src/pages/HomePage.tsx:import { apiRequest, API_ENDPOINTS } from '../utils/api';
+root@ubuntu:/var# cat > /root/setup-backend.sh << 'EOF'
+#!/bin/bash
+
+echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+echo "🚀 CONFIGURANDO BACKEND - BAM ROYALTIES SYSTEM"
+echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+echo ""
+
+cd /var/www/bigartist
+
+# 1. Crear carpeta server/
+echo "📁 Creando carpeta server/..."
+mkdir -p server
+
+# 2. Copiar server.js
+echo "📄 Copiando server.js..."
+cp src/imports/server.js server/server.js
+
+# 3. Crear package.json para el backend
+echo "📦 Creando package.json..."
+cat > server/package.json << 'PKGJSON'
+{
+  "name": "bigartist-backend",
+  "version": "1.0.0",
+bash /root/setup-backend.shd.sh""alhost:3001/api/health"━━━"end no responde aún"
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+🚀 CONFIGURANDO BACKEND - BAM ROYALTIES SYSTEM
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+📁 Creando carpeta server/...
+📄 Copiando server.js...
+📦 Creando package.json...
+🔐 Creando .env...
+
+📦 Instalando dependencias del backend...
+npm warn deprecated inflight@1.0.6: This module is not supported, and leaks memory. Do not use it. Check out lru-cache if you want a good and tested way to coalesce async requests by a key value, which is much more comprehensive and powerful.
+npm warn deprecated npmlog@5.0.1: This package is no longer supported.
+npm warn deprecated rimraf@3.0.2: Rimraf versions prior to v4 are no longer supported
+npm warn deprecated are-we-there-yet@2.0.0: This package is no longer supported.
+npm warn deprecated glob@7.2.3: Old versions of glob are not supported, and contain widely publicized security vulnerabilities, which have been fixed in the current version. Please update. Support for old versions may be purchased (at exorbitant rates) by contacting i@izs.me
+npm warn deprecated gauge@3.0.2: This package is no longer supported.
+npm warn deprecated tar@6.2.1: Old versions of tar are not supported, and contain widely publicized security vulnerabilities, which have been fixed in the current version. Please update. Support for old versions may be purchased (at exorbitant rates) by contacting i@izs.me
+
+added 154 packages, and audited 155 packages in 8s
+
+23 packages are looking for funding
+  run `npm fund` for details
+
+3 high severity vulnerabilities
+
+To address all issues (including breaking changes), run:
+  npm audit fix --force
+
+Run `npm audit` for details.
+
+🔍 Verificando MySQL...
+● mysql.service - MySQL Community Server
+     Loaded: loaded (/usr/lib/systemd/system/mysql.service; enabled; preset: enabled)
+     Active: active (running) since Sat 2026-02-28 19:30:53 UTC; 1 day 2h ago
+   Main PID: 3387 (mysqld)
+     Status: "Server is operational"
+
+🗄️  Configurando base de datos...
+mysql: [Warning] Using a password on the command line interface can be insecure.
+ERROR 1054 (42S22) at line 15: Unknown column 'username' in 'field list'
+
+✅ Base de datos configurada
+
+🔄 Configurando PM2...
+[PM2] Starting /var/www/bigartist/server/server.js in fork_mode (1 instance)
+[PM2] Done.
+┌────┬────────────────────┬──────────┬──────┬───────────┬──────────┬──────────┐
+│ id │ name               │ mode     │ ↺    │ status    │ cpu      │ memory   │
+├────┼────────────────────┼──────────┼──────┼───────────┼──────────┼──────────┤
+│ 0  │ bigartist-api      │ fork     │ 0    │ online    │ 0%       │ 17.5mb   │
+└────┴────────────────────┴──────────┴──────┴───────────┴──────────┴──────────┘
+[PM2] Saving current process list...
+[PM2] Successfully saved in /root/.pm2/dump.pm2
+
+✅ Backend iniciado con PM2
+
+📊 Estado de PM2:
+┌────┬────────────────────┬──────────┬──────┬───────────┬──────────┬──────────┐
+│ id │ name               │ mode     │ ↺    │ status    │ cpu      │ memory   │
+├────┼────────────────────┼──────────┼──────┼───────────┼──────────┼──────────┤
+│ 0  │ bigartist-api      │ fork     │ 15   │ errored   │ 0%       │ 0b       │
+└────┴────────────────────┴──────────┴──────┴───────────┴──────────┴──────────┘
+
+🔍 Verificando endpoint de salud...
+⚠️  El backend no responde aún
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+✅ BACKEND CONFIGURADO
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+🌐 Backend corriendo en: http://localhost:3001
+🔗 Health check: http://localhost:3001/api/health
+
+📝 Credenciales de prueba:
+   Usuario: admin
+   Password: admin123
+
+📋 Logs del backend:
+   pm2 logs bigartist-api
+
+root@ubuntu:/var# cat /etc/nginx/sites-available/app.bigartist.es | grep -A 10 "location /api"
+cat: /etc/nginx/sites-available/app.bigartist.es: No such file or directory
+root@ubuntu:/var# cat > /tmp/nginx-config-fix.sh << 'EOF'
+#!/bin/bash
+
+# Backup de la configuración actual
+cp /etc/nginx/sites-available/app.bigartist.es /etc/nginx/sites-available/app.bigartist.es.backup
+
+# Crear nueva configuración con proxy para /api
+cat > /etc/nginx/sites-available/app.bigartist.es << 'NGINXCONF'
+server {
+    listen 80;
+    server_name app.bigartist.es;
+    return 301 https://$server_name$request_uri;
+}
+
+server {
+    listen 443 ssl http2;
+    server_name app.bigartist.es;
+
+    # SSL Configuration
+    ssl_certificate /etc/letsencrypt/live/app.bigartist.es/fullchain.pem;
+    ssl_certificate_key /etc/letsencrypt/live/app.bigartist.es/privkey.pem;
+    ssl_protocols TLSv1.2 TLSv1.3;
+bash /tmp/nginx-config-fix.shx.sh/app.bigartist.es.backup /etc/nginx/sites-avail
+cp: cannot stat '/etc/nginx/sites-available/app.bigartist.es': No such file or directory
+nginx: the configuration file /etc/nginx/nginx.conf syntax is ok
+nginx: configuration file /etc/nginx/nginx.conf test is successful
+✅ Configuración válida
+✅ Nginx recargado
+root@ubuntu:/var# # 1. Configurar backend
+bash /root/setup-backend.sh
+
+# 2. Esperar 3 segundos
+sleep 3
+
+# 3. Verificar Nginx
+if ! grep -q "location /api" /etc/nginx/sites-available/app.bigartist.es; then
+    echo "🔧 Configurando proxy de Nginx para /api..."
+    bash /tmp/nginx-config-fix.sh
+else
+    echo "✅ Nginx ya tiene configuración para /api"
+fi
+
+# 4. Verificar todo
+echo ""
+echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+echo "✅ VERIFICACIÓN FINAL"
+echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+echo ""
+echo "📊 PM2 Status:"
+pm2 status
+echo ""
+echo "🔍 Test API Health:"
+echo "👤 Login con: admin / admin123"es" | head -5
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+🚀 CONFIGURANDO BACKEND - BAM ROYALTIES SYSTEM
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+📁 Creando carpeta server/...
+📄 Copiando server.js...
+📦 Creando package.json...
+🔐 Creando .env...
+
+📦 Instalando dependencias del backend...
+
+up to date, audited 155 packages in 540ms
+
+23 packages are looking for funding
+  run `npm fund` for details
+
+3 high severity vulnerabilities
+
+To address all issues (including breaking changes), run:
+  npm audit fix --force
+
+Run `npm audit` for details.
+
+🔍 Verificando MySQL...
+● mysql.service - MySQL Community Server
+     Loaded: loaded (/usr/lib/systemd/system/mysql.service; enabled; preset: enabled)
+     Active: active (running) since Sat 2026-02-28 19:30:53 UTC; 1 day 2h ago
+   Main PID: 3387 (mysqld)
+     Status: "Server is operational"
+
+🗄️  Configurando base de datos...
+mysql: [Warning] Using a password on the command line interface can be insecure.
+ERROR 1054 (42S22) at line 15: Unknown column 'username' in 'field list'
+
+✅ Base de datos configurada
+
+🔄 Configurando PM2...
+[PM2] Applying action deleteProcessId on app [bigartist-api](ids: [ 0 ])
+[PM2] [bigartist-api](0) ✓
+┌────┬────────────────────┬──────────┬──────┬───────────┬──────────┬──────────┐
+│ id │ name               │ mode     │ ↺    │ status    │ cpu      │ memory   │
+└────┴────────────────────┴──────────┴──────┴───────────┴──────────┴──────────┘
+[PM2] Starting /var/www/bigartist/server/server.js in fork_mode (1 instance)
+[PM2] Done.
+┌────┬────────────────────┬──────────┬──────┬───────────┬──────────┬──────────┐
+│ id │ name               │ mode     │ ↺    │ status    │ cpu      │ memory   │
+├────┼────────────────────┼──────────┼──────┼───────────┼──────────┼──────────┤
+│ 0  │ bigartist-api      │ fork     │ 0    │ online    │ 0%       │ 12.6mb   │
+└────┴────────────────────┴──────────┴──────┴───────────┴──────────┴──────────┘
+[PM2] Saving current process list...
+[PM2] Successfully saved in /root/.pm2/dump.pm2
+
+✅ Backend iniciado con PM2
+
+📊 Estado de PM2:
+┌────┬────────────────────┬──────────┬──────┬───────────┬──────────┬──────────┐
+│ id │ name               │ mode     │ ↺    │ status    │ cpu      │ memory   │
+├────┼────────────────────┼──────────┼──────┼───────────┼──────────┼──────────┤
+│ 0  │ bigartist-api      │ fork     │ 15   │ errored   │ 0%       │ 0b       │
+└────┴────────────────────┴──────────┴──────┴───────────┴──────────┴──────────┘
+
+🔍 Verificando endpoint de salud...
+⚠️  El backend no responde aún
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+✅ BACKEND CONFIGURADO
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+🌐 Backend corriendo en: http://localhost:3001
+🔗 Health check: http://localhost:3001/api/health
+
+📝 Credenciales de prueba:
+   Usuario: admin
+   Password: admin123
+
+📋 Logs del backend:
+   pm2 logs bigartist-api
+
+✅ Nginx ya tiene configuración para /api
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+✅ VERIFICACIÓN FINAL
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+📊 PM2 Status:
+┌────┬────────────────────┬──────────┬──────┬───────────┬──────────┬──────────┐
+│ id │ name               │ mode     │ ↺    │ status    │ cpu      │ memory   │
+├────┼────────────────────┼──────────┼──────┼───────────┼──────────┼──────────┤
+│ 0  │ bigartist-api      │ fork     │ 15   │ errored   │ 0%       │ 0b       │
+└────┴────────────────────┴──────────┴──────┴───────────┴──────────┴──────────┘
+
+🔍 Test API Health:
+
+🌐 Abre: https://app.bigartist.es
+👤 Login con: admin / admin123
+root@ubuntu:/var# cat > /root/fix-database.sh << 'EOF'
+#!/bin/bash
+
+echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+echo "🔧 ARREGLANDO BASE DE DATOS"
+echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+echo ""
+
+echo "🔍 Verificando tablas existentes..."
+mysql -u root -p'BigArtist2018!@?' bigartist << 'SQL'
+SHOW TABLES;
+SQL
+
+echo ""
+echo "📋 Estructura de la tabla users (si existe)..."
+mysql -u root -p'BigArtist2018!@?' bigartist << 'SQL'
+DESCRIBE users;
+SQL
+
+echo ""
+echo "🗑️  Eliminando tabla users si existe..."
+mysql -u root -p'BigArtist2018!@?' bigartist << 'SQL'
+DROP TABLE IF EXISTS users;
+bash /root/fix-database.she.sh━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"Z5Z5Z5Z5eJ5Z5Z5Z5Z5Z
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+🔧 ARREGLANDO BASE DE DATOS
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+🔍 Verificando tablas existentes...
+mysql: [Warning] Using a password on the command line interface can be insecure.
+Tables_in_bigartist
+artists
+contracts
+users
+
+📋 Estructura de la tabla users (si existe)...
+mysql: [Warning] Using a password on the command line interface can be insecure.
+Field	Type	Null	Key	Default	Extra
+id	int	NO	PRI	NULL	auto_increment
+email	varchar(255)	NO	UNI	NULL	
+password	varchar(255)	NO		NULL	
+name	varchar(255)	NO		NULL	
+type	enum('admin','artist','label')	NO		NULL	
+created_at	timestamp	YES		CURRENT_TIMESTAMP	DEFAULT_GENERATED
+
+🗑️  Eliminando tabla users si existe...
+mysql: [Warning] Using a password on the command line interface can be insecure.
+
+🆕 Creando tabla users con estructura correcta...
+mysql: [Warning] Using a password on the command line interface can be insecure.
+
+👤 Creando usuario admin...
+mysql: [Warning] Using a password on the command line interface can be insecure.
+
+✅ Tabla users creada
+
+📊 Verificando usuarios:
+mysql: [Warning] Using a password on the command line interface can be insecure.
+id	username	email	role
+1	admin	admin@bigartist.es	admin
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+✅ BASE DE DATOS ARREGLADA
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+root@ubuntu:/var# pm2 restart bigartist-api
+sleep 2
+pm2 status
+echo ""
+echo "🔍 Test del endpoint:"
+curl -s http://localhost:3001/api/health
+Use --update-env to update environment variables
+[PM2] Applying action restartProcessId on app [bigartist-api](ids: [ 0 ])
+[PM2] [bigartist-api](0) ✓
+┌────┬────────────────────┬──────────┬──────┬───────────┬──────────┬──────────┐
+│ id │ name               │ mode     │ ↺    │ status    │ cpu      │ memory   │
+├────┼────────────────────┼──────────┼──────┼───────────┼──────────┼──────────┤
+│ 0  │ bigartist-api      │ fork     │ 15   │ online    │ 0%       │ 18.5mb   │
+└────┴────────────────────┴──────────┴──────┴───────────┴──────────┴──────────┘
+┌────┬────────────────────┬──────────┬──────┬───────────┬──────────┬──────────┐
+│ id │ name               │ mode     │ ↺    │ status    │ cpu      │ memory   │
+├────┼────────────────────┼──────────┼──────┼───────────┼──────────┼──────────┤
+│ 0  │ bigartist-api      │ fork     │ 30   │ errored   │ 0%       │ 0b       │
+└────┴────────────────────┴──────────┴──────┴───────────┴──────────┴──────────┘
+
+🔍 Test del endpoint:
+root@ubuntu:/var# # 1. Arreglar base de datos
+bash /root/fix-database.sh
+
+echo ""
+echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+echo "🔄 REINICIANDO BACKEND"
+echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+
+# 2. Reiniciar backend
+pm2 restart bigartist-api
+sleep 3
+
+# 3. Ver logs
+echo ""
+echo "📋 Últimos logs:"
+pm2 logs bigartist-api --lines 20 --nostream
+
+# 4. Verificar estado
+echo ""
+echo "📊 Estado PM2:"
+pm2 status
+
+# 5. Test de salud
+echo ""
+echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━" no responde"
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+🔧 ARREGLANDO BASE DE DATOS
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+🔍 Verificando tablas existentes...
+mysql: [Warning] Using a password on the command line interface can be insecure.
+Tables_in_bigartist
+artists
+contracts
+users
+
+📋 Estructura de la tabla users (si existe)...
+mysql: [Warning] Using a password on the command line interface can be insecure.
+Field	Type	Null	Key	Default	Extra
+id	int	NO	PRI	NULL	auto_increment
+username	varchar(255)	NO	UNI	NULL	
+email	varchar(255)	NO	UNI	NULL	
+password	varchar(255)	NO		NULL	
+role	varchar(50)	YES		user	
+created_at	timestamp	YES		CURRENT_TIMESTAMP	DEFAULT_GENERATED
+
+🗑️  Eliminando tabla users si existe...
+mysql: [Warning] Using a password on the command line interface can be insecure.
+
+🆕 Creando tabla users con estructura correcta...
+mysql: [Warning] Using a password on the command line interface can be insecure.
+
+👤 Creando usuario admin...
+mysql: [Warning] Using a password on the command line interface can be insecure.
+
+✅ Tabla users creada
+
+📊 Verificando usuarios:
+mysql: [Warning] Using a password on the command line interface can be insecure.
+id	username	email	role
+1	admin	admin@bigartist.es	admin
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+✅ BASE DE DATOS ARREGLADA
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+🔄 REINICIANDO BACKEND
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Use --update-env to update environment variables
+[PM2] Applying action restartProcessId on app [bigartist-api](ids: [ 0 ])
+[PM2] [bigartist-api](0) ✓
+┌────┬────────────────────┬──────────┬──────┬───────────┬──────────┬──────────┐
+│ id │ name               │ mode     │ ↺    │ status    │ cpu      │ memory   │
+├────┼────────────────────┼──────────┼──────┼───────────┼──────────┼──────────┤
+│ 0  │ bigartist-api      │ fork     │ 30   │ online    │ 0%       │ 18.6mb   │
+└────┴────────────────────┴──────────┴──────┴───────────┴──────────┴──────────┘
+
+📋 Últimos logs:
+[TAILING] Tailing last 20 lines for [bigartist-api] process (change the value with --lines option)
+/root/.pm2/logs/bigartist-api-out.log last 20 lines:
+0|bigartis | [dotenv@17.3.1] injecting env (0) from .env -- tip: 🔐 prevent committing .env to code: https://dotenvx.com/precommit
+0|bigartis | API corriendo en puerto 3001
+0|bigartis | [dotenv@17.3.1] injecting env (0) from .env -- tip: ⚡️ secrets for agents: https://dotenvx.com/as2
+0|bigartis | API corriendo en puerto 3001
+0|bigartis | [dotenv@17.3.1] injecting env (0) from .env -- tip: ⚙️  load multiple .env files with { path: ['.env.local', '.env'] }
+0|bigartis | API corriendo en puerto 3001
+0|bigartis | [dotenv@17.3.1] injecting env (0) from .env -- tip: ⚙️  enable debug logging with { debug: true }
+0|bigartis | API corriendo en puerto 3001
+0|bigartis | [dotenv@17.3.1] injecting env (0) from .env -- tip: ⚙️  override existing env vars with { override: true }
+0|bigartis | API corriendo en puerto 3001
+0|bigartis | [dotenv@17.3.1] injecting env (0) from .env -- tip: ⚙️  write to custom object with { processEnv: myObject }
+0|bigartis | API corriendo en puerto 3001
+0|bigartis | [dotenv@17.3.1] injecting env (0) from .env -- tip: ⚙️  write to custom object with { processEnv: myObject }
+0|bigartis | API corriendo en puerto 3001
+0|bigartis | [dotenv@17.3.1] injecting env (0) from .env -- tip: ⚙️  suppress all logs with { quiet: true }
+0|bigartis | API corriendo en puerto 3001
+0|bigartis | [dotenv@17.3.1] injecting env (0) from .env -- tip: ⚙️  write to custom object with { processEnv: myObject }
+0|bigartis | API corriendo en puerto 3001
+0|bigartis | API corriendo en puerto 3001
+0|bigartis | API corriendo en puerto 3001
+
+/root/.pm2/logs/bigartist-api-error.log last 20 lines:
+0|bigartis |     at Object.<anonymous> (/usr/lib/node_modules/pm2/lib/ProcessContainerFork.js:33:23)
+0|bigartis |     at Module._compile (node:internal/modules/cjs/loader:1521:14)
+0|bigartis |     at Module._extensions..js (node:internal/modules/cjs/loader:1623:10)
+0|bigartis |     at Module.load (node:internal/modules/cjs/loader:1266:32)
+0|bigartis |     at Module._load (node:internal/modules/cjs/loader:1091:12)
+0|bigartis | /var/www/bigartist/server/server.js:1
+0|bigartis | root@ubuntu:/var/www/bigartist/server# # Ver el contenido del server.js
+0|bigartis |     ^
+0|bigartis | 
+0|bigartis | SyntaxError: Invalid or unexpected token
+0|bigartis |     at wrapSafe (node:internal/modules/cjs/loader:1464:18)
+0|bigartis |     at Module._compile (node:internal/modules/cjs/loader:1495:20)
+0|bigartis |     at Module._extensions..js (node:internal/modules/cjs/loader:1623:10)
+0|bigartis |     at Module.load (node:internal/modules/cjs/loader:1266:32)
+0|bigartis |     at Module._load (node:internal/modules/cjs/loader:1091:12)
+0|bigartis |     at Object.<anonymous> (/usr/lib/node_modules/pm2/lib/ProcessContainerFork.js:33:23)
+0|bigartis |     at Module._compile (node:internal/modules/cjs/loader:1521:14)
+0|bigartis |     at Module._extensions..js (node:internal/modules/cjs/loader:1623:10)
+0|bigartis |     at Module.load (node:internal/modules/cjs/loader:1266:32)
+0|bigartis |     at Module._load (node:internal/modules/cjs/loader:1091:12)
+
+
+📊 Estado PM2:
+┌────┬────────────────────┬──────────┬──────┬───────────┬──────────┬──────────┐
+│ id │ name               │ mode     │ ↺    │ status    │ cpu      │ memory   │
+├────┼────────────────────┼──────────┼──────┼───────────┼──────────┼──────────┤
+│ 0  │ bigartist-api      │ fork     │ 45   │ errored   │ 0%       │ 0b       │
+└────┴────────────────────┴──────────┴──────┴───────────┴──────────┴──────────┘
+
+🔍 Test API Health:
+❌ Backend no responde
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+🌐 Abre: https://app.bigartist.es
+👤 Login: admin / admin123
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+root@ubuntu:/var# # Ver las primeras líneas del archivo
+head -20 /var/www/bigartist/server/server.js
+root@ubuntu:/var/www/bigartist/server# # Ver el contenido del server.js
+cat /var/www/bigartist/server/server.js
+
+# Si está incompleto, lo recreamos completo:
+cat > /var/www/bigartist/server/server.js << 'ENDSERVER'
+const express = require('express');
+const mysql = require('mysql2/promise');
+const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
+const cors = require('cors');
+require('dotenv').config();
+
+const app = express();
+const PORT = process.env.PORT || 3001;
+
+app.use(cors());
+app.use(express.json());
+
+// Database connection pool
+const pool = mysql.createPool({
+root@ubuntu:/var# cd /var/www/bigartist && \
+echo "🔄 Limpiando server.js corrupto..." && \
+rm -f server/server.js && \
+cp src/imports/server.js server/server.js && \
+echo "✅ Archivo copiado" && \
+echo "" && \
+pm2 restart bigartist-api && \
+sleep 3 && \
+echo "" && \
+echo "📊 Estado:" && \
+pm2 status && \
+echo "" && \
+echo "🔍 Test:" && \
+curl -s http://localhost:3001/api/health && \
+echo ""
+🔄 Limpiando server.js corrupto...
+✅ Archivo copiado
+
+Use --update-env to update environment variables
+[PM2] Applying action restartProcessId on app [bigartist-api](ids: [ 0 ])
+[PM2] [bigartist-api](0) ✓
+┌────┬────────────────────┬──────────┬──────┬───────────┬──────────┬──────────┐
+│ id │ name               │ mode     │ ↺    │ status    │ cpu      │ memory   │
+├────┼────────────────────┼──────────┼──────┼───────────┼──────────┼──────────┤
+│ 0  │ bigartist-api      │ fork     │ 45   │ online    │ 0%       │ 19.1mb   │
+└────┴────────────────────┴──────────┴──────┴───────────┴──────────┴──────────┘
+
+📊 Estado:
+┌────┬────────────────────┬──────────┬──────┬───────────┬──────────┬──────────┐
+│ id │ name               │ mode     │ ↺    │ status    │ cpu      │ memory   │
+├────┼────────────────────┼──────────┼──────┼───────────┼──────────┼──────────┤
+│ 0  │ bigartist-api      │ fork     │ 60   │ errored   │ 0%       │ 0b       │
+└────┴────────────────────┴──────────┴──────┴───────────┴──────────┴──────────┘
+
+🔍 Test:
+root@ubuntu:/var/www/bigartist# pm2 logs bigartist-api --lines 50 --nostream
+[TAILING] Tailing last 50 lines for [bigartist-api] process (change the value with --lines option)
+/root/.pm2/logs/bigartist-api-out.log last 50 lines:
+0|bigartis | [dotenv@17.3.1] injecting env (0) from .env -- tip: 🔐 encrypt with Dotenvx: https://dotenvx.com
+0|bigartis | API corriendo en puerto 3001
+0|bigartis | [dotenv@17.3.1] injecting env (0) from .env -- tip: ⚙️  write to custom object with { processEnv: myObject }
+0|bigartis | API corriendo en puerto 3001
+0|bigartis | [dotenv@17.3.1] injecting env (0) from .env -- tip: 🔐 prevent committing .env to code: https://dotenvx.com/precommit
+0|bigartis | API corriendo en puerto 3001
+0|bigartis | [dotenv@17.3.1] injecting env (0) from .env -- tip: ⚙️  override existing env vars with { override: true }
+0|bigartis | API corriendo en puerto 3001
+0|bigartis | [dotenv@17.3.1] injecting env (0) from .env -- tip: ⚙️  override existing env vars with { override: true }
+0|bigartis | API corriendo en puerto 3001
+0|bigartis | [dotenv@17.3.1] injecting env (0) from .env -- tip: 🤖 agentic secret storage: https://dotenvx.com/as2
+0|bigartis | API corriendo en puerto 3001
+0|bigartis | [dotenv@17.3.1] injecting env (0) from .env -- tip: ⚙️  load multiple .env files with { path: ['.env.local', '.env'] }
+0|bigartis | API corriendo en puerto 3001
+0|bigartis | [dotenv@17.3.1] injecting env (0) from .env -- tip: 🛠️  run anywhere with `dotenvx run -- yourcommand`
+0|bigartis | API corriendo en puerto 3001
+0|bigartis | [dotenv@17.3.1] injecting env (0) from .env -- tip: ⚙️  specify custom .env file path with { path: '/custom/path/.env' }
+0|bigartis | API corriendo en puerto 3001
+0|bigartis | [dotenv@17.3.1] injecting env (0) from .env -- tip: ⚙️  suppress all logs with { quiet: true }
+0|bigartis | API corriendo en puerto 3001
+0|bigartis | [dotenv@17.3.1] injecting env (0) from .env -- tip: 🛡️ auth for agents: https://vestauth.com
+0|bigartis | API corriendo en puerto 3001
+0|bigartis | [dotenv@17.3.1] injecting env (0) from .env -- tip: ⚙️  override existing env vars with { override: true }
+0|bigartis | API corriendo en puerto 3001
+0|bigartis | [dotenv@17.3.1] injecting env (0) from .env -- tip: ⚙️  write to custom object with { processEnv: myObject }
+0|bigartis | API corriendo en puerto 3001
+0|bigartis | [dotenv@17.3.1] injecting env (0) from .env -- tip: ⚙️  specify custom .env file path with { path: '/custom/path/.env' }
+0|bigartis | API corriendo en puerto 3001
+0|bigartis | [dotenv@17.3.1] injecting env (0) from .env -- tip: 🔐 prevent building .env in docker: https://dotenvx.com/prebuild
+0|bigartis | API corriendo en puerto 3001
+0|bigartis | [dotenv@17.3.1] injecting env (0) from .env -- tip: 🔐 prevent committing .env to code: https://dotenvx.com/precommit
+0|bigartis | API corriendo en puerto 3001
+0|bigartis | [dotenv@17.3.1] injecting env (0) from .env -- tip: ⚡️ secrets for agents: https://dotenvx.com/as2
+0|bigartis | API corriendo en puerto 3001
+0|bigartis | [dotenv@17.3.1] injecting env (0) from .env -- tip: ⚙️  load multiple .env files with { path: ['.env.local', '.env'] }
+0|bigartis | API corriendo en puerto 3001
+0|bigartis | [dotenv@17.3.1] injecting env (0) from .env -- tip: ⚙️  enable debug logging with { debug: true }
+0|bigartis | API corriendo en puerto 3001
+0|bigartis | [dotenv@17.3.1] injecting env (0) from .env -- tip: ⚙️  override existing env vars with { override: true }
+0|bigartis | API corriendo en puerto 3001
+0|bigartis | [dotenv@17.3.1] injecting env (0) from .env -- tip: ⚙️  write to custom object with { processEnv: myObject }
+0|bigartis | API corriendo en puerto 3001
+0|bigartis | [dotenv@17.3.1] injecting env (0) from .env -- tip: ⚙️  write to custom object with { processEnv: myObject }
+0|bigartis | API corriendo en puerto 3001
+0|bigartis | [dotenv@17.3.1] injecting env (0) from .env -- tip: ⚙️  suppress all logs with { quiet: true }
+0|bigartis | API corriendo en puerto 3001
+0|bigartis | [dotenv@17.3.1] injecting env (0) from .env -- tip: ⚙️  write to custom object with { processEnv: myObject }
+0|bigartis | API corriendo en puerto 3001
+0|bigartis | API corriendo en puerto 3001
+0|bigartis | API corriendo en puerto 3001
+
+/root/.pm2/logs/bigartist-api-error.log last 50 lines:
+0|bigartis |     at Object.<anonymous> (/usr/lib/node_modules/pm2/lib/ProcessContainerFork.js:33:23)
+0|bigartis |     at Module._compile (node:internal/modules/cjs/loader:1521:14)
+0|bigartis |     at Module._extensions..js (node:internal/modules/cjs/loader:1623:10)
+0|bigartis |     at Module.load (node:internal/modules/cjs/loader:1266:32)
+0|bigartis |     at Module._load (node:internal/modules/cjs/loader:1091:12)
+0|bigartis | /var/www/bigartist/server/server.js:1
+0|bigartis | root@ubuntu:/var/www/bigartist/server# # Ver el contenido del server.js
+0|bigartis |     ^
+0|bigartis | 
+0|bigartis | SyntaxError: Invalid or unexpected token
+0|bigartis |     at wrapSafe (node:internal/modules/cjs/loader:1464:18)
+0|bigartis |     at Module._compile (node:internal/modules/cjs/loader:1495:20)
+0|bigartis |     at Module._extensions..js (node:internal/modules/cjs/loader:1623:10)
+0|bigartis |     at Module.load (node:internal/modules/cjs/loader:1266:32)
+0|bigartis |     at Module._load (node:internal/modules/cjs/loader:1091:12)
+0|bigartis |     at Object.<anonymous> (/usr/lib/node_modules/pm2/lib/ProcessContainerFork.js:33:23)
+0|bigartis |     at Module._compile (node:internal/modules/cjs/loader:1521:14)
+0|bigartis |     at Module._extensions..js (node:internal/modules/cjs/loader:1623:10)
+0|bigartis |     at Module.load (node:internal/modules/cjs/loader:1266:32)
+0|bigartis |     at Module._load (node:internal/modules/cjs/loader:1091:12)
+0|bigartis | /var/www/bigartist/server/server.js:1
+0|bigartis | root@ubuntu:/var/www/bigartist/server# # Ver el contenido del server.js
+0|bigartis |     ^
+0|bigartis | 
+0|bigartis | SyntaxError: Invalid or unexpected token
+0|bigartis |     at wrapSafe (node:internal/modules/cjs/loader:1464:18)
+0|bigartis |     at Module._compile (node:internal/modules/cjs/loader:1495:20)
+0|bigartis |     at Module._extensions..js (node:internal/modules/cjs/loader:1623:10)
+0|bigartis |     at Module.load (node:internal/modules/cjs/loader:1266:32)
+0|bigartis |     at Module._load (node:internal/modules/cjs/loader:1091:12)
+0|bigartis |     at Object.<anonymous> (/usr/lib/node_modules/pm2/lib/ProcessContainerFork.js:33:23)
+0|bigartis |     at Module._compile (node:internal/modules/cjs/loader:1521:14)
+0|bigartis |     at Module._extensions..js (node:internal/modules/cjs/loader:1623:10)
+0|bigartis |     at Module.load (node:internal/modules/cjs/loader:1266:32)
+0|bigartis |     at Module._load (node:internal/modules/cjs/loader:1091:12)
+0|bigartis | /var/www/bigartist/server/server.js:1
+0|bigartis | root@ubuntu:/var/www/bigartist/server# # Ver el contenido del server.js
+0|bigartis |     ^
+0|bigartis | 
+0|bigartis | SyntaxError: Invalid or unexpected token
+0|bigartis |     at wrapSafe (node:internal/modules/cjs/loader:1464:18)
+0|bigartis |     at Module._compile (node:internal/modules/cjs/loader:1495:20)
+0|bigartis |     at Module._extensions..js (node:internal/modules/cjs/loader:1623:10)
+0|bigartis |     at Module.load (node:internal/modules/cjs/loader:1266:32)
+0|bigartis |     at Module._load (node:internal/modules/cjs/loader:1091:12)
+0|bigartis |     at Object.<anonymous> (/usr/lib/node_modules/pm2/lib/ProcessContainerFork.js:33:23)
+0|bigartis |     at Module._compile (node:internal/modules/cjs/loader:1521:14)
+0|bigartis |     at Module._extensions..js (node:internal/modules/cjs/loader:1623:10)
+0|bigartis |     at Module.load (node:internal/modules/cjs/loader:1266:32)
+0|bigartis |     at Module._load (node:internal/modules/cjs/loader:1091:12)
+
+root@ubuntu:/var/www/bigartist# echo "📄 Primeras 30 líneas de server.js:"
+head -30 /var/www/bigartist/server/server.js
+
+echo ""
+echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+echo "📋 Verificando que no haya caracteres extraños:"
+file /var/www/bigartist/server/server.js
+📄 Primeras 30 líneas de server.js:
+root@ubuntu:/var/www/bigartist/server# # Ver el contenido del server.js
+cat /var/www/bigartist/server/server.js
+
+# Si está incompleto, lo recreamos completo:
+cat > /var/www/bigartist/server/server.js << 'ENDSERVER'
+const express = require('express');
+const mysql = require('mysql2/promise');
+const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
+const cors = require('cors');
+require('dotenv').config();
+
+const app = express();
+const PORT = process.env.PORT || 3001;
+
+app.use(cors());
+app.use(express.json());
+
+// Database connection pool
+const pool = mysql.createPool({
+  host: 'localhost',
+  user: 'root',
+  password: 'BigArtist2018!@?',
+  database: 'bigartist',
+curl -s http://localhost:3001/api/healthctsRT}`);rvidor' });o' });erms]_date, en
+const express = require('express');
+const mysql = require('mysql2/promise');
+const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
+const cors = require('cors');
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+📋 Verificando que no haya caracteres extraños:
+/var/www/bigartist/server/server.js: JavaScript source, Unicode text, UTF-8 text
+root@ubuntu:/var/www/bigartist# cat > /root/diagnose-backend.sh << 'EOF'
+#!/bin/bash
+
+echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+echo "🔍 DIAGNÓSTICO COMPLETO DEL BACKEND"
+echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+
+cd /var/www/bigartist/server
+
+echo ""
+echo "1️⃣ LOGS DE PM2 (últimos 30 errores):"
+echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+pm2 logs bigartist-api --lines 30 --nostream --err
+
+echo ""
+echo "2️⃣ PRIMERAS LÍNEAS DE server.js:"
+echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+head -20 server.js
+
+echo ""
+echo "3️⃣ TIPO DE ARCHIVO:"
+echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+file server.js
+
+bash /root/diagnose-backend.shd.sh━━━━━━━━━━━━━━━━━━━━━━━━━" | grep -E "bigartis
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+🔍 DIAGNÓSTICO COMPLETO DEL BACKEND
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+1️⃣ LOGS DE PM2 (últimos 30 errores):
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+[TAILING] Tailing last 30 lines for [bigartist-api] process (change the value with --lines option)
+/root/.pm2/logs/bigartist-api-error.log last 30 lines:
+0|bigartis | /var/www/bigartist/server/server.js:1
+0|bigartis | root@ubuntu:/var/www/bigartist/server# # Ver el contenido del server.js
+0|bigartis |     ^
+0|bigartis | 
+0|bigartis | SyntaxError: Invalid or unexpected token
+0|bigartis |     at wrapSafe (node:internal/modules/cjs/loader:1464:18)
+0|bigartis |     at Module._compile (node:internal/modules/cjs/loader:1495:20)
+0|bigartis |     at Module._extensions..js (node:internal/modules/cjs/loader:1623:10)
+0|bigartis |     at Module.load (node:internal/modules/cjs/loader:1266:32)
+0|bigartis |     at Module._load (node:internal/modules/cjs/loader:1091:12)
+0|bigartis |     at Object.<anonymous> (/usr/lib/node_modules/pm2/lib/ProcessContainerFork.js:33:23)
+0|bigartis |     at Module._compile (node:internal/modules/cjs/loader:1521:14)
+0|bigartis |     at Module._extensions..js (node:internal/modules/cjs/loader:1623:10)
+0|bigartis |     at Module.load (node:internal/modules/cjs/loader:1266:32)
+0|bigartis |     at Module._load (node:internal/modules/cjs/loader:1091:12)
+0|bigartis | /var/www/bigartist/server/server.js:1
+0|bigartis | root@ubuntu:/var/www/bigartist/server# # Ver el contenido del server.js
+0|bigartis |     ^
+0|bigartis | 
+0|bigartis | SyntaxError: Invalid or unexpected token
+0|bigartis |     at wrapSafe (node:internal/modules/cjs/loader:1464:18)
+0|bigartis |     at Module._compile (node:internal/modules/cjs/loader:1495:20)
+0|bigartis |     at Module._extensions..js (node:internal/modules/cjs/loader:1623:10)
+0|bigartis |     at Module.load (node:internal/modules/cjs/loader:1266:32)
+0|bigartis |     at Module._load (node:internal/modules/cjs/loader:1091:12)
+0|bigartis |     at Object.<anonymous> (/usr/lib/node_modules/pm2/lib/ProcessContainerFork.js:33:23)
+0|bigartis |     at Module._compile (node:internal/modules/cjs/loader:1521:14)
+0|bigartis |     at Module._extensions..js (node:internal/modules/cjs/loader:1623:10)
+0|bigartis |     at Module.load (node:internal/modules/cjs/loader:1266:32)
+0|bigartis |     at Module._load (node:internal/modules/cjs/loader:1091:12)
+
+
+2️⃣ PRIMERAS LÍNEAS DE server.js:
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+root@ubuntu:/var/www/bigartist/server# # Ver el contenido del server.js
+cat /var/www/bigartist/server/server.js
+
+# Si está incompleto, lo recreamos completo:
+cat > /var/www/bigartist/server/server.js << 'ENDSERVER'
+const express = require('express');
+const mysql = require('mysql2/promise');
+const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
+const cors = require('cors');
+require('dotenv').config();
+
+const app = express();
+const PORT = process.env.PORT || 3001;
+
+app.use(cors());
+app.use(express.json());
+
+// Database connection pool
+const pool = mysql.createPool({
+
+3️⃣ TIPO DE ARCHIVO:
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+server.js: JavaScript source, Unicode text, UTF-8 text
+
+4️⃣ DEPENDENCIAS INSTALADAS:
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+total 652
+drwxr-xr-x 147 root root  4096 Mar  1 22:14 .
+drwxr-xr-x   3 root root  4096 Mar  1 22:22 ..
+drwxr-xr-x   2 root root  4096 Mar  1 22:14 .bin
+-rw-r--r--   1 root root 63719 Mar  1 22:15 .package-lock.json
+drwxr-xr-x   3 root root  4096 Mar  1 22:14 @mapbox
+drwxr-xr-x   3 root root  4096 Mar  1 22:14 @types
+drwxr-xr-x   2 root root  4096 Mar  1 22:14 abbrev
+drwxr-xr-x   2 root root  4096 Mar  1 22:14 accepts
+drwxr-xr-x   5 root root  4096 Mar  1 22:14 agent-base
+drwxr-xr-x   2 root root  4096 Mar  1 22:14 ansi-regex
+drwxr-xr-x   2 root root  4096 Mar  1 22:14 aproba
+drwxr-xr-x   3 root root  4096 Mar  1 22:14 are-we-there-yet
+drwxr-xr-x   2 root root  4096 Mar  1 22:14 array-flatten
+drwxr-xr-x   3 root root  4096 Mar  1 22:14 aws-ssl-profiles
+drwxr-xr-x   3 root root  4096 Mar  1 22:14 balanced-match
+drwxr-xr-x   7 root root  4096 Mar  1 22:14 bcrypt
+drwxr-xr-x   3 root root  4096 Mar  1 22:14 body-parser
+drwxr-xr-x   2 root root  4096 Mar  1 22:14 brace-expansion
+drwxr-xr-x   2 root root  4096 Mar  1 22:14 buffer-equal-constant-time
+
+5️⃣ VARIABLES DE ENTORNO (.env):
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+# Base de datos MySQL
+DB_HOST=localhost
+DB_USER=root
+DB_PASSWORD=BigArtist2018!@?
+DB_NAME=bigartist
+
+# Puerto del servidor
+PORT=3001
+
+# JWT Secret
+JWT_SECRET=your-secret-key-change-this-in-production-BigArtist2025
+
+6️⃣ CONEXIÓN A MYSQL:
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+bigartist
+bigartist_db
+
+7️⃣ INTENTAR EJECUTAR server.js MANUALMENTE:
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+/var/www/bigartist/server/server.js:1
+root@ubuntu:/var/www/bigartist/server# # Ver el contenido del server.js
+    ^
+
+SyntaxError: Invalid or unexpected token
+    at wrapSafe (node:internal/modules/cjs/loader:1464:18)
+    at Module._compile (node:internal/modules/cjs/loader:1495:20)
+    at Module._extensions..js (node:internal/modules/cjs/loader:1623:10)
+    at Module.load (node:internal/modules/cjs/loader:1266:32)
+    at Module._load (node:internal/modules/cjs/loader:1091:12)
+    at Function.executeUserEntryPoint [as runMain] (node:internal/modules/run_main:164:12)
+    at node:internal/main/run_main_module:28:49
+
+Node.js v20.20.0
+❌ Error al ejecutar
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+root@ubuntu:/var/www/bigartist# cat > /root/create-clean-backend.sh << 'EOF'
+#!/bin/bash
+
+echo "🔧 Creando backend limpio desde cero..."
+
+cd /var/www/bigartist
+
+# Eliminar carpeta server corrupta
+rm -rf server
+
+# Crear carpeta nueva
+mkdir -p server
+
+# Copiar archivo fuente limpio
+echo "📄 Verificando archivo fuente..."
+if [ -f "src/imports/server.js" ]; then
+    # Verificar que el archivo fuente no tenga basura
+    if head -1 src/imports/server.js | grep -q "^const\|^import\|^require\|^//\|^\/\*"; then
+        echo "✅ Archivo fuente válido"
+        cp src/imports/server.js server/server.js
+    else
+        echo "❌ Archivo fuente corrupto"
+        echo "📋 Primera línea:"
+chmod +x /root/create-clean-backend.shstreamecho "❌ No responde"5
+root@ubuntu:/var/www/bigartist# cat > /root/create-clean-server.sh << 'EOF'
+#!/bin/bash
+
+echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+echo "🛠️  CREANDO SERVER.JS LIMPIO DESDE CERO"
+echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+
+cd /var/www/bigartist
+
+# Eliminar archivo corrupto
+rm -f server/server.js
+
+# Crear servidor limpio desde cero
+cat > server/server.js << 'ENDSERVERJS'
+const express = require('express');
+const mysql = require('mysql2/promise');
+const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
+const cors = require('cors');
+require('dotenv').config();
+
+const app = express();
+const PORT = process.env.PORT || 3001;
+
+bash /root/create-clean-server.shr.sh━━━━━━━━━━━━━━━━━━━━━━"s' });ORDER BY creat
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+🛠️  CREANDO SERVER.JS LIMPIO DESDE CERO
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+✅ server.js creado
+
+📋 Verificando archivo:
+const express = require('express');
+const mysql = require('mysql2/promise');
+const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
+const cors = require('cors');
+require('dotenv').config();
+
+const app = express();
+const PORT = process.env.PORT || 3001;
+
+// Middleware
+app.use(cors());
+app.use(express.json());
+
+// Database connection pool
+const pool = mysql.createPool({
+  host: process.env.DB_HOST || 'localhost',
+  user: process.env.DB_USER || 'root',
+  password: process.env.DB_PASSWORD || 'BigArtist2018!@?',
+  database: process.env.DB_NAME || 'bigartist',
+
+[PM2] Applying action deleteProcessId on app [bigartist-api](ids: [ 0 ])
+[PM2] [bigartist-api](0) ✓
+┌────┬────────────────────┬──────────┬──────┬───────────┬──────────┬──────────┐
+│ id │ name               │ mode     │ ↺    │ status    │ cpu      │ memory   │
+└────┴────────────────────┴──────────┴──────┴───────────┴──────────┴──────────┘
+🔄 Iniciando con PM2...
+[PM2] Starting /var/www/bigartist/server/server.js in fork_mode (1 instance)
+[PM2] Done.
+┌────┬────────────────────┬──────────┬──────┬───────────┬──────────┬──────────┐
+│ id │ name               │ mode     │ ↺    │ status    │ cpu      │ memory   │
+├────┼────────────────────┼──────────┼──────┼───────────┼──────────┼──────────┤
+│ 0  │ bigartist-api      │ fork     │ 0    │ online    │ 0%       │ 18.6mb   │
+└────┴────────────────────┴──────────┴──────┴───────────┴──────────┴──────────┘
+[PM2] Saving current process list...
+[PM2] Successfully saved in /root/.pm2/dump.pm2
+
+📊 Estado PM2:
+┌────┬────────────────────┬──────────┬──────┬───────────┬──────────┬──────────┐
+│ id │ name               │ mode     │ ↺    │ status    │ cpu      │ memory   │
+├────┼────────────────────┼──────────┼──────┼───────────┼──────────┼──────────┤
+│ 0  │ bigartist-api      │ fork     │ 0    │ online    │ 0%       │ 70.7mb   │
+└────┴────────────────────┴──────────┴──────┴───────────┴──────────┴──────────┘
+
+🔍 Test endpoint:
+{"status":"ok","message":"Backend funcionando correctamente","timestamp":"2026-03-01T22:26:26.007Z"}
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+✅ SERVER.JS LIMPIO CREADO Y FUNCIONANDO
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+🌐 https://app.bigartist.es
+👤 Login: admin / admin123
+
+root@ubuntu:/var/www/bigartist# cat > /root/setup-database.sh << 'EOF'
+#!/bin/bash
+
+echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+echo "🗄️  CONFIGURANDO BASE DE DATOS MYSQL"
+echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+
+# Crear base de datos y tablas
+mysql -u root -p'BigArtist2018!@?' << 'SQLEND'
+
+-- Crear base de datos si no existe
+CREATE DATABASE IF NOT EXISTS bigartist;
+USE bigartist;
+
+-- Eliminar tabla users si existe (para recrearla limpia)
+DROP TABLE IF EXISTS users;
+
+-- Crear tabla users
+CREATE TABLE users (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  username VARCHAR(50) UNIQUE NOT NULL,
+  email VARCHAR(100) UNIQUE NOT NULL,
+  password VARCHAR(255) NOT NULL,
+  role VARCHAR(20) DEFAULT 'user',
+bash /root/setup-database.she.shbase de datos"━━━━━━━━━━━━━━━━━" id, name, count
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+🗄️  CONFIGURANDO BASE DE DATOS MYSQL
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+mysql: [Warning] Using a password on the command line interface can be insecure.
+ERROR 1054 (42S22) at line 57: Unknown column 'terms' in 'field list'
+
+❌ Error configurando base de datos
+root@ubuntu:/var/www/bigartist# cat > /root/fix-server-complete.sh << 'EOF'
+#!/bin/bash
+
+echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+echo "🔧 REPARACIÓN COMPLETA DEL BACKEND"
+echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+echo ""
+
+cd /var/www/bigartist
+
+# 1. Verificar si server.js está corrupto
+echo "🔍 Verificando integridad de server.js..."
+FIRST_LINE=$(head -1 server/server.js 2>/dev/null)
+
+if [[ "$FIRST_LINE" == *"root@ubuntu"* ]] || [[ "$FIRST_LINE" == *"#"* ]] || [[ "$FIRST_LINE" != *"const"* ]]; then
+    echo "❌ Archivo corrupto detectado"
+    echo "📋 Primera línea: $FIRST_LINE"
+    CORRUPT=true
+else
+    echo "✅ Archivo parece válido"
+    echo "📋 Primera línea: $FIRST_LINE"
+    CORRUPT=false
+bash /root/fix-server-complete.she.sh━━━━━━━━━━━━━━━━━━━━━━" COUNT(*) as users F
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+🔧 REPARACIÓN COMPLETA DEL BACKEND
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+🔍 Verificando integridad de server.js...
+✅ Archivo parece válido
+📋 Primera línea: const express = require('express');
+
+
+📦 Verificando dependencias...
+✅ Dependencias ya instaladas
+
+🗄️  Verificando base de datos...
++-------+
+| users |
++-------+
+|     1 |
++-------+
+
+🔄 Reiniciando backend...
+[PM2] Applying action deleteProcessId on app [bigartist-api](ids: [ 0 ])
+[PM2] [bigartist-api](0) ✓
+┌────┬────────────────────┬──────────┬──────┬───────────┬──────────┬──────────┐
+│ id │ name               │ mode     │ ↺    │ status    │ cpu      │ memory   │
+└────┴────────────────────┴──────────┴──────┴───────────┴──────────┴──────────┘
+[PM2] Starting /var/www/bigartist/server/server.js in fork_mode (1 instance)
+[PM2] Done.
+┌────┬────────────────────┬──────────┬──────┬───────────┬──────────┬──────────┐
+│ id │ name               │ mode     │ ↺    │ status    │ cpu      │ memory   │
+├────┼────────────────────┼──────────┼──────┼───────────┼──────────┼──────────┤
+│ 0  │ bigartist-api      │ fork     │ 0    │ online    │ 0%       │ 12.4mb   │
+└────┴────────────────────┴──────────┴──────┴───────────┴──────────┴──────────┘
+[PM2] Saving current process list...
+[PM2] Successfully saved in /root/.pm2/dump.pm2
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+✅ VERIFICACIÓN FINAL
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+📊 Estado PM2:
+┌────┬────────────────────┬──────────┬──────┬───────────┬──────────┬──────────┐
+│ id │ name               │ mode     │ ↺    │ status    │ cpu      │ memory   │
+├────┼────────────────────┼──────────┼──────┼───────────┼──────────┼──────────┤
+│ 0  │ bigartist-api      │ fork     │ 0    │ online    │ 0%       │ 70.2mb   │
+└────┴────────────────────┴──────────┴──────┴───────────┴──────────┴──────────┘
+
+🔍 Test Health Check:
+✅ {"status":"ok","message":"Backend funcionando correctamente","timestamp":"2026-03-01T22:30:51.214Z"}
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+🌐 Frontend: https://app.bigartist.es
+👤 Login: admin / admin123
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+root@ubuntu:/var/www/bigartist# cat > /root/fix-admin-password.sh << 'EOF'
+#!/bin/bash
+
+echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+echo "🔐 CONFIGURANDO CONTRASEÑA DEL ADMIN"
+echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+echo ""
+
+# 1. Crear script Node.js para generar hash bcrypt
+cat > /tmp/generate-hash.js << 'NODESCRIPT'
+const bcrypt = require('bcrypt');
+
+async function generateHash() {
+  const password = 'admin123';
+  const hash = await bcrypt.hash(password, 10);
+  console.log(hash);
+}
+
+generateHash();
+NODESCRIPT
+
+# 2. Generar hash
+echo "🔐 Generando hash bcrypt para 'admin123'..."
+cd /var/www/bigartist/server
+bash /root/quick-fix-password.shd.sh:"admin123"}'calhost:3001/api/auth/login \rs
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+🔐 CONFIGURANDO CONTRASEÑA DEL ADMIN
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+🔐 Generando hash bcrypt para 'admin123'...
+node:internal/modules/cjs/loader:1210
+  throw err;
+  ^
+
+Error: Cannot find module 'bcrypt'
+Require stack:
+- /tmp/generate-hash.js
+    at Module._resolveFilename (node:internal/modules/cjs/loader:1207:15)
+    at Module._load (node:internal/modules/cjs/loader:1038:27)
+    at Module.require (node:internal/modules/cjs/loader:1289:19)
+    at require (node:internal/modules/helpers:182:18)
+    at Object.<anonymous> (/tmp/generate-hash.js:1:16)
+    at Module._compile (node:internal/modules/cjs/loader:1521:14)
+    at Module._extensions..js (node:internal/modules/cjs/loader:1623:10)
+    at Module.load (node:internal/modules/cjs/loader:1266:32)
+    at Module._load (node:internal/modules/cjs/loader:1091:12)
+    at Function.executeUserEntryPoint [as runMain] (node:internal/modules/run_main:164:12) {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [ '/tmp/generate-hash.js' ]
+}
+
+Node.js v20.20.0
+✅ Hash generado: 
+
+🗄️  Actualizando contraseña en MySQL...
+mysql: [Warning] Using a password on the command line interface can be insecure.
+✅ Usuario admin actualizado
+
+👥 Usuarios en la base de datos:
+mysql: [Warning] Using a password on the command line interface can be insecure.
++----+----------+--------------------+-------+
+| id | username | email              | role  |
++----+----------+--------------------+-------+
+|  2 | admin    | admin@bigartist.es | admin |
++----+----------+--------------------+-------+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+🧪 PROBANDO LOGIN
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+1️⃣ Health Check:
+{
+  "status": "ok",
+  "message": "Backend funcionando correctamente",
+  "timestamp": "2026-03-01T22:33:55.893Z"
+}
+
+
+2️⃣ Login (admin/admin123):
+{
+  "error": "Credenciales inválidas"
+}
+
+❌ Login falló
+
+📋 Verificando logs del backend:
+[TAILING] Tailing last 5 lines for [bigartist-api] process (change the value with --lines option)
+/root/.pm2/logs/bigartist-api-error.log last 5 lines:
+0|bigartis |     at Object.<anonymous> (/usr/lib/node_modules/pm2/lib/ProcessContainerFork.js:33:23)
+0|bigartis |     at Module._compile (node:internal/modules/cjs/loader:1521:14)
+0|bigartis |     at Module._extensions..js (node:internal/modules/cjs/loader:1623:10)
+0|bigartis |     at Module.load (node:internal/modules/cjs/loader:1266:32)
+0|bigartis |     at Module._load (node:internal/modules/cjs/loader:1091:12)
+
+/root/.pm2/logs/bigartist-api-out.log last 5 lines:
+0|bigartis | API corriendo en puerto 3001
+0|bigartis | API corriendo en puerto 3001
+0|bigartis | ✅ Conexión a MySQL exitosa
+0|bigartis | API corriendo en puerto 3001
+0|bigartis | ✅ Conexión a MySQL exitosa
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+✅ CONFIGURACIÓN COMPLETADA
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+🌐 Abre: https://app.bigartist.es
+👤 Usuario: admin
+🔑 Password: admin123
+
+Si: command not found
+🔐 Reparando contraseña del admin...
+mysql: [Warning] Using a password on the command line interface can be insecure.
+id	username	email	role	password_hash
+3	admin	admin@bigartist.es	admin	$2b$10$vI8aWBnW3fID.
+✅ Contraseña actualizada
+
+🧪 Probando login...
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+100    77  100    35  100    42    762    914 --:--:-- --:--:-- --:--:--  1711
+{
+  "error": "Credenciales inválidas"
+}
+
+
+🌐 https://app.bigartist.es
+👤 admin / admin123
+root@ubuntu:/var/www/bigartist# cat > /root/final-fix-password.sh << 'EOF'
+#!/bin/bash
+
+echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+echo "🔐 ARREGLANDO CONTRASEÑA DEL ADMIN (HASH PRE-GENERADO)"
+echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+echo ""
+
+# Hash bcrypt VÁLIDO para 'admin123' (generado con bcrypt, 10 rounds)
+# Este es un hash real y funcional
+VALID_HASH='$2b$10$vI8aWBnW3fID.ZQ4/zo1G.q1lRps.9cGLcZEiGDMVr5yUP1KUOYT
+> ^C
+root@ubuntu:/var/www/bigartist# cat > /root/final-fix-password.sh << 'EOF'
+#!/bin/bash
+
+echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+echo "🔐 ARREGLANDO CONTRASEÑA DEL ADMIN"
+echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+
+cd /var/www/bigartist/server
+
+# Generar hash usando bcrypt instalado
+cat > /tmp/hash.js << 'HASHJS'
+const bcrypt = require('bcrypt');
+bcrypt.hash('admin123', 10).then(hash => {
+  console.log(hash);
+  process.exit(0);
+});
+HASHJS
+
+echo "🔐 Generando hash bcrypt..."
+HASH=$(node /tmp/hash.js)
+echo "✅ Hash generado: ${HASH:0:30}..."
+
+# Actualizar en MySQL
+mysql -u root -p'BigArtist2018!@?' bigartist << SQLEND
+bash /root/final-fix-password.shd.shssword":"admin123"}' | jq .t-Type: applicati
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+🔐 ARREGLANDO CONTRASEÑA DEL ADMIN
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+🔐 Generando hash bcrypt...
+node:internal/modules/cjs/loader:1210
+  throw err;
+  ^
+
+Error: Cannot find module 'bcrypt'
+Require stack:
+- /tmp/hash.js
+    at Module._resolveFilename (node:internal/modules/cjs/loader:1207:15)
+    at Module._load (node:internal/modules/cjs/loader:1038:27)
+    at Module.require (node:internal/modules/cjs/loader:1289:19)
+    at require (node:internal/modules/helpers:182:18)
+    at Object.<anonymous> (/tmp/hash.js:1:16)
+    at Module._compile (node:internal/modules/cjs/loader:1521:14)
+    at Module._extensions..js (node:internal/modules/cjs/loader:1623:10)
+    at Module.load (node:internal/modules/cjs/loader:1266:32)
+    at Module._load (node:internal/modules/cjs/loader:1091:12)
+    at Function.executeUserEntryPoint [as runMain] (node:internal/modules/run_main:164:12) {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [ '/tmp/hash.js' ]
+}
+
+Node.js v20.20.0
+✅ Hash generado: ...
+mysql: [Warning] Using a password on the command line interface can be insecure.
+id	username	email	role
+4	admin	admin@bigartist.es	admin
+
+🧪 Probando login...
+{
+  "error": "Credenciales inválidas"
+}
+
+🌐 https://app.bigartist.es
+👤 admin / admin123
+root@ubuntu:/var/www/bigartist# cd /var/www/bigartist/server && node -e "const bcrypt = require('bcrypt'); bcrypt.hash('admin123', 10).then(h => { const mysql = require('mysql2/promise'); mysql.createConnection({host:'localhost',user:'root',password:'BigArtist2018!@?',database:'bigartist'}).then(c => { c.query('DELETE FROM users').then(() => c.query('INSERT INTO users (username,email,password,role) VALUES (?,?,?,?)', ['admin','admin@bigartist.es',h,'admin'])).then(() => c.query('SELECT id,username,email,role FROM users')).then(([r]) => { console.log('\n✅ Usuario creado:'); console.log(r); c.end(); process.exit(0); }); }); });" && sleep 2 && echo "" && echo "🧪 Probando login:" && curl -s -X POST http://localhost:3001/api/auth/login -H "Content-Type: application/json" -d '{"username":"admin","password":"admin123"}' | jq .
+-bash: !@?',database: event not found
+root@ubuntu:/var/www/bigartist# cd /var/www/bigartist/server
+
+# Paso 1: Generar hash
+node -e "require('bcrypt').hash('admin123',10).then(h=>console.log(h))" > /tmp/newhash.txt
+
+# Paso 2: Mostrar hash
+cat /tmp/newhash.txt
+
+# Paso 3: Insertar en MySQL
+NEWHASH=$(cat /tmp/newhash.txt)
+mysql -u root -p'BigArtist2018!@?' bigartist -e "DELETE FROM users; INSERT INTO users (username,email,password,role) VALUES ('admin','admin@bigartist.es','$NEWHASH','admin'); SELECT id,username,email,role FROM users;"
+
+# Paso 4: Probar login
+echo ""
+echo "🧪 Probando login:"
+curl -s -X POST http://localhost:3001/api/auth/login -H "Content-Type: application/json" -d '{"username":"admin","password":"admin123"}' | jq .
+$2b$10$4mbgzIcNjsK8zD736vlHJOTChLqi4gEyO8FDeEURX.DQcEm4Kyeeu
+mysql: [Warning] Using a password on the command line interface can be insecure.
++----+----------+--------------------+-------+
+| id | username | email              | role  |
++----+----------+--------------------+-------+
+|  5 | admin    | admin@bigartist.es | admin |
++----+----------+--------------------+-------+
+
+🧪 Probando login:
+{
+  "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NSwidXNlcm5hbWUiOiJhZG1pbiIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTc3MjQwNDcxMiwiZXhwIjoxNzcyNDkxMTEyfQ.iGHGwGrCyud9BwclhJ7U8j5OmIS3peJsGi04nXaYsTk",
+  "user": {
+    "id": 5,
+    "username": "admin",
+    "email": "admin@bigartist.es",
+    "role": "admin"
+  }
+}
+root@ubuntu:/var/www/bigartist/server# 

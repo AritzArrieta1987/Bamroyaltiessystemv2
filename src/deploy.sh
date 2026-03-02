@@ -1,232 +1,76 @@
 #!/bin/bash
 
-################################################################################
-# 🚀 SCRIPT DE DEPLOY COMPLETO - BAM ROYALTIES SYSTEM (BIGARTIST)
-################################################################################
-# 
-# Este script debe ejecutarse EN EL SERVIDOR (94.143.141.241)
-# 
-# USO:
-#   ssh root@94.143.141.241
-#   cd /var/www/bigartist
-#   bash deploy.sh
-#
-################################################################################
+# Script de deploy para BIGARTIST Royalties System
+# Servidor: 94.143.141.241
+# Dominio: app.bigartist.es
 
-# Colores para output
-RED='\033[0;31m'
+echo "🚀 Iniciando deploy de BIGARTIST Royalties System..."
+echo "=================================================="
+
+# Colores para mensajes
 GREEN='\033[0;32m'
-BLUE='\033[0;34m'
 YELLOW='\033[1;33m'
+RED='\033[0;31m'
 NC='\033[0m' # No Color
 
-echo -e "${BLUE}"
-echo "╔═══════════════════════════════════════════════════════════════╗"
-echo "║                                                               ║"
-echo "║     🚀 DEPLOY - BAM ROYALTIES SYSTEM (BIGARTIST)             ║"
-echo "║                                                               ║"
-echo "╚═══════════════════════════════════════════════════════════════╝"
-echo -e "${NC}"
+# Variables de configuración
+SERVER_IP="94.143.141.241"
+SERVER_USER="root"
+REPO_URL="https://github.com/AritzArrieta1987/Bamroyaltiessystemv2.git"
+PROJECT_DIR="/root/bamroyalties"
+WEB_DIR="/var/www/bigartist/dist"
+BACKEND_DIR="/var/www/bigartist/backend"
 
-# Verificar que estamos en el directorio correcto
-if [ ! -f "package.json" ]; then
-    echo -e "${RED}❌ ERROR: No se encuentra package.json${NC}"
-    echo -e "${YELLOW}Asegúrate de estar en /var/www/bigartist${NC}"
-    exit 1
-fi
-
-echo -e "${GREEN}✅ Directorio correcto: $(pwd)${NC}\n"
-
-################################################################################
-# PASO 1: GIT PULL
-################################################################################
-echo -e "${BLUE}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
-echo -e "${BLUE}📥 PASO 1: Descargando últimos cambios desde GitHub...${NC}"
-echo -e "${BLUE}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
-
-# Guardar cambios locales si existen
-git stash save "Auto-stash before deploy $(date '+%Y-%m-%d %H:%M:%S')" 2>/dev/null
-
-# Pull desde GitHub
-git pull origin main
-
-if [ $? -ne 0 ]; then
-    echo -e "${RED}❌ ERROR: git pull falló${NC}"
-    exit 1
-fi
-
-echo -e "${GREEN}✅ Código actualizado desde GitHub${NC}\n"
-
-################################################################################
-# PASO 2: INSTALAR DEPENDENCIAS FRONTEND
-################################################################################
-echo -e "${BLUE}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
-echo -e "${BLUE}📦 PASO 2: Instalando dependencias del Frontend...${NC}"
-echo -e "${BLUE}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
-
-npm install --production=false
-
-if [ $? -ne 0 ]; then
-    echo -e "${RED}❌ ERROR: npm install (frontend) falló${NC}"
-    exit 1
-fi
-
-echo -e "${GREEN}✅ Dependencias del frontend instaladas${NC}\n"
-
-################################################################################
-# PASO 3: BUILD DEL FRONTEND
-################################################################################
-echo -e "${BLUE}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
-echo -e "${BLUE}🏗️  PASO 3: Compilando Frontend (React + Vite)...${NC}"
-echo -e "${BLUE}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
-
-npm run build
-
-if [ $? -ne 0 ]; then
-    echo -e "${RED}❌ ERROR: npm run build falló${NC}"
-    exit 1
-fi
-
-# Verificar que dist/ existe
-if [ ! -d "dist" ]; then
-    echo -e "${RED}❌ ERROR: La carpeta dist/ no fue creada${NC}"
-    exit 1
-fi
-
-echo -e "${GREEN}✅ Frontend compilado en /dist${NC}\n"
-
-################################################################################
-# PASO 4: PERMISOS DE LA CARPETA DIST
-################################################################################
-echo -e "${BLUE}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
-echo -e "${BLUE}🔒 PASO 4: Configurando permisos de dist/...${NC}"
-echo -e "${BLUE}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
-
-chmod -R 755 dist/
-chown -R www-data:www-data dist/
-
-echo -e "${GREEN}✅ Permisos configurados correctamente${NC}\n"
-
-################################################################################
-# PASO 5: INSTALAR DEPENDENCIAS DEL BACKEND
-################################################################################
-echo -e "${BLUE}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
-echo -e "${BLUE}📦 PASO 5: Instalando dependencias del Backend...${NC}"
-echo -e "${BLUE}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
-
-cd server
-
-if [ ! -f "package.json" ]; then
-    echo -e "${RED}❌ ERROR: No se encuentra server/package.json${NC}"
-    exit 1
-fi
-
-npm install --production
-
-if [ $? -ne 0 ]; then
-    echo -e "${RED}❌ ERROR: npm install (backend) falló${NC}"
-    exit 1
-fi
-
-cd ..
-
-echo -e "${GREEN}✅ Dependencias del backend instaladas${NC}\n"
-
-################################################################################
-# PASO 6: REINICIAR PM2 (BACKEND)
-################################################################################
-echo -e "${BLUE}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
-echo -e "${BLUE}🔄 PASO 6: Reiniciando Backend con PM2...${NC}"
-echo -e "${BLUE}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
-
-# Verificar si el proceso ya existe en PM2
-if pm2 list | grep -q "bigartist-api"; then
-    echo -e "${YELLOW}♻️  Reiniciando proceso existente...${NC}"
-    pm2 restart bigartist-api
-else
-    echo -e "${YELLOW}🆕 Iniciando nuevo proceso...${NC}"
-    cd server
-    pm2 start server.js --name bigartist-api
-    cd ..
-fi
-
-# Guardar configuración de PM2
-pm2 save
-
-# Verificar que está corriendo
-sleep 2
-if pm2 list | grep -q "bigartist-api.*online"; then
-    echo -e "${GREEN}✅ Backend corriendo en PM2${NC}"
-else
-    echo -e "${RED}⚠️  WARNING: Backend podría no estar corriendo correctamente${NC}"
-    echo -e "${YELLOW}Ejecuta 'pm2 logs bigartist-api' para ver errores${NC}"
-fi
-
+echo -e "${YELLOW}📋 Configuración:${NC}"
+echo "   Servidor: $SERVER_IP"
+echo "   Usuario: $SERVER_USER"
+echo "   Repositorio: $REPO_URL"
+echo "   Directorio proyecto: $PROJECT_DIR"
+echo "   Directorio web: $WEB_DIR"
 echo ""
 
-################################################################################
-# PASO 7: REINICIAR NGINX
-################################################################################
-echo -e "${BLUE}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
-echo -e "${BLUE}🔄 PASO 7: Reiniciando Nginx...${NC}"
-echo -e "${BLUE}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
+# Función para ejecutar comandos en el servidor
+run_remote() {
+    ssh $SERVER_USER@$SERVER_IP "$1"
+}
 
-# Verificar configuración de Nginx
-nginx -t
-
-if [ $? -ne 0 ]; then
-    echo -e "${RED}❌ ERROR: Configuración de Nginx inválida${NC}"
+# Función para mostrar errores y salir
+error_exit() {
+    echo -e "${RED}❌ Error: $1${NC}"
     exit 1
-fi
+}
 
-# Reiniciar Nginx
-systemctl restart nginx
+echo -e "${YELLOW}1️⃣  Conectando al servidor...${NC}"
+ssh -o ConnectTimeout=10 $SERVER_USER@$SERVER_IP "echo '✅ Conexión establecida'" || error_exit "No se pudo conectar al servidor"
 
-if [ $? -ne 0 ]; then
-    echo -e "${RED}❌ ERROR: No se pudo reiniciar Nginx${NC}"
-    exit 1
-fi
+echo -e "${YELLOW}2️⃣  Actualizando código desde GitHub...${NC}"
+run_remote "cd $PROJECT_DIR && git pull origin main" || error_exit "Error al hacer pull del repositorio"
 
-echo -e "${GREEN}✅ Nginx reiniciado correctamente${NC}\n"
+echo -e "${YELLOW}3️⃣  Instalando dependencias del frontend...${NC}"
+run_remote "cd $PROJECT_DIR && npm install" || error_exit "Error al instalar dependencias"
 
-################################################################################
-# PASO 8: VERIFICACIÓN FINAL
-################################################################################
-echo -e "${BLUE}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
-echo -e "${BLUE}✅ PASO 8: Verificación Final${NC}"
-echo -e "${BLUE}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
+echo -e "${YELLOW}4️⃣  Compilando aplicación React/Vite...${NC}"
+run_remote "cd $PROJECT_DIR && npm run build" || error_exit "Error al compilar la aplicación"
 
-echo -e "${GREEN}🎉 DEPLOY COMPLETADO EXITOSAMENTE 🎉${NC}\n"
+echo -e "${YELLOW}5️⃣  Copiando archivos compilados al directorio web...${NC}"
+run_remote "rm -rf $WEB_DIR/* && cp -r $PROJECT_DIR/dist/* $WEB_DIR/" || error_exit "Error al copiar archivos"
 
-echo -e "${YELLOW}📊 ESTADO DE LOS SERVICIOS:${NC}"
+echo -e "${YELLOW}6️⃣  Ajustando permisos...${NC}"
+run_remote "chown -R www-data:www-data $WEB_DIR && chmod -R 755 $WEB_DIR" || error_exit "Error al ajustar permisos"
+
+echo -e "${YELLOW}7️⃣  Reiniciando backend Node.js con PM2...${NC}"
+run_remote "cd $BACKEND_DIR && pm2 restart bigartist-api || pm2 start server.js --name bigartist-api" || echo "⚠️  Advertencia: No se pudo reiniciar PM2"
+
+echo -e "${YELLOW}8️⃣  Recargando Nginx...${NC}"
+run_remote "nginx -t && systemctl reload nginx" || error_exit "Error al recargar Nginx"
+
 echo ""
-
-# Estado de PM2
-echo -e "${BLUE}🔹 Backend (PM2):${NC}"
-pm2 list | grep bigartist-api
+echo -e "${GREEN}✅ ¡Deploy completado exitosamente!${NC}"
+echo "=================================================="
+echo -e "${GREEN}🌐 La aplicación está disponible en:${NC}"
+echo -e "   ${GREEN}https://app.bigartist.es${NC}"
 echo ""
-
-# Estado de Nginx
-echo -e "${BLUE}🔹 Nginx:${NC}"
-systemctl status nginx --no-pager | head -5
+echo -e "${YELLOW}📊 Verificación:${NC}"
+run_remote "pm2 status" || true
 echo ""
-
-# URLs de acceso
-echo -e "${GREEN}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
-echo -e "${GREEN}🌐 URLs DE ACCESO:${NC}"
-echo -e "${GREEN}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
-echo -e "${BLUE}Frontend:${NC} https://app.bigartist.es"
-echo -e "${BLUE}Backend:${NC}  https://app.bigartist.es/api"
-echo -e "${GREEN}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
-echo ""
-
-# Comandos útiles
-echo -e "${YELLOW}📝 COMANDOS ÚTILES:${NC}"
-echo -e "  ${BLUE}Ver logs del backend:${NC}  pm2 logs bigartist-api"
-echo -e "  ${BLUE}Reiniciar backend:${NC}     pm2 restart bigartist-api"
-echo -e "  ${BLUE}Ver logs de Nginx:${NC}     tail -f /var/log/nginx/error.log"
-echo -e "  ${BLUE}Reiniciar Nginx:${NC}       systemctl restart nginx"
-echo ""
-
-echo -e "${GREEN}✨ Todo listo para usar en: https://app.bigartist.es ✨${NC}"
-echo ""
+echo -e "${GREEN}✨ Deploy finalizado$(date '+%Y-%m-%d %H:%M:%S')${NC}"

@@ -1,0 +1,495 @@
+Last login: Sun Mar  1 20:54:07 on ttys002
+/Users/aritzarrieta/.zprofile:1: no such file or directory: /opt/homebrew/bin/brew
+/Users/aritzarrieta/.zprofile:2: no such file or directory: /usr/local/bin/brew
+aritzarrieta@MBP-de-Aritz ~ % ssh root@94.143.141.241
+
+root@94.143.141.241's password: 
+Welcome to Ubuntu 24.04.4 LTS (GNU/Linux 6.8.0-101-generic x86_64)
+
+ * Documentation:  https://help.ubuntu.com
+ * Management:     https://landscape.canonical.com
+ * Support:        https://ubuntu.com/pro
+
+ System information as of Sun Mar  1 21:29:28 UTC 2026
+
+  System load:  0.08              Processes:             110
+  Usage of /:   4.8% of 76.45GB   Users logged in:       0
+  Memory usage: 44%               IPv4 address for ens6: 94.143.141.241
+  Swap usage:   0%
+
+ * Strictly confined Kubernetes makes edge and IoT secure. Learn how MicroK8s
+   just raised the bar for easy, resilient and secure K8s cluster deployment.
+
+   https://ubuntu.com/engage/secure-kubernetes-at-the-edge
+
+Expanded Security Maintenance for Applications is not enabled.
+
+0 updates can be applied immediately.
+
+Enable ESM Apps to receive additional future security updates.
+See https://ubuntu.com/esm or run: sudo pro status
+
+
+Last login: Sun Mar  1 19:58:13 2026 from 94.143.141.241
+root@ubuntu:~# cat > deploy-local.sh << 'EOF'
+#!/bin/bash
+
+################################################################################ 
+# 🚀 DEPLOY AUTOMÁTICO COMPLETO - BAM ROYALTIES SYSTEM
+################################################################################ 
+# 
+# EJECUTAR DESDE TU MÁQUINA LOCAL (no en el servidor)
+# 
+# USO:
+#   bash deploy-local.sh "mensaje del commit"
+#
+# EJEMPLO:
+#   bash deploy-local.sh "Añadido nuevo favicon y botón limpiar datos"
+#
+################################################################################ 
+
+# Colores
+RED='\033[0;31m'
+GREEN='\033[0;32m'
+BLUE='\033[0;34m'
+echo "✅ Script creado: deploy-local.sh"tps://app.bigartist.es en tu navegador  
+✅ Script creado: deploy-local.sh
+root@ubuntu:~# bash deploy-local.sh "Añadido favicon y configuración de deploy"
+
+╔═══════════════════════════════════════════════════════════════╗
+║                                                               ║
+║   🚀 DEPLOY AUTOMÁTICO - BAM ROYALTIES SYSTEM (BIGARTIST)    ║
+║                                                               ║
+╚═══════════════════════════════════════════════════════════════╝
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+📋 PASO 1/5: Verificando cambios en Git...
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+❌ ERROR: No estás en un repositorio Git
+root@ubuntu:~# cat > quick-deploy.sh << 'EOF'
+#!/bin/bash
+
+# Configuración
+SERVER="root@94.143.141.241"
+PROJECT="/var/www/bigartist"
+
+# Colores
+G='\033[0;32m'
+B='\033[0;34m'
+Y='\033[1;33m'
+NC='\033[0m'
+
+# Mensaje de commit
+MSG="${1:-Update}"
+
+echo -e "${B}🚀 Deploy rápido iniciado...${NC}\n"
+
+# Git: add, commit, push
+echo -e "${Y}📤 Subiendo a GitHub...${NC}"
+git add . && git commit -m "$MSG" && git push origin main
+
+if [ $? -ne 0 ]; then
+    echo -e "${Y}⚠️  Git push falló o no hay cambios (continuando...)${NC}"
+echo "✅ Script creado: quick-deploy.sh"ploy${NC}\n".bigartist.es${NC}\n"
+✅ Script creado: quick-deploy.sh
+root@ubuntu:~# bash quick-deploy.sh
+🚀 Deploy rápido iniciado...
+
+📤 Subiendo a GitHub...
+fatal: not a git repository (or any of the parent directories): .git
+⚠️  Git push falló o no hay cambios (continuando...)
+
+🔄 Desplegando en servidor...
+
+root@94.143.141.241's password: 
+Connection closed by 94.143.141.241 port 22
+
+❌ Hubo un error en el deploy
+
+root@ubuntu:~# "cd /var/www/bigartist && git pull && npm install && npm run build && cd server && npm install && cd .. && pm2 restart bigartist-api && systemctl restart nginx"
+-bash: cd /var/www/bigartist && git pull && npm install && npm run build && cd server && npm install && cd .. && pm2 restart bigartist-api && systemctl restart nginx: No such file or directory
+root@ubuntu:~# cat > deploy.sh << 'ENDOFSCRIPT'
+#!/bin/bash
+
+# Colores
+RED='\033[0;31m'
+GREEN='\033[0;32m'
+BLUE='\033[0;34m'
+YELLOW='\033[1;33m'
+NC='\033[0m'
+
+echo -e "${BLUE}🚀 DEPLOY AUTOMÁTICO - BAM ROYALTIES SYSTEM${NC}\n"
+
+# Obtener mensaje de commit
+if [ -z "$1" ]; then
+    MSG="Update $(date '+%Y-%m-%d %H:%M')"
+else
+    MSG="$1"
+fi
+
+echo -e "${YELLOW}📝 Mensaje de commit: $MSG${NC}\n"
+
+# Git add, commit, push
+echo -e "${BLUE}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
+echo -e "${YELLOW}📤 Subiendo código a GitHub...${NC}"
+echo "  bash deploy.sh \"Tu mensaje de commit\""${NC}"━━━━━━━━━━━━━━━━━━${NC}"
+✅ Script creado correctamente
+
+Para usar el script ejecuta:
+  bash deploy.sh "Tu mensaje de commit"
+root@ubuntu:~# bash deploy.sh "Añadido favicon y botón limpiar datos"
+🚀 DEPLOY AUTOMÁTICO - BAM ROYALTIES SYSTEM
+
+📝 Mensaje de commit: Añadido favicon y botón limpiar datos
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+📤 Subiendo código a GitHub...
+fatal: not a git repository (or any of the parent directories): .git
+fatal: not a git repository (or any of the parent directories): .git
+fatal: not a git repository (or any of the parent directories): .git
+❌ Error en git push
+root@ubuntu:~# cat > setup-from-github.sh << 'EOF'
+#!/bin/bash
+
+################################################################################ 
+# 🚀 CLONAR Y CONFIGURAR BIGARTIST DESDE GITHUB
+################################################################################ 
+
+# Colores
+RED='\033[0;31m'
+GREEN='\033[0;32m'
+BLUE='\033[0;34m'
+YELLOW='\033[1;33m'
+CYAN='\033[0;36m'
+NC='\033[0m'
+
+echo -e "${CYAN}"
+echo "╔═══════════════════════════════════════════════════════════════╗"
+echo "║                                                               ║"
+echo "║     🚀 SETUP COMPLETO - BAM ROYALTIES SYSTEM (GITHUB)        ║"
+echo "║                                                               ║"
+echo "╚═══════════════════════════════════════════════════════════════╝"
+echo "✅ Script creado"hub.shto! Abre https://app.bigartist.es en tu navegador  
+✅ Script creado
+root@ubuntu:~# bash setup-from-github.sh
+
+╔═══════════════════════════════════════════════════════════════╗
+║                                                               ║
+║     🚀 SETUP COMPLETO - BAM ROYALTIES SYSTEM (GITHUB)        ║
+║                                                               ║
+╚═══════════════════════════════════════════════════════════════╝
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+📦 PASO 1: Verificando proyecto actual...
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+⚠️  Proyecto existente encontrado en /var/www/bigartist
+📁 Creando backup en: /var/www/bigartist-backup-20260301-214312
+✅ Backup creado
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+📥 PASO 2: Clonando repositorio desde GitHub...
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Repositorio: https://github.com/AritzArrieta1987/Bamroyaltiessystemv2.git
+Destino: /var/www/bigartist
+
+Cloning into '/var/www/bigartist'...
+remote: Enumerating objects: 267, done.
+remote: Counting objects: 100% (267/267), done.
+remote: Compressing objects: 100% (258/258), done.
+remote: Total 267 (delta 116), reused 2 (delta 0), pack-reused 0 (from 0)
+Receiving objects: 100% (267/267), 5.07 MiB | 10.61 MiB/s, done.
+Resolving deltas: 100% (116/116), done.
+✅ Repositorio clonado
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+📦 PASO 3: Instalando dependencias del Frontend...
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+added 119 packages, and audited 120 packages in 16s
+
+13 packages are looking for funding
+  run `npm fund` for details
+
+1 moderate severity vulnerability
+
+To address all issues, run:
+  npm audit fix --force
+
+Run `npm audit` for details.
+✅ Dependencias del frontend instaladas
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+🏗️  PASO 4: Compilando Frontend (React + Vite)...
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+> Bam Royalties System@0.1.0 build
+> vite build
+
+vite v6.3.5 building for production...
+✓ 2388 modules transformed.
+build/index.html                                                        0.44 kB │ gzip:   0.28 kB
+build/assets/aa0296e2522220bcfcda71f86c708cb2cbc616b9-HygGYkAN.png     49.35 kB
+build/assets/0a2a9faa1b59d5fa1e388a2eec5b08498dd7a493-C-zGM-oV.png  4,888.06 kB
+build/assets/index-C8w33GJY.css                                        10.26 kB │ gzip:   2.83 kB
+build/assets/index-BdyJq1gh.js                                        766.74 kB │ gzip: 220.33 kB
+
+(!) Some chunks are larger than 500 kB after minification. Consider:
+- Using dynamic import() to code-split the application
+- Use build.rollupOptions.output.manualChunks to improve chunking: https://rollupjs.org/configuration-options/#output-manualchunks
+- Adjust chunk size limit for this warning via build.chunkSizeWarningLimit.
+✓ built in 4.49s
+❌ ERROR: La carpeta dist/ no fue creada
+root@ubuntu:~# cat > setup-from-github.sh << 'EOF'
+#!/bin/bash
+
+################################################################################ 
+# 🚀 CLONAR Y CONFIGURAR BIGARTIST DESDE GITHUB
+################################################################################ 
+
+# Colores
+RED='\033[0;31m'
+GREEN='\033[0;32m'
+BLUE='\033[0;34m'
+YELLOW='\033[1;33m'
+CYAN='\033[0;36m'
+NC='\033[0m'
+
+echo -e "${CYAN}"
+echo "╔═══════════════════════════════════════════════════════════════╗"
+echo "║                                                               ║"
+echo "║     🚀 SETUP COMPLETO - BAM ROYALTIES SYSTEM (GITHUB)        ║"
+echo "║                                                               ║"
+echo "╚═══════════════════════════════════════════════════════════════╝"
+echo "✅ Script actualizado"hto! Abre https://app.bigartist.es en tu navegador  
+✅ Script actualizado
+root@ubuntu:~# bash setup-from-github.sh
+
+╔═══════════════════════════════════════════════════════════════╗
+║                                                               ║
+║     🚀 SETUP COMPLETO - BAM ROYALTIES SYSTEM (GITHUB)        ║
+║                                                               ║
+╚═══════════════════════════════════════════════════════════════╝
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+📦 PASO 1: Verificando proyecto actual...
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+⚠️  Proyecto existente encontrado en /var/www/bigartist
+📁 Creando backup en: /var/www/bigartist-backup-20260301-214637
+✅ Backup creado
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+📥 PASO 2: Clonando repositorio desde GitHub...
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Repositorio: https://github.com/AritzArrieta1987/Bamroyaltiessystemv2.git
+Destino: /var/www/bigartist
+
+Cloning into '/var/www/bigartist'...
+remote: Enumerating objects: 267, done.
+remote: Counting objects: 100% (267/267), done.
+remote: Compressing objects: 100% (258/258), done.
+remote: Total 267 (delta 116), reused 2 (delta 0), pack-reused 0 (from 0)
+Receiving objects: 100% (267/267), 5.07 MiB | 9.97 MiB/s, done.
+Resolving deltas: 100% (116/116), done.
+✅ Repositorio clonado
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+📦 PASO 3: Instalando dependencias del Frontend...
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+added 119 packages, and audited 120 packages in 5s
+
+13 packages are looking for funding
+  run `npm fund` for details
+
+1 moderate severity vulnerability
+
+To address all issues, run:
+  npm audit fix --force
+
+Run `npm audit` for details.
+✅ Dependencias del frontend instaladas
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+🏗️  PASO 4: Compilando Frontend (React + Vite)...
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+> Bam Royalties System@0.1.0 build
+> vite build
+
+vite v6.3.5 building for production...
+✓ 2388 modules transformed.
+build/index.html                                                        0.44 kB │ gzip:   0.28 kB
+build/assets/aa0296e2522220bcfcda71f86c708cb2cbc616b9-HygGYkAN.png     49.35 kB
+build/assets/0a2a9faa1b59d5fa1e388a2eec5b08498dd7a493-C-zGM-oV.png  4,888.06 kB
+build/assets/index-C8w33GJY.css                                        10.26 kB │ gzip:   2.83 kB
+build/assets/index-BdyJq1gh.js                                        766.74 kB │ gzip: 220.33 kB
+
+(!) Some chunks are larger than 500 kB after minification. Consider:
+- Using dynamic import() to code-split the application
+- Use build.rollupOptions.output.manualChunks to improve chunking: https://rollupjs.org/configuration-options/#output-manualchunks
+- Adjust chunk size limit for this warning via build.chunkSizeWarningLimit.
+✓ built in 4.23s
+Verificando carpeta dist/...
+❌ ERROR: La carpeta dist/ no fue creada
+Contenido del directorio del proyecto:
+drwxr-xr-x  3 root root   4096 Mar  1 21:46 build
+root@ubuntu:~# d /var/www/bigartist
+
+# Renombrar build/ a dist/
+mv build dist
+
+# Configurar permisos
+chmod -R 755 dist/
+chown -R www-data:www-data dist/
+
+echo "✅ Carpeta renombrada: build/ → dist/"
+ls -lh dist/
+d: command not found
+mv: cannot stat 'build': No such file or directory
+chmod: cannot access 'dist/': No such file or directory
+chown: cannot access 'dist/': No such file or directory
+✅ Carpeta renombrada: build/ → dist/
+ls: cannot access 'dist/': No such file or directory
+root@ubuntu:~# cd /var/www/bigartist && \
+ls -la | grep -E "build|dist" && \
+echo "" && \
+echo "👆 ¿Ves build/ ahí arriba?" && \
+pwd
+drwxr-xr-x  3 root root   4096 Mar  1 21:46 build
+
+👆 ¿Ves build/ ahí arriba?
+/var/www/bigartist
+root@ubuntu:/var/www/bigartist# #!/bin/bash
+
+cd /var/www/bigartist
+
+echo "📍 Directorio actual: $(pwd)"
+echo ""
+
+# Verificar si existe build/
+if [ -d "build" ]; then
+    echo "✅ Encontrada carpeta build/"
+    mv build dist
+    echo "✅ Renombrada a dist/"
+elif [ -d "dist" ]; then
+    echo "✅ La carpeta dist/ ya existe"
+else
+    echo "❌ ERROR: No existe ni build/ ni dist/"
+    echo "📁 Contenido:"
+    ls -la
+    exit 1
+fi
+
+# Configurar permisos
+echo "🔒 Configurando permisos..."
+chmod -R 755 dist/
+echo ""tusstado PM2:"tps://app.bigartist.es/api"━━━━━━━━━━━"
+📍 Directorio actual: /var/www/bigartist
+
+✅ Encontrada carpeta build/
+✅ Renombrada a dist/
+🔒 Configurando permisos...
+📦 Instalando dependencias del backend...
+-bash: cd: server: No such file or directory
+
+added 2 packages, and audited 122 packages in 890ms
+
+13 packages are looking for funding
+  run `npm fund` for details
+
+1 moderate severity vulnerability
+
+To address all issues, run:
+  npm audit fix --force
+
+Run `npm audit` for details.
+🔄 Configurando PM2...
+[PM2] Applying action deleteProcessId on app [bigartist-api](ids: [ 0 ])
+[PM2] [bigartist-api](0) ✓
+┌────┬────────────────────┬──────────┬──────┬───────────┬──────────┬──────────┐
+│ id │ name               │ mode     │ ↺    │ status    │ cpu      │ memory   │
+└────┴────────────────────┴──────────┴──────┴───────────┴──────────┴──────────┘
+-bash: cd: server: No such file or directory
+[PM2][ERROR] Script not found: /var/www/server.js
+[PM2] Saving current process list...
+[PM2][WARN] PM2 is not managing any process, skipping save...
+[PM2][WARN] To force saving use: pm2 save --force
+🔄 Reiniciando Nginx...
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+✅ SETUP COMPLETADO
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+🌐 Frontend: https://app.bigartist.es
+🌐 Backend:  https://app.bigartist.es/api
+
+📊 Estado PM2:
+┌────┬────────────────────┬──────────┬──────┬───────────┬──────────┬──────────┐
+│ id │ name               │ mode     │ ↺    │ status    │ cpu      │ memory   │
+└────┴────────────────────┴──────────┴──────┴───────────┴──────────┴──────────┘
+
+root@ubuntu:/var# cat > /root/setup-complete.sh << 'EOF'
+#!/bin/bash
+
+cd /var/www/bigartist
+
+echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+echo "🚀 SETUP FINAL - BAM ROYALTIES SYSTEM"
+echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+echo ""
+
+# 1. Frontend ya está en dist/
+if [ -d "dist" ]; then
+    echo "✅ Frontend: dist/ existe"
+    chmod -R 755 dist/
+    chown -R www-data:www-data dist/
+else
+    echo "❌ ERROR: No existe dist/"
+    exit 1
+fi
+
+# 2. Detectar ubicación del backend
+echo ""
+echo "🔍 Detectando backend..."
+
+bash /root/setup-complete.she.shpp.bigartist.es/api"━━━━━━━"
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+🚀 SETUP FINAL - BAM ROYALTIES SYSTEM
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+✅ Frontend: dist/ existe
+
+🔍 Detectando backend...
+⚠️  No se encontró backend Node.js
+📁 Archivos principales:
+total 156
+drwxr-xr-x  6 root     root       4096 Mar  1 21:52 .
+drwxr-xr-x  9 root     root       4096 Mar  1 21:46 ..
+drwxr-xr-x  8 root     root       4096 Mar  1 21:46 .git
+-rw-r--r--  1 root     root        311 Mar  1 21:46 README.md
+drwxr-xr-x  3 www-data www-data   4096 Mar  1 21:46 dist
+-rw-r--r--  1 root     root        335 Mar  1 21:46 index.html
+drwxr-xr-x 78 root     root       4096 Mar  1 21:52 node_modules
+-rw-r--r--  1 root     root     115147 Mar  1 21:52 package-lock.json
+-rw-r--r--  1 root     root        634 Mar  1 21:46 package.json
+drwxr-xr-x 12 root     root       4096 Mar  1 21:46 src
+-rw-r--r--  1 root     root        795 Mar  1 21:46 vite.config.ts
+⚠️  Backend omitido (no encontrado)
+
+🔄 Reiniciando Nginx...
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+✅ SETUP COMPLETADO
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+🌐 Frontend: https://app.bigartist.es
+
+📊 Estado PM2:
+┌────┬────────────────────┬──────────┬──────┬───────────┬──────────┬──────────┐
+│ id │ name               │ mode     │ ↺    │ status    │ cpu      │ memory   │
+└────┴────────────────────┴──────────┴──────┴───────────┴──────────┴──────────┘
+
+root@ubuntu:/var# 
