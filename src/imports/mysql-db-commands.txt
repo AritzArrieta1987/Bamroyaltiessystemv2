@@ -1,0 +1,178 @@
+Last login: Mon Mar  2 12:14:48 on ttys002
+/Users/aritzarrieta/.zprofile:1: no such file or directory: /opt/homebrew/bin/brew
+/Users/aritzarrieta/.zprofile:2: no such file or directory: /usr/local/bin/brew
+aritzarrieta@MBP-de-Aritz ~ % ssh root@94.143.141.241
+root@94.143.141.241's password: 
+Welcome to Ubuntu 24.04.4 LTS (GNU/Linux 6.8.0-101-generic x86_64)
+
+ * Documentation:  https://help.ubuntu.com
+ * Management:     https://landscape.canonical.com
+ * Support:        https://ubuntu.com/pro
+
+ System information as of Mon Mar  2 11:49:06 UTC 2026
+
+  System load:  0.06              Processes:             111
+  Usage of /:   5.6% of 76.45GB   Users logged in:       0
+  Memory usage: 46%               IPv4 address for ens6: 94.143.141.241
+  Swap usage:   0%
+
+ * Strictly confined Kubernetes makes edge and IoT secure. Learn how MicroK8s
+   just raised the bar for easy, resilient and secure K8s cluster deployment.
+
+   https://ubuntu.com/engage/secure-kubernetes-at-the-edge
+
+Expanded Security Maintenance for Applications is not enabled.
+
+0 updates can be applied immediately.
+
+Enable ESM Apps to receive additional future security updates.
+See https://ubuntu.com/esm or run: sudo pro status
+
+
+Last login: Mon Mar  2 11:15:07 2026 from 207.188.130.38
+root@ubuntu:~# ssh root@94.143.141.241
+
+# Conectar a MySQL
+mysql -u root -p'BigArtist2018!@?'
+
+# Ver la base de datos
+USE bigartist_db;
+
+# Ver las tablas
+SHOW TABLES;
+
+# Ver usuarios existentes (si la tabla existe)
+SELECT * FROM users;
+
+# Salir
+EXIT;
+root@94.143.141.241's password: 
+Welcome to Ubuntu 24.04.4 LTS (GNU/Linux 6.8.0-101-generic x86_64)
+
+ * Documentation:  https://help.ubuntu.com
+ * Management:     https://landscape.canonical.com
+ * Support:        https://ubuntu.com/pro
+
+ System information as of Mon Mar  2 11:49:06 UTC 2026
+
+  System load:  0.06              Processes:             111
+  Usage of /:   5.6% of 76.45GB   Users logged in:       0
+  Memory usage: 46%               IPv4 address for ens6: 94.143.141.241
+  Swap usage:   0%
+
+ * Strictly confined Kubernetes makes edge and IoT secure. Learn how MicroK8s
+   just raised the bar for easy, resilient and secure K8s cluster deployment.
+
+   https://ubuntu.com/engage/secure-kubernetes-at-the-edge
+
+Expanded Security Maintenance for Applications is not enabled.
+
+0 updates can be applied immediately.
+
+Enable ESM Apps to receive additional future security updates.
+See https://ubuntu.com/esm or run: sudo pro status
+
+
+Last login: Mon Mar  2 11:49:06 2026 from 207.188.130.38
+root@ubuntu:~# # Conectar a MySQL
+mysql -u root -p'BigArtist2018!@?'
+
+# Ver la base de datos
+USE bigartist_db;
+
+# Ver las tablas
+SHOW TABLES;
+
+# Ver usuarios existentes (si la tabla existe)
+SELECT * FROM users;
+
+# Salir
+EXIT;
+mysql: [Warning] Using a password on the command line interface can be insecure.
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 83
+Server version: 8.0.45-0ubuntu0.24.04.1 (Ubuntu)
+
+Copyright (c) 2000, 2026, Oracle and/or its affiliates.
+
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+mysql> USE bigartist_db;
+Reading table information for completion of table and column names
+You can turn off this feature to get a quicker startup with -A
+
+Database changed
+mysql> SHOW TABLES;
++------------------------+
+| Tables_in_bigartist_db |
++------------------------+
+| users                  |
++------------------------+
+1 row in set (0.00 sec)
+
+mysql> 
+mysql> -- Crear tabla de usuarios
+mysql> CREATE TABLE users (
+    ->   id INT AUTO_INCREMENT PRIMARY KEY,
+    ->   email VARCHAR(255) UNIQUE NOT NULL,
+    ->   password VARCHAR(255) NOT NULL,
+    ->   name VARCHAR(255) NOT NULL,
+    ->   role ENUM('admin', 'artist', 'user') DEFAULT 'user',
+    ->   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    ->   updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+    -> );
+ERROR 1050 (42S01): Table 'users' already exists
+mysql> 
+mysql> -- Crear tabla de royalties (ejemplo)
+mysql> CREATE TABLE royalties (
+    ->   id INT AUTO_INCREMENT PRIMARY KEY,
+    ->   artist_id INT NOT NULL,
+    ->   amount DECIMAL(10,2) NOT NULL,
+    ->   period VARCHAR(50) NOT NULL,
+    ->   status ENUM('pending', 'paid', 'cancelled') DEFAULT 'pending',
+    ->   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    ->   FOREIGN KEY (artist_id) REFERENCES users(id)
+    -> );
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> 
+mysql> -- Ver las tablas creadas
+mysql> SHOW TABLES;
++------------------------+
+| Tables_in_bigartist_db |
++------------------------+
+| royalties              |
+| users                  |
++------------------------+
+2 rows in set (0.00 sec)
+
+mysql> 
+mysql> -- Ver estructura de la tabla users
+mysql> DESCRIBE users;
++------------+---------------------------------+------+-----+-------------------+-------------------+
+| Field      | Type                            | Null | Key | Default           | Extra             |
++------------+---------------------------------+------+-----+-------------------+-------------------+
+| id         | int                             | NO   | PRI | NULL              | auto_increment    |
+| name       | varchar(255)                    | NO   |     | NULL              |                   |
+| email      | varchar(255)                    | NO   | UNI | NULL              |                   |
+| password   | varchar(255)                    | NO   |     | NULL              |                   |
+| role       | enum('admin','artist','viewer') | YES  |     | viewer            |                   |
+| created_at | timestamp                       | YES  |     | CURRENT_TIMESTAMP | DEFAULT_GENERATED |
++------------+---------------------------------+------+-----+-------------------+-------------------+
+6 rows in set (0.00 sec)
+
+mysql> 
+mysql> -- Ver si hay usuarios
+mysql> SELECT id, email, name, role, created_at FROM users;
++----+--------------------+-------+-------+---------------------+
+| id | email              | name  | role  | created_at          |
++----+--------------------+-------+-------+---------------------+
+|  1 | admin@bigartist.es | Admin | admin | 2026-03-01 13:30:41 |
++----+--------------------+-------+-------+---------------------+
+1 row in set (0.00 sec)
+
+mysql> 

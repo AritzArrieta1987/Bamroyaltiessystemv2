@@ -1,5 +1,18 @@
 // API Configuration
-const API_URL = (typeof import.meta !== 'undefined' && import.meta.env?.VITE_API_URL) || 'https://app.bigartist.es/api';
+// Detecta automáticamente si estamos en producción o desarrollo
+const getApiUrl = () => {
+  if (typeof window !== 'undefined') {
+    // En el navegador, usar el dominio actual + /api
+    if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
+      return 'http://localhost:3001/api';
+    }
+    return `${window.location.origin}/api`;
+  }
+  // Fallback para SSR
+  return 'http://localhost:3001/api';
+};
+
+const API_URL = getApiUrl();
 
 // API Endpoints for data fetching
 export const API_ENDPOINTS = {

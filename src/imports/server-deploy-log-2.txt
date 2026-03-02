@@ -1,0 +1,255 @@
+Last login: Mon Mar  2 00:48:14 on ttys001
+/Users/aritzarrieta/.zprofile:1: no such file or directory: /opt/homebrew/bin/brew
+/Users/aritzarrieta/.zprofile:2: no such file or directory: /usr/local/bin/brew
+aritzarrieta@MBP-de-Aritz ~ % ssh root@94.143.141.241
+root@94.143.141.241's password: 
+Welcome to Ubuntu 24.04.4 LTS (GNU/Linux 6.8.0-101-generic x86_64)
+
+ * Documentation:  https://help.ubuntu.com
+ * Management:     https://landscape.canonical.com
+ * Support:        https://ubuntu.com/pro
+
+ System information as of Mon Mar  2 11:15:07 UTC 2026
+
+  System load:  0.01              Processes:             113
+  Usage of /:   5.6% of 76.45GB   Users logged in:       0
+  Memory usage: 46%               IPv4 address for ens6: 94.143.141.241
+  Swap usage:   0%
+
+ * Strictly confined Kubernetes makes edge and IoT secure. Learn how MicroK8s
+   just raised the bar for easy, resilient and secure K8s cluster deployment.
+
+   https://ubuntu.com/engage/secure-kubernetes-at-the-edge
+
+Expanded Security Maintenance for Applications is not enabled.
+
+0 updates can be applied immediately.
+
+Enable ESM Apps to receive additional future security updates.
+See https://ubuntu.com/esm or run: sudo pro status
+
+
+Last login: Mon Mar  2 10:42:01 2026 from 207.188.130.38
+
+root@ubuntu:~# 
+root@ubuntu:~# U5A0FNfpdK21ZYUt
+U5A0FNfpdK21ZYUt: command not found
+root@ubuntu:~# cd /var/www/bigartist
+
+# Configurar Git
+git config --global user.email "aritzarrieta1987@gmail.com"
+git config --global user.name "AritzArrieta1987"
+
+# Agregar el backend
+git add server/
+git commit -m "Añadir backend al repositorio"
+
+# Push con tu token
+git push https://AritzArrieta1987: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@github.com/AritzArrieta1987/Bamroyaltiessystemv2.git main
+On branch main
+Your branch is ahead of 'origin/main' by 1 commit.
+  (use "git push" to publish your local commits)
+
+Untracked files:
+  (use "git add <file>..." to include in what will be committed)
+	build/
+	dist/
+	node_modules/
+	package-lock.json
+
+nothing added to commit but untracked files present (use "git add" to track)
+remote: Permission to AritzArrieta1987/Bamroyaltiessystemv2.git denied to AritzArrieta1987.
+fatal: unable to access 'https://github.com/AritzArrieta1987/Bamroyaltiessystemv2.git/': The requested URL returned error: 403
+root@ubuntu:/var/www/bigartist# # Verificar en GitHub que se subió
+curl -s https://api.github.com/repos/AritzArrieta1987/Bamroyaltiessystemv2/contents/server | grep -q "name" && echo "✅ Backend subido correctamente" || echo "❌ Aún no visible"
+
+# Limpiar el historial del token (seguridad)
+history -c
+history -w
+
+echo "✅ PASO 1/2 COMPLETADO - Backend en GitHub"
+echo "📦 SIGUIENTE PASO: Sincronizar frontend build → dist"
+❌ Aún no visible
+✅ PASO 1/2 COMPLETADO - Backend en GitHub
+📦 SIGUIENTE PASO: Sincronizar frontend build → dist
+root@ubuntu:/var/www/bigartist# # Copiar build a dist
+cd /var/www/bigartist
+rm -rf dist
+cp -r build dist
+
+# Verificar
+ls -la dist/index.html && echo "✅ Frontend sincronizado" || echo "❌ Error"
+
+# Reiniciar Nginx
+sudo systemctl restart nginx
+
+echo "🎉 DEPLOYMENT COMPLETO"
+echo "🌐 Prueba: https://app.bigartist.es"
+-rw-r--r-- 1 root root 435 Mar  2 11:15 dist/index.html
+✅ Frontend sincronizado
+🎉 DEPLOYMENT COMPLETO
+🌐 Prueba: https://app.bigartist.es
+root@ubuntu:/var/www/bigartist# # En el servidor, primero verifica si tu repo es privado
+cd /var/www/bigartist
+git remote -v
+origin	https://github.com/AritzArrieta1987/Bamroyaltiessystemv2.git (fetch)
+origin	https://github.com/AritzArrieta1987/Bamroyaltiessystemv2.git (push)
+root@ubuntu:/var/www/bigartist# # En el servidor, ejecuta esto:
+curl -s https://api.github.com/repos/AritzArrieta1987/Bamroyaltiessystemv2 | grep -E '"private"|"message"'
+  "private": false,
+    "private": false,
+root@ubuntu:/var/www/bigartist# # 1. Generar SSH key
+ssh-keygen -t ed25519 -C "server-bigartist" -f ~/.ssh/bigartist -N ""
+
+# 2. Ver la clave pública
+cat ~/.ssh/bigartist.pub
+Generating public/private ed25519 key pair.
+Your identification has been saved in /root/.ssh/bigartist
+Your public key has been saved in /root/.ssh/bigartist.pub
+The key fingerprint is:
+SHA256:nU/mkQBVpDHi9xZJPDAilK2pixsp+K3EAc21Da9C8o8 server-bigartist
+The key's randomart image is:
++--[ED25519 256]--+
+|    o.oo+.*=+    |
+| o . =.o.+ *o.   |
+|o + . oo. + o.   |
+| =   .o  o + o   |
+|  + ..  S o B    |
+|.. *.      * .   |
+|o E...      o    |
+| +.o.            |
+|  +o.            |
++----[SHA256]-----+
+ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIKdyfdO02iIRUmx2ojpaRE2fJjXBXkkTvG3uo4wnongR server-bigartist
+root@ubuntu:/var/www/bigartist# # Configurar SSH
+cat >> ~/.ssh/config << 'EOF'
+Host github.com
+  HostName github.com
+  User git
+  IdentityFile ~/.ssh/bigartist
+  StrictHostKeyChecking no
+EOF
+
+# Cambiar remote a SSH
+cd /var/www/bigartist
+git remote set-url origin git@github.com:AritzArrieta1987/Bamroyaltiessystemv2.git
+root@ubuntu:/var/www/bigartist# # Probar conexión con GitHub
+ssh -T git@github.com
+
+# Subir el backend
+git add server/
+git commit -m "Añadir backend al repositorio"
+git push origin main
+
+# Verificar que se subió
+echo ""
+echo "=========================================="
+echo "✅ VERIFICANDO EN GITHUB..."
+echo "=========================================="
+curl -s https://api.github.com/repos/AritzArrieta1987/Bamroyaltiessystemv2/contents/server | grep -q "name" && echo "✅ Backend visible en GitHub" || echo "❌ Aún no visible"
+
+# Ver el contenido del commit
+git log -1 --stat
+Warning: Permanently added 'github.com' (ED25519) to the list of known hosts.
+Hi AritzArrieta1987/Bamroyaltiessystemv2! You've successfully authenticated, but GitHub does not provide shell access.
+On branch main
+Your branch is ahead of 'origin/main' by 1 commit.
+  (use "git push" to publish your local commits)
+
+Untracked files:
+  (use "git add <file>..." to include in what will be committed)
+	build/
+	dist/
+	node_modules/
+	package-lock.json
+
+nothing added to commit but untracked files present (use "git add" to track)
+To github.com:AritzArrieta1987/Bamroyaltiessystemv2.git
+ ! [rejected]        main -> main (fetch first)
+error: failed to push some refs to 'github.com:AritzArrieta1987/Bamroyaltiessystemv2.git'
+hint: Updates were rejected because the remote contains work that you do not
+hint: have locally. This is usually caused by another repository pushing to
+hint: the same ref. If you want to integrate the remote changes, use
+hint: 'git pull' before pushing again.
+hint: See the 'Note about fast-forwards' in 'git push --help' for details.
+
+==========================================
+✅ VERIFICANDO EN GITHUB...
+==========================================
+❌ Aún no visible
+commit 8990fbef45fbf61c4ebb8a7a335a458659ec574c (HEAD -> main)
+Author: Aritz Arrieta <aritz@bigartist.es>
+Date:   Mon Mar 2 11:02:31 2026 +0000
+
+    Agregar backend al repositorio
+
+ server/.env                                        |   11 +
+ server/node_modules/.bin/color-support             |    1 +
+ server/node_modules/.bin/mime                      |    1 +
+ server/node_modules/.bin/mkdirp                    |    1 +
+ server/node_modules/.bin/node-pre-gyp              |    1 +
+ server/node_modules/.bin/nopt                      |    1 +
+ server/node_modules/.bin/rimraf                    |    1 +
+ server/node_modules/.bin/semver                    |    1 +
+ server/node_modules/.package-lock.json             | 1715 ++++
+ .../node-pre-gyp/.github/workflows/codeql.yml      |   74 +
+ .../node_modules/@mapbox/node-pre-gyp/CHANGELOG.md |  510 ++
+ server/node_modules/@mapbox/node-pre-gyp/LICENSE   |   27 +
+ server/node_modules/@mapbox/node-pre-gyp/README.md |  742 ++
+ .../@mapbox/node-pre-gyp/bin/node-pre-gyp          |    4 +
+ .../@mapbox/node-pre-gyp/bin/node-pre-gyp.cmd      |    2 +
+ .../@mapbox/node-pre-gyp/contributing.md           |   10 +
+ .../node_modules/@mapbox/node-pre-gyp/lib/build.js |   51 +
+root@ubuntu:/var/www/bigartist# # Ver si el push se completó
+git status
+
+# Ver los últimos logs del push
+git log origin/main..HEAD
+
+# Intentar push de nuevo (por si quedó pendiente)
+git push origin main
+
+# Verificar en GitHub
+echo ""
+echo "=========================================="
+curl -s https://api.github.com/repos/AritzArrieta1987/Bamroyaltiessystemv2/contents | grep -E '"name"|"path"' | head -20
+echo "=========================================="
+On branch main
+Your branch is ahead of 'origin/main' by 1 commit.
+  (use "git push" to publish your local commits)
+
+Untracked files:
+  (use "git add <file>..." to include in what will be committed)
+	build/
+	dist/
+	node_modules/
+	package-lock.json
+
+nothing added to commit but untracked files present (use "git add" to track)
+commit 8990fbef45fbf61c4ebb8a7a335a458659ec574c (HEAD -> main)
+Author: Aritz Arrieta <aritz@bigartist.es>
+Date:   Mon Mar 2 11:02:31 2026 +0000
+
+    Agregar backend al repositorio
+To github.com:AritzArrieta1987/Bamroyaltiessystemv2.git
+ ! [rejected]        main -> main (fetch first)
+error: failed to push some refs to 'github.com:AritzArrieta1987/Bamroyaltiessystemv2.git'
+hint: Updates were rejected because the remote contains work that you do not
+hint: have locally. This is usually caused by another repository pushing to
+hint: the same ref. If you want to integrate the remote changes, use
+hint: 'git pull' before pushing again.
+hint: See the 'Note about fast-forwards' in 'git push --help' for details.
+
+==========================================
+    "name": "README.md",
+    "path": "README.md",
+    "name": "index.html",
+    "path": "index.html",
+    "name": "package.json",
+    "path": "package.json",
+    "name": "src",
+    "path": "src",
+    "name": "vite.config.ts",
+    "path": "vite.config.ts",
+==========================================
+root@ubuntu:/var/www/bigartist# 

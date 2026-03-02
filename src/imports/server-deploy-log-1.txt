@@ -1,0 +1,92 @@
+Last login: Mon Mar  2 00:48:14 on ttys001
+/Users/aritzarrieta/.zprofile:1: no such file or directory: /opt/homebrew/bin/brew
+/Users/aritzarrieta/.zprofile:2: no such file or directory: /usr/local/bin/brew
+aritzarrieta@MBP-de-Aritz ~ % ssh root@94.143.141.241
+root@94.143.141.241's password: 
+Welcome to Ubuntu 24.04.4 LTS (GNU/Linux 6.8.0-101-generic x86_64)
+
+ * Documentation:  https://help.ubuntu.com
+ * Management:     https://landscape.canonical.com
+ * Support:        https://ubuntu.com/pro
+
+ System information as of Mon Mar  2 11:15:07 UTC 2026
+
+  System load:  0.01              Processes:             113
+  Usage of /:   5.6% of 76.45GB   Users logged in:       0
+  Memory usage: 46%               IPv4 address for ens6: 94.143.141.241
+  Swap usage:   0%
+
+ * Strictly confined Kubernetes makes edge and IoT secure. Learn how MicroK8s
+   just raised the bar for easy, resilient and secure K8s cluster deployment.
+
+   https://ubuntu.com/engage/secure-kubernetes-at-the-edge
+
+Expanded Security Maintenance for Applications is not enabled.
+
+0 updates can be applied immediately.
+
+Enable ESM Apps to receive additional future security updates.
+See https://ubuntu.com/esm or run: sudo pro status
+
+
+Last login: Mon Mar  2 10:42:01 2026 from 207.188.130.38
+
+root@ubuntu:~# 
+root@ubuntu:~# U5A0FNfpdK21ZYUt
+U5A0FNfpdK21ZYUt: command not found
+root@ubuntu:~# cd /var/www/bigartist
+
+# Configurar Git
+git config --global user.email "aritzarrieta1987@gmail.com"
+git config --global user.name "AritzArrieta1987"
+
+# Agregar el backend
+git add server/
+git commit -m "Añadir backend al repositorio"
+
+# Push con tu token
+git push https://AritzArrieta1987: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@github.com/AritzArrieta1987/Bamroyaltiessystemv2.git main
+On branch main
+Your branch is ahead of 'origin/main' by 1 commit.
+  (use "git push" to publish your local commits)
+
+Untracked files:
+  (use "git add <file>..." to include in what will be committed)
+	build/
+	dist/
+	node_modules/
+	package-lock.json
+
+nothing added to commit but untracked files present (use "git add" to track)
+remote: Permission to AritzArrieta1987/Bamroyaltiessystemv2.git denied to AritzArrieta1987.
+fatal: unable to access 'https://github.com/AritzArrieta1987/Bamroyaltiessystemv2.git/': The requested URL returned error: 403
+root@ubuntu:/var/www/bigartist# # Verificar en GitHub que se subió
+curl -s https://api.github.com/repos/AritzArrieta1987/Bamroyaltiessystemv2/contents/server | grep -q "name" && echo "✅ Backend subido correctamente" || echo "❌ Aún no visible"
+
+# Limpiar el historial del token (seguridad)
+history -c
+history -w
+
+echo "✅ PASO 1/2 COMPLETADO - Backend en GitHub"
+echo "📦 SIGUIENTE PASO: Sincronizar frontend build → dist"
+❌ Aún no visible
+✅ PASO 1/2 COMPLETADO - Backend en GitHub
+📦 SIGUIENTE PASO: Sincronizar frontend build → dist
+root@ubuntu:/var/www/bigartist# # Copiar build a dist
+cd /var/www/bigartist
+rm -rf dist
+cp -r build dist
+
+# Verificar
+ls -la dist/index.html && echo "✅ Frontend sincronizado" || echo "❌ Error"
+
+# Reiniciar Nginx
+sudo systemctl restart nginx
+
+echo "🎉 DEPLOYMENT COMPLETO"
+echo "🌐 Prueba: https://app.bigartist.es"
+-rw-r--r-- 1 root root 435 Mar  2 11:15 dist/index.html
+✅ Frontend sincronizado
+🎉 DEPLOYMENT COMPLETO
+🌐 Prueba: https://app.bigartist.es
+root@ubuntu:/var/www/bigartist# 

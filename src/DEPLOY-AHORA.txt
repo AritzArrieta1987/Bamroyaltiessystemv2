@@ -1,0 +1,143 @@
+╔═══════════════════════════════════════════════════════════════╗
+║                                                               ║
+║   🚀 DEPLOY: FUNCIONALIDAD DE UPLOAD CSV                     ║
+║                                                               ║
+║   ✅ TODO ESTÁ LISTO - Solo necesitas ejecutar 1 comando    ║
+║                                                               ║
+╚═══════════════════════════════════════════════════════════════╝
+
+┌───────────────────────────────────────────────────────────────┐
+│  📋 QUÉ SE HA CREADO:                                         │
+└───────────────────────────────────────────────────────────────┘
+
+  ✅ Backend actualizado con endpoint /api/royalties/import
+  ✅ Frontend con interfaz drag & drop de CSV
+  ✅ Script de importación que procesa el CSV
+  ✅ Estadísticas en tiempo real después de importar
+
+
+┌───────────────────────────────────────────────────────────────┐
+│  🎯 DEPLOY RÁPIDO (1 comando):                                │
+└───────────────────────────────────────────────────────────────┘
+
+  Abre tu terminal en la carpeta del proyecto y ejecuta:
+
+    chmod +x QUICK-DEPLOY.sh && ./QUICK-DEPLOY.sh
+
+  Esto tardará ~30 segundos y actualizará el servidor.
+
+
+┌───────────────────────────────────────────────────────────────┐
+│  📖 DEPLOY MANUAL (si prefieres hacerlo paso a paso):         │
+└───────────────────────────────────────────────────────────────┘
+
+  1. Conecta al servidor:
+     ssh root@94.143.141.241
+
+  2. Actualiza el backend:
+     cd /var/www/bigartist/server
+     npm install multer
+     pm2 restart bigartist-api
+
+  3. Verifica que funciona:
+     pm2 logs bigartist-api --lines 20
+     curl http://localhost:3001/api/health
+
+
+┌───────────────────────────────────────────────────────────────┐
+│  🧪 CÓMO PROBAR DESPUÉS DEL DEPLOY:                           │
+└───────────────────────────────────────────────────────────────┘
+
+  1. Ve a: https://app.bigartist.es/upload
+
+  2. Arrastra el archivo: Oct2017_fullreport_big_artist_EU.csv
+
+  3. Click en "Procesar CSV"
+
+  4. Espera 10-30 segundos
+
+  5. ✅ Verás las estadísticas:
+     - Artistas importados
+     - Canciones importadas
+     - Plataformas detectadas
+     - Territorios
+     - Total de royalties
+     - Ingresos totales (€)
+
+
+┌───────────────────────────────────────────────────────────────┐
+│  📁 ARCHIVOS CSV LISTOS PARA IMPORTAR:                        │
+└───────────────────────────────────────────────────────────────┘
+
+  /imports/Oct2017_fullreport_big_artist_EU.csv
+  /imports/Oct2017_fullreport_big_artist_EU-1.csv
+
+
+┌───────────────────────────────────────────────────────────────┐
+│  📚 DOCUMENTACIÓN COMPLETA:                                   │
+└───────────────────────────────────────────────────────────────┘
+
+  README-CSV-UPLOAD.md              - Guía principal
+  INSTRUCCIONES-UPLOAD-CSV.md       - Instrucciones detalladas
+  RESUMEN-FUNCIONALIDAD-CSV.md      - Detalles técnicos
+  COMANDOS-SSH-CSV-UPLOAD.txt       - Comandos para SSH
+
+
+┌───────────────────────────────────────────────────────────────┐
+│  🆘 SI ALGO FALLA:                                            │
+└───────────────────────────────────────────────────────────────┘
+
+  1. Ver logs del servidor:
+     ssh root@94.143.141.241
+     pm2 logs bigartist-api
+
+  2. Reiniciar PM2:
+     pm2 restart bigartist-api
+
+  3. Verificar MySQL:
+     systemctl status mysql
+
+  4. Consultar documentación:
+     cat README-CSV-UPLOAD.md
+
+
+┌───────────────────────────────────────────────────────────────┐
+│  ✨ CARACTERÍSTICAS NUEVAS:                                   │
+└───────────────────────────────────────────────────────────────┘
+
+  ✅ Subir CSV desde la webapp (drag & drop)
+  ✅ Procesamiento automático
+  ✅ Estadísticas en tiempo real
+  ✅ Validación de formato
+  ✅ Notificaciones de éxito/error
+  ✅ Límite de 50MB por archivo
+  ✅ Soporte para formato The Orchard
+  ✅ Parseo de números europeos (coma decimal)
+  ✅ Importación de:
+      - Artistas
+      - Canciones
+      - Plataformas (Spotify, YouTube, etc.)
+      - Territorios
+      - Royalties detallados
+
+
+┌───────────────────────────────────────────────────────────────┐
+│  🎉 LISTO PARA DEPLOY                                         │
+└───────────────────────────────────────────────────────────────┘
+
+  Ejecuta ahora:
+
+    chmod +x QUICK-DEPLOY.sh && ./QUICK-DEPLOY.sh
+
+  O lee la documentación completa en:
+
+    README-CSV-UPLOAD.md
+
+
+═══════════════════════════════════════════════════════════════
+
+  📅 Fecha: 2 de Marzo, 2026
+  🔧 Versión: 1.0.0
+  ✅ Estado: LISTO PARA PRODUCCIÓN
+
+═══════════════════════════════════════════════════════════════

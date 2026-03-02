@@ -1,25 +1,17 @@
 import { Upload, FileText, AlertCircle, CheckCircle } from 'lucide-react';
 import { useState, useRef } from 'react';
+import { toast } from 'sonner@2.0.3';
+
+// URL del API - apunta directamente al servidor de producción
+const API_URL = 'https://app.bigartist.es/api';
 
 export function UploadPage() {
   const [isDragging, setIsDragging] = useState(false);
   const [file, setFile] = useState<File | null>(null);
-  const [uploadStatus, setUploadStatus] = useState<'idle' | 'success' | 'error'>('idle');
-  const [csvUploading, setCsvUploading] = useState(false);
-  const [csvProgress, setCsvProgress] = useState(0);
-  const [csvSuccess, setCsvSuccess] = useState(false);
-  const [tracksImported, setTracksImported] = useState(0);
+  const [isUploading, setIsUploading] = useState(false);
+  const [uploadSuccess, setUploadSuccess] = useState(false);
+  const [stats, setStats] = useState<any>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
-
-  // 🔥 FUNCIÓN PARA LIMPIAR TODOS LOS DATOS
-  const handleClearAllData = () => {
-    if (confirm('⚠️ ¿Estás seguro de que quieres eliminar TODOS los datos?\n\nEsto borrará:\n- Todos los artistas\n- Todas las canciones\n- Todos los contratos\n- Todos los datos del dashboard\n\nEsta acción NO se puede deshacer.')) {
-      localStorage.clear();
-      console.log('🧹 ✅ Todos los datos eliminados de localStorage');
-      alert('✅ Todos los datos han sido eliminados.\n\nRecarga la página (F5) para ver los cambios.');
-      window.location.reload();
-    }
-  };
 
   const handleDragOver = (e: React.DragEvent) => {
     e.preventDefault();
@@ -35,8 +27,12 @@ export function UploadPage() {
     setIsDragging(false);
 
     const droppedFile = e.dataTransfer.files[0];
-    if (droppedFile && droppedFile.type === 'text/csv') {
+    if (droppedFile && droppedFile.name.endsWith('.csv')) {
       setFile(droppedFile);
+      setUploadSuccess(false);
+      setStats(null);
+    } else {
+      toast.error('Por favor, sube un archivo CSV válido');
     }
   };
 
@@ -44,85 +40,54 @@ export function UploadPage() {
     const selectedFile = e.target.files?.[0];
     if (selectedFile) {
       setFile(selectedFile);
+      setUploadSuccess(false);
+      setStats(null);
     }
   };
 
-  const handleProcessCsv = () => {
+  const handleProcessCsv = async () => {
     if (!file) return;
 
-    setCsvUploading(true);
-    setCsvProgress(0);
-    setCsvSuccess(false);
+    setIsUploading(true);
+    setUploadSuccess(false);
+    setStats(null);
 
-    const reader = new FileReader();
-    reader.onload = (e) => {
-      const text = e.target?.result as string;
+    try {
+      const formData = new FormData();
+      formData.append('csv', file);
+
+      const token = localStorage.getItem('authToken');
       
-      // Simular progreso de carga
-      let progress = 0;
-      const progressInterval = setInterval(() => {
-        progress += 10;
-        setCsvProgress(progress);
+      const response = await fetch(`${API_URL}/royalties/import`, {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${token}`
+        },
+        body: formData
+      });
+
+      const data = await response.json();
+
+      if (data.success) {
+        setUploadSuccess(true);
+        setStats(data.stats);
+        toast.success('✅ Archivo CSV importado exitosamente');
         
-        if (progress >= 100) {
-          clearInterval(progressInterval);
-          
-          // Procesar CSV
-          setTimeout(() => {
-            const lines = text.split('\n');
-            const headers = lines[0].split(',').map(h => h.trim().toLowerCase());
-            const newTracks: any[] = [];
-
-            for (let i = 1; i < lines.length; i++) {
-              if (lines[i].trim() === '') continue;
-              
-              const values = lines[i].split(',').map(v => v.trim());
-              const track: any = { id: Date.now() + i };
-
-              headers.forEach((header, index) => {
-                if (header === 'title' || header === 'canción' || header === 'song') {
-                  track.title = values[index];
-                } else if (header === 'artist' || header === 'artista') {
-                  track.artist = values[index];
-                } else if (header === 'album' || header === 'álbum') {
-                  track.album = values[index];
-                } else if (header === 'platform' || header === 'plataforma') {
-                  track.platform = values[index];
-                } else if (header === 'streams' || header === 'reproducciones') {
-                  track.streams = parseInt(values[index]) || 0;
-                } else if (header === 'revenue' || header === 'ingresos') {
-                  track.revenue = parseFloat(values[index]) || 0;
-                } else if (header === 'duration' || header === 'duración') {
-                  track.duration = values[index];
-                }
-              });
-
-              if (track.title && track.artist) {
-                newTracks.push(track);
-              }
-            }
-
-            // Guardar en localStorage
-            const existingTracks = JSON.parse(localStorage.getItem('tracks') || '[]');
-            const updatedTracks = [...existingTracks, ...newTracks];
-            localStorage.setItem('tracks', JSON.stringify(updatedTracks));
-            
-            setTracksImported(newTracks.length);
-            setCsvSuccess(true);
-            setCsvUploading(false);
-
-            // Resetear después de 3 segundos
-            setTimeout(() => {
-              setCsvProgress(0);
-              setCsvSuccess(false);
-              setFile(null);
-            }, 3000);
-          }, 500);
-        }
-      }, 100);
-    };
-
-    reader.readAsText(file);
+        // Resetear el archivo después de 5 segundos
+        setTimeout(() => {
+          setFile(null);
+          setUploadSuccess(false);
+        }, 5000);
+      } else {
+        toast.error(data.message || 'Error al procesar el archivo');
+        console.error('Error:', data);
+      }
+    } catch (error) {
+      console.error('Error al subir CSV:', error);
+      toast.error('Error al subir el archivo. Verifica la conexión con el servidor.');
+    } finally {
+      setIsUploading(false);
+    }
   };
 
   return (
@@ -244,7 +209,7 @@ export function UploadPage() {
         </div>
       </div>
 
-      {csvUploading && (
+      {isUploading && (
         <div style={{
           marginTop: '32px',
           padding: '20px',
@@ -259,30 +224,91 @@ export function UploadPage() {
                 Cargando archivo CSV
               </p>
               <div style={{ width: '100%', height: '8px', background: 'rgba(201, 165, 116, 0.2)', borderRadius: '4px' }}>
-                <div style={{ width: `${csvProgress}%`, height: '8px', background: '#c9a574', borderRadius: '4px' }}></div>
+                <div style={{ width: '50%', height: '8px', background: '#c9a574', borderRadius: '4px' }}></div>
               </div>
             </div>
           </div>
         </div>
       )}
 
-      {csvSuccess && (
+      {uploadSuccess && stats && (
         <div style={{
           marginTop: '32px',
-          padding: '20px',
-          background: 'rgba(42, 63, 63, 0.3)',
-          border: '1px solid rgba(201, 165, 116, 0.2)',
-          borderRadius: '12px',
+          padding: '24px',
+          background: 'linear-gradient(135deg, rgba(42, 63, 63, 0.6) 0%, rgba(30, 47, 47, 0.8) 100%)',
+          border: '1px solid rgba(201, 165, 116, 0.3)',
+          borderRadius: '16px',
         }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-            <CheckCircle size={20} color="#c9a574" style={{ flexShrink: 0, marginTop: '2px' }} />
-            <div>
-              <p style={{ fontSize: '14px', fontWeight: '600', color: '#c9a574', marginBottom: '8px' }}>
-                Archivo CSV cargado exitosamente
-              </p>
-              <p style={{ fontSize: '13px', color: '#AFB3B7' }}>
-                Se importaron {tracksImported} nuevas pistas
-              </p>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '20px' }}>
+            <CheckCircle size={24} color="#c9a574" />
+            <h3 style={{ fontSize: '18px', fontWeight: '700', color: '#c9a574', margin: 0 }}>
+              ✅ Importación Completada
+            </h3>
+          </div>
+          
+          <div style={{ 
+            display: 'grid', 
+            gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', 
+            gap: '16px' 
+          }}>
+            <div style={{
+              padding: '16px',
+              background: 'rgba(201, 165, 116, 0.1)',
+              borderRadius: '12px',
+              border: '1px solid rgba(201, 165, 116, 0.2)'
+            }}>
+              <p style={{ fontSize: '12px', color: '#AFB3B7', marginBottom: '4px' }}>Artistas</p>
+              <p style={{ fontSize: '24px', fontWeight: '700', color: '#c9a574' }}>{stats.artists}</p>
+            </div>
+            
+            <div style={{
+              padding: '16px',
+              background: 'rgba(201, 165, 116, 0.1)',
+              borderRadius: '12px',
+              border: '1px solid rgba(201, 165, 116, 0.2)'
+            }}>
+              <p style={{ fontSize: '12px', color: '#AFB3B7', marginBottom: '4px' }}>Canciones</p>
+              <p style={{ fontSize: '24px', fontWeight: '700', color: '#c9a574' }}>{stats.tracks}</p>
+            </div>
+            
+            <div style={{
+              padding: '16px',
+              background: 'rgba(201, 165, 116, 0.1)',
+              borderRadius: '12px',
+              border: '1px solid rgba(201, 165, 116, 0.2)'
+            }}>
+              <p style={{ fontSize: '12px', color: '#AFB3B7', marginBottom: '4px' }}>Plataformas</p>
+              <p style={{ fontSize: '24px', fontWeight: '700', color: '#c9a574' }}>{stats.platforms}</p>
+            </div>
+            
+            <div style={{
+              padding: '16px',
+              background: 'rgba(201, 165, 116, 0.1)',
+              borderRadius: '12px',
+              border: '1px solid rgba(201, 165, 116, 0.2)'
+            }}>
+              <p style={{ fontSize: '12px', color: '#AFB3B7', marginBottom: '4px' }}>Territorios</p>
+              <p style={{ fontSize: '24px', fontWeight: '700', color: '#c9a574' }}>{stats.territories}</p>
+            </div>
+            
+            <div style={{
+              padding: '16px',
+              background: 'rgba(201, 165, 116, 0.1)',
+              borderRadius: '12px',
+              border: '1px solid rgba(201, 165, 116, 0.2)'
+            }}>
+              <p style={{ fontSize: '12px', color: '#AFB3B7', marginBottom: '4px' }}>Total Royalties</p>
+              <p style={{ fontSize: '24px', fontWeight: '700', color: '#c9a574' }}>{stats.royalties}</p>
+            </div>
+            
+            <div style={{
+              padding: '16px',
+              background: 'rgba(201, 165, 116, 0.1)',
+              borderRadius: '12px',
+              border: '1px solid rgba(201, 165, 116, 0.2)'
+            }}>
+              <p style={{ fontSize: '12px', color: '#AFB3B7', marginBottom: '4px' }}>Ingresos Totales</p>
+              <p style={{ fontSize: '24px', fontWeight: '700', color: '#c9a574' }}>€{stats.totalRevenue.toFixed(2)}</p>
             </div>
           </div>
         </div>
@@ -292,48 +318,22 @@ export function UploadPage() {
         style={{
           marginTop: '32px',
           padding: '12px 24px',
-          background: 'linear-gradient(135deg, #c9a574 0%, #a68a5e 100%)',
+          background: file && !isUploading 
+            ? 'linear-gradient(135deg, #c9a574 0%, #a68a5e 100%)' 
+            : 'rgba(201, 165, 116, 0.3)',
           border: 'none',
           borderRadius: '12px',
           color: '#ffffff',
           fontSize: '14px',
           fontWeight: '600',
-          cursor: 'pointer',
-          transition: 'background 0.3s ease',
+          cursor: file && !isUploading ? 'pointer' : 'not-allowed',
+          transition: 'all 0.3s ease',
+          opacity: file && !isUploading ? 1 : 0.5,
         }}
         onClick={handleProcessCsv}
-        disabled={!file || csvUploading}
+        disabled={!file || isUploading}
       >
-        Procesar CSV
-      </button>
-
-      {/* 🔥 BOTÓN DE LIMPIEZA TOTAL */}
-      <button
-        style={{
-          marginTop: '32px',
-          marginLeft: '16px',
-          padding: '12px 24px',
-          background: 'linear-gradient(135deg, #ef4444 0%, #dc2626 100%)',
-          border: 'none',
-          borderRadius: '12px',
-          color: '#ffffff',
-          fontSize: '14px',
-          fontWeight: '600',
-          cursor: 'pointer',
-          transition: 'all 0.3s ease',
-          boxShadow: '0 4px 12px rgba(239, 68, 68, 0.3)',
-        }}
-        onClick={handleClearAllData}
-        onMouseEnter={(e) => {
-          e.currentTarget.style.transform = 'translateY(-2px)';
-          e.currentTarget.style.boxShadow = '0 6px 20px rgba(239, 68, 68, 0.5)';
-        }}
-        onMouseLeave={(e) => {
-          e.currentTarget.style.transform = 'translateY(0)';
-          e.currentTarget.style.boxShadow = '0 4px 12px rgba(239, 68, 68, 0.3)';
-        }}
-      >
-        🗑️ Limpiar Todos los Datos
+        {isUploading ? '⏳ Procesando...' : 'Procesar CSV'}
       </button>
     </div>
   );

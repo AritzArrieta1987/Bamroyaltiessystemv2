@@ -1,0 +1,282 @@
+# ========================================
+# 🚀 COMANDOS SSH - ACTUALIZAR BACKEND
+# ========================================
+# Copia y pega estos comandos UNO POR UNO en tu terminal SSH
+
+# 1. CONECTAR AL SERVIDOR
+ssh root@94.143.141.241
+
+# 2. IR AL DIRECTORIO DEL SERVIDOR
+cd /var/www/bigartist/server
+
+# 3. CREAR BACKUP DEL server.js ACTUAL
+cp server.js server.js.backup
+
+# 4. ACTUALIZAR server.js (OPCIÓN A: Editar manualmente)
+nano server.js
+# Luego agrega los cambios del archivo /server/server.js
+
+# ========================================
+# O MEJOR: OPCIÓN B - CREAR ARCHIVO NUEVO
+# ========================================
+
+# Crear el nuevo server.js con TODAS las funcionalidades
+cat > server.js << 'ENDSERVERJS'
+const express = require('express');
+const mysql = require('mysql2/promise');
+const bcrypt = require('bcryptjs');
+const jwt = require('jsonwebtoken');
+const cors = require('cors');
+const multer = require('multer');
+const fs = require('fs');
+const path = require('path');
+const { spawn } = require('child_process');
+require('dotenv').config();
+
+const app = express();
+const PORT = process.env.PORT || 3001;
+
+// Configurar multer para subir archivos
+const upload = multer({ 
+  dest: '/tmp/',
+  limits: { fileSize: 50 * 1024 * 1024 } // 50MB máx
+});
+
+// Middleware
+app.use(cors());
+app.use(express.json());
+
+// Configuración MySQL
+const pool = mysql.createPool({
+  host: process.env.DB_HOST || 'localhost',
+  user: process.env.DB_USER || 'root',
+  password: process.env.DB_PASSWORD || 'BigArtist2018!@?',
+  database: process.env.DB_NAME || 'bigartist_db',
+  waitForConnections: true,
+  connectionLimit: 10,
+  queueLimit: 0
+});
+
+// Secret para JWT
+const JWT_SECRET = process.env.JWT_SECRET || 'bigartist-secret-key-change-in-production';
+
+// Middleware para verificar token
+const verifyToken = (req, res, next) => {
+  const token = req.headers['authorization']?.replace('Bearer ', '');
+  
+  if (!token) {
+    return res.status(403).json({ success: false, message: 'Token no proporcionado' });
+  }
+
+  try {
+    const decoded = jwt.verify(token, JWT_SECRET);
+    req.userId = decoded.id;
+    next();
+  } catch (error) {
+    return res.status(401).json({ success: false, message: 'Token inválido' });
+  }
+};
+
+// **ENDPOINT: Login**
+app.post('/api/auth/login', async (req, res) => {
+  try {
+    const { email, password } = req.body;
+
+    if (!email || !password) {
+      return res.status(400).json({ 
+        success: false, 
+        message: 'Email y contraseña son requeridos' 
+      });
+    }
+
+    const [rows] = await pool.query('SELECT * FROM users WHERE email = ?', [email]);
+
+    if (rows.length === 0) {
+      return res.status(401).json({ 
+        success: false, 
+        message: 'Usuario o contraseña incorrectos' 
+      });
+    }
+
+    const user = rows[0];
+    const isPasswordValid = await bcrypt.compare(password, user.password_hash);
+
+    if (!isPasswordValid) {
+      return res.status(401).json({ 
+        success: false, 
+        message: 'Usuario o contraseña incorrectos' 
+      });
+    }
+
+    const token = jwt.sign(
+      { id: user.id, email: user.email, role: user.role },
+      JWT_SECRET,
+      { expiresIn: '24h' }
+    );
+
+    res.json({
+      success: true,
+      token,
+      user: {
+        id: user.id,
+        email: user.email,
+        name: user.name,
+        role: user.role
+      },
+      message: 'Login exitoso'
+    });
+
+  } catch (error) {
+    console.error('Error en login:', error);
+    res.status(500).json({ 
+      success: false, 
+      message: 'Error interno del servidor' 
+    });
+  }
+});
+
+// **ENDPOINT: Importar CSV**
+app.post('/api/royalties/import', verifyToken, upload.single('csv'), async (req, res) => {
+  let tempFilePath = null;
+  
+  try {
+    if (!req.file) {
+      return res.status(400).json({
+        success: false,
+        message: 'No se proporcionó ningún archivo'
+      });
+    }
+
+    tempFilePath = req.file.path;
+    const scriptPath = path.join(__dirname, 'scripts', 'importCSV.js');
+    
+    console.log('📤 Iniciando importación de CSV:', req.file.originalname);
+    console.log('📁 Archivo temporal:', tempFilePath);
+    console.log('🔧 Script:', scriptPath);
+
+    const importProcess = spawn('node', [scriptPath, tempFilePath], {
+      env: { ...process.env }
+    });
+
+    let output = '';
+    let errorOutput = '';
+
+    importProcess.stdout.on('data', (data) => {
+      const text = data.toString();
+      output += text;
+      console.log(text);
+    });
+
+    importProcess.stderr.on('data', (data) => {
+      const text = data.toString();
+      errorOutput += text;
+      console.error(text);
+    });
+
+    importProcess.on('close', async (code) => {
+      try {
+        if (tempFilePath && fs.existsSync(tempFilePath)) {
+          fs.unlinkSync(tempFilePath);
+        }
+      } catch (err) {
+        console.error('Error eliminando archivo temporal:', err);
+      }
+
+      if (code !== 0) {
+        console.error('❌ Error en importación, código:', code);
+        return res.status(500).json({
+          success: false,
+          message: 'Error procesando el archivo CSV',
+          error: errorOutput
+        });
+      }
+
+      try {
+        const [stats] = await pool.query(\`
+          SELECT 
+            (SELECT COUNT(*) FROM artists) as total_artists,
+            (SELECT COUNT(*) FROM tracks) as total_tracks,
+            (SELECT COUNT(*) FROM platforms) as total_platforms,
+            (SELECT COUNT(*) FROM territories) as total_territories,
+            (SELECT COUNT(*) FROM royalty_details) as total_royalties,
+            (SELECT ROUND(SUM(net_receipts), 2) FROM royalty_details) as total_revenue
+        \`);
+
+        console.log('✅ Importación completada exitosamente');
+        
+        res.json({
+          success: true,
+          message: 'Archivo CSV importado exitosamente',
+          stats: {
+            artists: stats[0].total_artists,
+            tracks: stats[0].total_tracks,
+            platforms: stats[0].total_platforms,
+            territories: stats[0].total_territories,
+            royalties: stats[0].total_royalties,
+            totalRevenue: parseFloat(stats[0].total_revenue || 0)
+          },
+          output: output
+        });
+      } catch (error) {
+        console.error('Error obteniendo estadísticas:', error);
+        res.json({
+          success: true,
+          message: 'Archivo CSV importado, pero no se pudieron obtener las estadísticas',
+          output: output
+        });
+      }
+    });
+
+  } catch (error) {
+    console.error('Error en importación CSV:', error);
+    
+    if (tempFilePath && fs.existsSync(tempFilePath)) {
+      try {
+        fs.unlinkSync(tempFilePath);
+      } catch (err) {
+        console.error('Error eliminando archivo temporal:', err);
+      }
+    }
+    
+    res.status(500).json({
+      success: false,
+      message: 'Error procesando el archivo',
+      error: error.message
+    });
+  }
+});
+
+// Health check
+app.get('/api/health', (req, res) => {
+  res.json({ status: 'OK', timestamp: new Date().toISOString() });
+});
+
+// Iniciar servidor
+app.listen(PORT, () => {
+  console.log(\`🚀 Servidor corriendo en puerto \${PORT}\`);
+  console.log(\`📊 Health check: http://localhost:\${PORT}/api/health\`);
+});
+
+pool.on('error', (err) => {
+  console.error('Error en MySQL pool:', err);
+});
+ENDSERVERJS
+
+# 5. INSTALAR DEPENDENCIA MULTER
+npm install multer
+
+# 6. REINICIAR PM2
+pm2 restart bigartist-api
+
+# 7. VER LOGS
+pm2 logs bigartist-api --lines 30
+
+# 8. VERIFICAR QUE FUNCIONA
+curl http://localhost:3001/api/health
+
+# ========================================
+# ✅ LISTO! Ahora puedes:
+# ========================================
+# 1. Ir a https://app.bigartist.es/upload
+# 2. Subir el CSV Oct2017_fullreport_big_artist_EU.csv
+# 3. Ver las estadísticas de importación

@@ -1,0 +1,60 @@
+# JWT Secret
+JWT_SECRET=your-secret-key-change-this-in-production-BigArtist2025
+bigartist-backend@1.0.0 /var/www/bigartist/server
+└── cors@2.8.6
+
+
+up to date, audited 155 packages in 1s
+
+23 packages are looking for funding
+  run `npm fund` for details
+
+3 high severity vulnerabilities
+
+To address all issues (including breaking changes), run:
+  npm audit fix --force
+
+Run `npm audit` for details.
+[PM2] Applying action restartProcessId on app [bigartist-api](ids: [ 0 ])
+[PM2] [bigartist-api](0) ✓
+┌────┬────────────────────┬──────────┬──────┬───────────┬──────────┬──────────┐
+│ id │ name               │ mode     │ ↺    │ status    │ cpu      │ memory   │
+├────┼────────────────────┼──────────┼──────┼───────────┼──────────┼──────────┤
+│ 0  │ bigartist-api      │ fork     │ 3    │ online    │ 0%       │ 18.0mb   │
+└────┴────────────────────┴──────────┴──────┴───────────┴──────────┴──────────┘
+[PM2] Flushing /root/.pm2/pm2.log
+[PM2] Flushing:
+[PM2] /root/.pm2/logs/bigartist-api-out.log
+[PM2] /root/.pm2/logs/bigartist-api-error.log
+[PM2] Logs flushed
+[1] 65973
+[TAILING] Tailing last 10 lines for [bigartist-api] process (change the value with --lines option)
+/root/.pm2/logs/bigartist-api-out.log last 10 lines:
+0|bigartis | API corriendo en puerto 3001
+
+/root/.pm2/logs/bigartist-api-error.log last 10 lines:
+0|bigartis | ❌ Error de conexión a MySQL: Access denied for user 'root'@'localhost' (using password: NO)
+
+0|bigartist-api  | Error en login: Error: Access denied for user 'root'@'localhost' (using password: NO)
+0|bigartist-api  |     at PromisePool.execute (/var/www/bigartist/server/node_modules/mysql2/lib/promise/pool.js:54:22)
+0|bigartist-api  |     at /var/www/bigartist/server/server.js:44:32
+0|bigartist-api  |     at Layer.handle [as handle_request] (/var/www/bigartist/server/node_modules/express/lib/router/layer.js:95:5)
+0|bigartist-api  |     at next (/var/www/bigartist/server/node_modules/express/lib/router/route.js:149:13)
+0|bigartist-api  |     at Route.dispatch (/var/www/bigartist/server/node_modules/express/lib/router/route.js:119:3)
+0|bigartist-api  |     at Layer.handle [as handle_request] (/var/www/bigartist/server/node_modules/express/lib/router/layer.js:95:5)
+0|bigartist-api  |     at /var/www/bigartist/server/node_modules/express/lib/router/index.js:284:15
+0|bigartist-api  |     at Function.process_params (/var/www/bigartist/server/node_modules/express/lib/router/index.js:346:12)
+0|bigartist-api  |     at next (/var/www/bigartist/server/node_modules/express/lib/router/index.js:280:10)
+0|bigartist-api  |     at /var/www/bigartist/server/node_modules/body-parser/lib/read.js:137:5 {
+0|bigartist-api  |   code: 'ER_ACCESS_DENIED_ERROR',
+0|bigartist-api  |   errno: 1045,
+0|bigartist-api  |   sql: undefined,
+0|bigartist-api  |   sqlState: '28000',
+0|bigartist-api  |   sqlMessage: "Access denied for user 'root'@'localhost' (using password: NO)"
+0|bigartist-api  | }
+{"error":"Error interno del servidor"}
+
+============================================
+✅ SI VES UN JSON CON 'success: true', TODO ESTÁ BIEN
+============================================
+root@ubuntu:/var/www/bigartist/server# 
