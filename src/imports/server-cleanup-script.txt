@@ -1,0 +1,120 @@
+cd /var/www/bigartist_backup_20260302_174903/server
+
+echo "=========================================="
+echo "🔧 ELIMINANDO CÓDIGO SOBRANTE"
+echo "=========================================="
+
+# Backup
+cp server.js server.js.backup_cleanup_$(date +%Y%m%d_%H%M%S)
+
+# Ver las líneas problemáticas
+echo "Código actual alrededor de la línea 200:"
+sed -n '195,205p' server.js | cat -n
+
+echo ""
+echo "Buscando las llaves extra..."
+
+# Crear script para eliminar las líneas problemáticas
+cat > cleanup_syntax.js << 'EOFCLEANUP'
+const fs = require('fs');
+let content = fs.readFileSync('server.js', 'utf8');
+const lines = content.split('\n');
+
+// Buscar el patrón: después de });  hay líneas con solo   } y });
+let foundTracksEnd = false;
+let linesToRemove = [];
+
+for (let i = 0; i < lines.length; i++) {
+  const line = lines[i];
+  const nextLine = lines[i + 1] || '';
+  const nextNextLine = lines[i + 2] || '';
+  
+  // Buscar el final del endpoint tracks
+  if (line.includes("app.get('/api/tracks'")) {
+    foundTracksEnd = true;
+  }
+  
+  // Después del endpoint tracks, buscar el patrón de llaves extra
+  if (foundTracksEnd && line.trim() === '});') {
+    // Ver si las siguientes líneas son llaves solitarias
+    if (nextLine.trim() === '' && nextNextLine.trim() === '  }') {
+      const thirdLine = lines[i + 3] || '';
+      if (thirdLine.trim() === '});') {
+        console.log(`✅ Encontradas llaves extra en líneas ${i + 2}-${i + 3}`);
+        linesToRemove.push(i + 2, i + 3);
+        break;
+      }
+    }
+  }
+}
+
+if (linesToRemove.length > 0) {
+  const newLines = lines.filter((_, index) => !linesToRemove.includes(index));
+  fs.writeFileSync('server.js', newLines.join('\n'));
+  console.log('✅ Líneas sobrantes eliminadas');
+} else {
+  console.log('⚠️  No se encontraron las líneas problemáticas con el patrón esperado');
+  console.log('Buscando manualmente...');
+  
+  // Método alternativo: eliminar líneas que son solo "  }" seguidas de "});" después del endpoint tracks
+  let modified = false;
+  for (let i = 0; i < lines.length - 1; i++) {
+    if (lines[i].trim() === '});' && 
+        lines[i + 1].trim() === '' &&
+        lines[i + 2] && lines[i + 2].trim() === '  }' &&
+        lines[i + 3] && lines[i + 3].trim() === '});') {
+      console.log(`Eliminando líneas ${i + 2} y ${i + 3}`);
+      lines.splice(i + 2, 2);
+      modified = true;
+      break;
+    }
+  }
+  
+  if (modified) {
+    fs.writeFileSync('server.js', lines.join('\n'));
+    console.log('✅ Archivo limpiado');
+  } else {
+    console.log('❌ No se pudo limpiar automáticamente');
+  }
+}
+EOFCLEANUP
+
+# Ejecutar limpieza
+node cleanup_syntax.js
+
+echo ""
+echo "Verificando sintaxis..."
+if node -c server.js 2>/dev/null; then
+  echo "✅ Sintaxis correcta"
+else
+  echo "⚠️  Aún hay errores. Mostrando líneas alrededor del error:"
+  node -c server.js 2>&1 | grep -A 2 "SyntaxError"
+  
+  # Intentar método manual más agresivo
+  echo ""
+  echo "Intentando limpieza manual..."
+  
+  # Eliminar cualquier línea que sea exactamente "  }" seguida de "});" después de la línea 195
+  sed -i '196,250{/^  }$/N;/^  }\n});$/d;}' server.js
+  
+  echo "Verificando nuevamente..."
+  node -c server.js && echo "✅ Sintaxis correcta" || echo "❌ Error persiste"
+fi
+
+echo ""
+echo "🔄 Reiniciando PM2..."
+pm2 restart bigartist-api
+
+sleep 2
+
+echo ""
+echo "🧪 Probando login..."
+curl -s -X POST http://localhost:3001/api/auth/login \
+  -H "Content-Type: application/json" \
+  -d '{"email":"admin@bigartist.es","password":"admin123"}' | jq '.'
+
+# Limpiar
+rm -f cleanup_syntax.js
+
+echo ""
+echo "✅ PROCESO COMPLETADO"

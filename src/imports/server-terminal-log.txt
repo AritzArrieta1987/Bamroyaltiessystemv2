@@ -1,0 +1,211 @@
+Last login: Tue Mar  3 13:31:01 on ttys003
+/Users/aritzarrieta/.zprofile:1: no such file or directory: /opt/homebrew/bin/brew
+/Users/aritzarrieta/.zprofile:2: no such file or directory: /usr/local/bin/brew
+aritzarrieta@MBP-de-Aritz ~ % ssh root@94.143.141.241
+root@94.143.141.241's password: 
+Welcome to Ubuntu 24.04.4 LTS (GNU/Linux 6.8.0-101-generic x86_64)
+
+ * Documentation:  https://help.ubuntu.com
+ * Management:     https://landscape.canonical.com
+ * Support:        https://ubuntu.com/pro
+
+ System information as of Tue Mar  3 13:45:19 UTC 2026
+
+  System load:  0.0               Processes:             118
+  Usage of /:   6.0% of 76.45GB   Users logged in:       1
+  Memory usage: 48%               IPv4 address for ens6: 94.143.141.241
+  Swap usage:   0%
+
+ * Strictly confined Kubernetes makes edge and IoT secure. Learn how MicroK8s
+   just raised the bar for easy, resilient and secure K8s cluster deployment.
+
+   https://ubuntu.com/engage/secure-kubernetes-at-the-edge
+
+Expanded Security Maintenance for Applications is not enabled.
+
+0 updates can be applied immediately.
+
+Enable ESM Apps to receive additional future security updates.
+See https://ubuntu.com/esm or run: sudo pro status
+
+
+Last login: Tue Mar  3 13:42:01 2026 from 207.188.130.38
+root@ubuntu:~# ls -la /var/www/
+total 52
+drwxr-xr-x 11 root     root     4096 Mar  2 17:49 .
+drwxr-xr-x 14 root     root     4096 Feb 28 19:30 ..
+-rw-r--r--  1 root     root       42 Mar  2 17:49 .env
+drwxr-xr-x  7 root     root     4096 Mar  2 19:39 bigartist
+drwxr-xr-x  3 root     root     4096 Mar  1 13:25 bigartist-api
+drwxr-xr-x 10 root     root     4096 Mar  1 20:47 bigartist-backup-20260301-214312
+drwxr-xr-x  6 root     root     4096 Mar  1 21:43 bigartist-backup-20260301-214637
+drwxr-xr-x  8 root     root     4096 Mar  1 23:58 bigartist-backup-20260302-002157
+drwxr-xr-x  4 www-data www-data 4096 Mar  1 13:22 bigartist-old
+drwxr-xr-x  6 root     root     4096 Feb 28 21:52 bigartist-source
+drwxr-xr-x  9 root     root     4096 Mar  2 13:41 bigartist_backup_20260302_174903
+drwxr-xr-x  3 root     root     4096 Mar  1 12:56 html
+-rw-r--r--  1 root     root       82 Mar  2 17:49 package-lock.json
+root@ubuntu:~# find /var/www -name "bigartist" -type d 2>/dev/null
+/var/www/bigartist
+/var/www/html/bigartist
+root@ubuntu:~# ls -la /root/
+total 252
+drwx------  9 root root  4096 Mar  3 13:41 .
+drwxr-xr-x 22 root root  4096 Feb 28 19:16 ..
+-rw-------  1 root root 84627 Mar  3 13:41 .bash_history
+-rw-r--r--  1 root root  3106 Apr 22  2024 .bashrc
+-rw-------  1 root root   218 Feb 28 19:31 .bigartist-credentials
+drwx------  2 root root  4096 Feb 28 03:48 .cache
+-rw-r--r--  1 root root    68 Mar  2 11:15 .gitconfig
+-rw-------  1 root root    20 Mar  2 11:48 .lesshst
+drwxr-xr-x  3 root root  4096 Mar  1 11:55 .local
+-rw-------  1 root root  2679 Mar  2 11:59 .mysql_history
+drwxr-xr-x  4 root root  4096 Feb 28 21:04 .npm
+drwxr-xr-x  5 root root  4096 Mar  2 18:37 .pm2
+-rw-r--r--  1 root root   161 Apr 22  2024 .profile
+drwx------  2 root root  4096 Mar  2 11:26 .ssh
+drwxr-xr-x  6 root root  4096 Mar  1 13:20 Bamroyaltiessystemv2
+drwxr-xr-x  2 root root  4096 Feb 28 19:30 bigartist-app
+-rwxr-xr-x  1 root root  1752 Mar  1 22:24 create-clean-backend.sh
+-rwxr-xr-x  1 root root  4570 Mar  1 22:26 create-clean-server.sh
+-rwxr-xr-x  1 root root  5776 Mar  1 11:56 deploy-bigartist.sh
+-rwxr-xr-x  1 root root  9267 Mar  1 21:33 deploy-local.sh
+-rwxr-xr-x  1 root root  2241 Mar  1 21:38 deploy.sh
+-rwxr-xr-x  1 root root  2411 Mar  1 22:24 diagnose-backend.sh
+-rwxr-xr-x  1 root root  1245 Mar  1 22:36 final-fix-password.sh
+-rwxr-xr-x  1 root root  3131 Mar  1 22:33 fix-admin-password.sh
+-rwxr-xr-x  1 root root  2058 Mar  1 22:18 fix-database.sh
+-rwxr-xr-x  1 root root  6163 Mar  1 22:30 fix-server-complete.sh
+-rw-r--r--  1 root root    83 Mar  1 13:17 package-lock.json
+-rwxr-xr-x  1 root root   794 Mar  1 21:34 quick-deploy.sh
+-rwxr-xr-x  1 root root  1068 Mar  1 22:33 quick-fix-password.sh
+-rwxr-xr-x  1 root root  2469 Mar  1 22:11 restore-backend.sh
+-rw-r--r--  1 root root  1176 Mar  2 20:31 server.js
+-rwxr-xr-x  1 root root  3676 Mar  1 22:14 setup-backend.sh
+-rwxr-xr-x  1 root root  2562 Mar  1 21:54 setup-complete.sh
+-rwxr-xr-x  1 root root  3894 Mar  1 22:28 setup-database.sh
+-rwxr-xr-x  1 root root 14767 Mar  1 21:46 setup-from-github.sh
+root@ubuntu:~# cat /etc/nginx/sites-available/bigartist
+server {
+    listen 443 ssl http2;
+    listen [::]:443 ssl http2;
+    server_name app.bigartist.es;
+
+    ssl_certificate /etc/letsencrypt/live/app.bigartist.es/fullchain.pem;
+    ssl_certificate_key /etc/letsencrypt/live/app.bigartist.es/privkey.pem;
+    include /etc/letsencrypt/options-ssl-nginx.conf;
+    ssl_dhparam /etc/letsencrypt/ssl-dhparams.pem;
+
+    root /var/www/bigartist/dist;
+    index index.html;
+
+    # Desactivar caché para todos los archivos (temporal)
+    add_header Cache-Control "no-store, no-cache, must-revalidate, proxy-revalidate, max-age=0";
+    add_header Pragma "no-cache";
+    add_header Expires "0";
+
+    location / {
+        try_files $uri $uri/ /index.html;
+    }
+
+    location /api {
+        proxy_pass http://localhost:3001;
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection 'upgrade';
+        proxy_set_header Host $host;
+        proxy_cache_bypass $http_upgrade;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+    }
+}
+
+server {
+    listen 80;
+    listen [::]:80;
+    server_name app.bigartist.es;
+    return 301 https://$server_name$request_uri;
+}
+root@ubuntu:~# ls -la /var/www/bigartist/
+total 164
+drwxr-xr-x  7 root root   4096 Mar  2 19:39 .
+drwxr-xr-x 11 root root   4096 Mar  2 17:49 ..
+-rw-r--r--  1 root root     42 Mar  2 17:59 .env
+drwxr-xr-x  8 root root   4096 Mar  2 17:49 .git
+-rw-r--r--  1 root root    311 Mar  2 17:49 README.md
+drwxr-xr-x  3 root root   4096 Mar  2 19:48 dist
+-rw-r--r--  1 root root    335 Mar  2 17:49 index.html
+drwxr-xr-x 78 root root   4096 Mar  2 17:59 node_modules
+-rw-r--r--  1 root root 115147 Mar  2 17:59 package-lock.json
+-rw-r--r--  1 root root    634 Mar  2 17:49 package.json
+drwxr-xr-x  2 root root   4096 Mar  2 19:39 public
+drwxr-xr-x 13 root root   4096 Mar  2 19:25 src
+-rw-r--r--  1 root root    199 Mar  2 18:02 vite.config.ts
+root@ubuntu:~# ls -la /var/www/bigartist/src/
+total 376
+drwxr-xr-x 13 root root  4096 Mar  2 19:25 .
+drwxr-xr-x  7 root root  4096 Mar  2 19:39 ..
+-rw-r--r--  1 root root  1440 Mar  2 19:25 App.tsx
+-rw-r--r--  1 root root  1437 Mar  2 19:22 App.tsx.backup_20260302_192250
+-rw-r--r--  1 root root   303 Mar  2 17:49 Attributions.md
+-rw-r--r--  1 root root  3538 Mar  2 17:49 CHANGELOG.md
+-rw-r--r--  1 root root  5559 Mar  2 17:49 COMANDOS-DEPLOY-CSV.md
+-rw-r--r--  1 root root  7251 Mar  2 17:49 COMANDOS-DEPLOY.txt
+-rw-r--r--  1 root root  7768 Mar  2 17:49 COMANDOS-SSH-CSV-UPLOAD.txt
+-rw-r--r--  1 root root   769 Mar  2 17:49 COMANDOS-SSH-DIRECTO.md
+-rw-r--r--  1 root root  3236 Mar  2 17:49 COMO-DESPLEGAR.md
+-rw-r--r--  1 root root  8315 Mar  2 17:49 CONTRIBUTING.md
+-rw-r--r--  1 root root  7612 Mar  2 17:49 DEPLOY-AHORA.txt
+-rw-r--r--  1 root root  4965 Mar  2 17:49 DEPLOY-COMPLETO.sh
+-rw-r--r--  1 root root  2209 Mar  2 17:49 DEPLOY-CSV-UPLOAD.sh
+-rw-r--r--  1 root root  6546 Mar  2 17:49 DEPLOY-MOBILE-NOW.md
+-rw-r--r--  1 root root   968 Mar  2 17:49 DEPLOY-ONE-COMMAND.sh
+-rw-r--r--  1 root root  8693 Mar  2 17:49 DEPLOY-SERVER-COMPLETE.sh
+-rw-r--r--  1 root root  2018 Mar  2 17:49 DEPLOY-SIMPLE.md
+-rw-r--r--  1 root root   543 Mar  2 17:49 DEPLOY-SIMPLE.sh
+-rw-r--r--  1 root root  4890 Mar  2 17:49 DEPLOYMENT.md
+-rw-r--r--  1 root root  1241 Mar  2 17:49 FIX-TOKEN-COMPLETO.sh
+-rw-r--r--  1 root root  6812 Mar  2 17:49 FIX-Y-PRUEBA-CSV.sh
+-rw-r--r--  1 root root  2087 Mar  2 17:49 GIT-COMMIT-MOBILE.sh
+-rw-r--r--  1 root root  4942 Mar  2 17:49 INSTRUCCIONES-SSH.md
+-rw-r--r--  1 root root  6183 Mar  2 17:49 INSTRUCCIONES-UPLOAD-CSV.md
+-rw-r--r--  1 root root  2225 Mar  2 17:49 LEER-PRIMERO.md
+drwxr-xr-x  2 root root  4096 Mar  2 19:25 LICENSE
+-rw-r--r--  1 root root  7058 Mar  2 17:49 MOBILE-CHANGES.md
+-rw-r--r--  1 root root  8194 Mar  2 17:49 PROJECT-CHECKLIST.md
+-rw-r--r--  1 root root 11470 Mar  2 17:49 PROJECT-STRUCTURE.md
+-rw-r--r--  1 root root 10580 Mar  2 17:49 PROYECTO-COMPLETO.md
+-rw-r--r--  1 root root  1043 Mar  2 17:49 QUICK-DEPLOY.sh
+-rw-r--r--  1 root root  1738 Mar  2 17:49 QUICK-START.md
+-rw-r--r--  1 root root  8289 Mar  2 17:49 README-CSV-UPLOAD.md
+-rw-r--r--  1 root root  9688 Mar  2 17:49 README.md
+-rw-r--r--  1 root root 12203 Mar  2 17:49 RESUMEN-FUNCIONALIDAD-CSV.md
+-rw-r--r--  1 root root   485 Mar  2 17:49 UPDATE-APP.sh
+-rw-r--r--  1 root root  1133 Mar  2 17:49 UPDATE-SERVER-JS.sh
+-rw-r--r--  1 root root   898 Mar  2 17:49 UPDATE-SERVER-TOKEN-FIX.sh
+drwxr-xr-x  2 root root  4096 Mar  2 17:49 assets
+drwxr-xr-x  4 root root  4096 Mar  2 19:41 components
+-rw-r--r--  1 root root  9267 Mar  2 17:49 deploy-local.sh
+-rw-r--r--  1 root root   986 Mar  2 17:49 deploy-quick.sh
+-rw-r--r--  1 root root  2890 Mar  2 17:49 deploy.sh
+drwxr-xr-x  2 root root  4096 Mar  2 19:25 deployment
+drwxr-xr-x  2 root root  4096 Mar  2 17:49 guidelines
+drwxr-xr-x  2 root root  4096 Mar  2 19:25 imports.backup_20260302_192123
+-rw-r--r--  1 root root 12858 Mar  2 17:49 index.css
+-rw-r--r--  1 root root   477 Mar  2 17:49 index.html
+-rw-r--r--  1 root root   340 Mar  2 19:25 main.tsx
+-rw-r--r--  1 root root   820 Mar  2 17:49 package.json
+drwxr-xr-x  2 root root  4096 Mar  2 19:25 pages
+drwxr-xr-x  2 root root  4096 Mar  2 17:49 public
+-rw-r--r--  1 root root   996 Mar  2 17:49 quick-deploy.sh
+-rw-r--r--  1 root root  1307 Mar  2 19:25 routes.ts
+drwxr-xr-x  4 root root  4096 Mar  2 17:49 server
+drwxr-xr-x  2 root root  4096 Mar  2 17:49 styles
+-rw-r--r--  1 root root   707 Mar  2 17:49 tsconfig.json
+-rw-r--r--  1 root root   224 Mar  2 17:49 update.sh
+drwxr-xr-x  2 root root  4096 Mar  2 19:25 utils
+-rw-r--r--  1 root root   202 Mar  2 19:25 vite.config.ts
+root@ubuntu:~# ls -la /var/www/bigartist/imports/
+ls: cannot access '/var/www/bigartist/imports/': No such file or directory
+root@ubuntu:~# 

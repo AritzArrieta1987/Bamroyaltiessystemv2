@@ -1,0 +1,136 @@
+Last login: Mon Mar  2 20:18:30 on ttys000
+/Users/aritzarrieta/.zprofile:1: no such file or directory: /opt/homebrew/bin/brew
+/Users/aritzarrieta/.zprofile:2: no such file or directory: /usr/local/bin/brew
+aritzarrieta@MBP-de-Aritz ~ % ssh root@94.143.141.241
+root@94.143.141.241's password: 
+Welcome to Ubuntu 24.04.4 LTS (GNU/Linux 6.8.0-101-generic x86_64)
+
+ * Documentation:  https://help.ubuntu.com
+ * Management:     https://landscape.canonical.com
+ * Support:        https://ubuntu.com/pro
+
+ System information as of Tue Mar  3 09:06:42 UTC 2026
+
+  System load:  0.0               Processes:             111
+  Usage of /:   6.0% of 76.45GB   Users logged in:       0
+  Memory usage: 46%               IPv4 address for ens6: 94.143.141.241
+  Swap usage:   0%
+
+ * Strictly confined Kubernetes makes edge and IoT secure. Learn how MicroK8s
+   just raised the bar for easy, resilient and secure K8s cluster deployment.
+
+   https://ubuntu.com/engage/secure-kubernetes-at-the-edge
+
+Expanded Security Maintenance for Applications is not enabled.
+
+0 updates can be applied immediately.
+
+Enable ESM Apps to receive additional future security updates.
+See https://ubuntu.com/esm or run: sudo pro status
+
+
+Last login: Mon Mar  2 20:31:16 2026 from 94.143.141.241
+root@ubuntu:~# cd ~
+
+echo "=========================================="
+echo "🔍 VERIFICANDO ESTRUCTURA DE LA BD"
+echo "=========================================="
+
+# Ver todas las tablas
+mysql -u root -p'BigArtist2018!@?' bigartist_db -e "SHOW TABLES;"
+
+echo ""
+echo "=========================================="
+echo "📊 Estructura de la tabla tracks:"
+echo "=========================================="
+mysql -u root -p'BigArtist2018!@?' bigartist_db -e "DESCRIBE tracks;"
+
+echo ""
+echo "=========================================="
+echo "📊 Primeros 5 registros de tracks:"
+echo "=========================================="
+mysql -u root -p'BigArtist2018!@?' bigartist_db -e "SELECT * FROM tracks LIMIT 5;"
+
+echo ""
+echo "=========================================="
+echo "✅ DIAGNÓSTICO COMPLETADO"?' bigartist_db -e "DESCRIBE users;";"
+==========================================
+🔍 VERIFICANDO ESTRUCTURA DE LA BD
+==========================================
+mysql: [Warning] Using a password on the command line interface can be insecure.
++------------------------+
+| Tables_in_bigartist_db |
++------------------------+
+| artists                |
+| periods                |
+| platforms              |
+| royalties              |
+| royalty_details        |
+| royalty_summary        |
+| royalty_types          |
+| territories            |
+| tracks                 |
+| users                  |
++------------------------+
+
+==========================================
+📊 Estructura de la tabla tracks:
+==========================================
+mysql: [Warning] Using a password on the command line interface can be insecure.
++------------+--------------+------+-----+-------------------+-------------------+
+| Field      | Type         | Null | Key | Default           | Extra             |
++------------+--------------+------+-----+-------------------+-------------------+
+| id         | int          | NO   | PRI | NULL              | auto_increment    |
+| title      | varchar(255) | NO   | MUL | NULL              |                   |
+| isrc       | varchar(12)  | YES  | MUL | NULL              |                   |
+| upc        | varchar(13)  | YES  | MUL | NULL              |                   |
+| artist_id  | int          | NO   | MUL | NULL              |                   |
+| created_at | timestamp    | YES  |     | CURRENT_TIMESTAMP | DEFAULT_GENERATED |
++------------+--------------+------+-----+-------------------+-------------------+
+
+==========================================
+📊 Primeros 5 registros de tracks:
+==========================================
+mysql: [Warning] Using a password on the command line interface can be insecure.
++----+------------+--------------+--------------+-----------+---------------------+
+| id | title      | isrc         | upc          | artist_id | created_at          |
++----+------------+--------------+--------------+-----------+---------------------+
+|  4 | MIA        | USQX91800123 | 193483838383 |         4 | 2026-03-02 16:40:00 |
+|  5 | MALAMENTE  | ESES01800456 | 883838383838 |         5 | 2026-03-02 16:40:00 |
+|  6 | Mi Gente   | USUM71800789 | 773838383838 |         6 | 2026-03-02 16:40:00 |
+|  7 | Test Track | TEST123456   | 193483838383 |         7 | 2026-03-02 16:46:16 |
+|  8 | Test Song  | TEST12345678 | 193483838383 |         7 | 2026-03-02 18:08:07 |
++----+------------+--------------+--------------+-----------+---------------------+
+
+==========================================
+📊 Estructura de la tabla artists:
+==========================================
+mysql: [Warning] Using a password on the command line interface can be insecure.
++------------+--------------+------+-----+-------------------+-------------------+
+| Field      | Type         | Null | Key | Default           | Extra             |
++------------+--------------+------+-----+-------------------+-------------------+
+| id         | int          | NO   | PRI | NULL              | auto_increment    |
+| name       | varchar(255) | NO   | UNI | NULL              |                   |
+| created_at | timestamp    | YES  |     | CURRENT_TIMESTAMP | DEFAULT_GENERATED |
++------------+--------------+------+-----+-------------------+-------------------+
+
+==========================================
+🔧 ARREGLANDO PROBLEMA DE LOGIN
+==========================================
+Línea 322 del server.js (problema con password_hash):
+
+Verificando columnas de la tabla users:
+mysql: [Warning] Using a password on the command line interface can be insecure.
++------------+---------------------------------+------+-----+-------------------+-------------------+
+| Field      | Type                            | Null | Key | Default           | Extra             |
++------------+---------------------------------+------+-----+-------------------+-------------------+
+| id         | int                             | NO   | PRI | NULL              | auto_increment    |
+| name       | varchar(255)                    | NO   |     | NULL              |                   |
+| email      | varchar(255)                    | NO   | UNI | NULL              |                   |
+| password   | varchar(255)                    | NO   |     | NULL              |                   |
+| role       | enum('admin','artist','viewer') | YES  |     | viewer            |                   |
+| created_at | timestamp                       | YES  |     | CURRENT_TIMESTAMP | DEFAULT_GENERATED |
++------------+---------------------------------+------+-----+-------------------+-------------------+
+
+✅ DIAGNÓSTICO COMPLETADO
+root@ubuntu:/var/www/bigartist_backup_20260302_174903/server# 

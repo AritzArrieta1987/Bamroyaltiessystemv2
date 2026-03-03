@@ -460,6 +460,47 @@ app.get('/api/artists', verifyToken, async (req, res) => {
   }
 });
 
+// **ENDPOINT: Obtener tracks (canciones)**
+app.get('/api/tracks', verifyToken, async (req, res) => {
+  try {
+    const [tracks] = await pool.query(
+      `SELECT 
+        t.id,
+        t.title,
+        t.isrc,
+        t.upc,
+        a.name as artist,
+        t.release_name as album,
+        COALESCE(SUM(rd.quantity), 0) as streams,
+        COALESCE(SUM(rd.net_receipts), 0) as revenue,
+        t.created_at
+      FROM tracks t
+      LEFT JOIN artists a ON t.artist_id = a.id
+      LEFT JOIN royalty_details rd ON rd.track_id = t.id
+      GROUP BY t.id, t.title, t.isrc, t.upc, a.name, t.release_name, t.created_at
+      ORDER BY revenue DESC`
+    );
+    
+    res.json({
+      success: true,
+      data: tracks.map(track => ({
+        ...track,
+        streams: parseInt(track.streams) || 0,
+        revenue: parseFloat(track.revenue) || 0,
+        duration: '3:45', // Placeholder - no tenemos esta info en el CSV
+        audioUrl: null // No hay archivos de audio
+      }))
+    });
+    
+  } catch (error) {
+    console.error('Error obteniendo tracks:', error);
+    res.status(500).json({ 
+      success: false, 
+      message: 'Error obteniendo tracks' 
+    });
+  }
+});
+
 // **ENDPOINT: Importar CSV**
 app.post('/api/royalties/import', verifyToken, upload.single('csv'), async (req, res) => {
   let tempFilePath = null;

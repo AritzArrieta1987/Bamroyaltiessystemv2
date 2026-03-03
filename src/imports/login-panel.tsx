@@ -28,81 +28,31 @@ export default function LoginPanel({ onLoginSuccess }: LoginPanelProps) {
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState('');
   const [isLoading, setIsLoading] = useState(false);
-  const [debugInfo, setDebugInfo] = useState('');
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
-    setDebugInfo('');
     setError('');
 
     try {
-      // MODO DESARROLLO: Si no podemos conectar al backend, usar credenciales locales
-      const isDevelopment = window.location.hostname === 'localhost' || 
-                           window.location.hostname.includes('figma') ||
-                           window.location.hostname.includes('preview');
-      
-      if (isDevelopment) {
-        // Información de debug solo en desarrollo
-        setDebugInfo('🔧 Modo desarrollo - Usando autenticación local');
-        
-        // Credenciales de desarrollo
-        const devCredentials = {
-          admin: { email: 'admin@bigartist.es', password: 'admin123', name: 'Admin BigArtist', type: 'admin' },
-          artist: { email: 'artist@bigartist.es', password: 'artist123', name: 'Demo Artist', type: 'artist' }
-        };
-        
-        // Validar credenciales
-        const user = Object.values(devCredentials).find(
-          cred => cred.email === email && cred.password === password
-        );
-        
-        if (user) {
-          setDebugInfo('✅ Login exitoso!');
-          
-          localStorage.setItem('authToken', 'dev-token-' + Date.now());
-          localStorage.setItem('user', JSON.stringify({
-            id: user.type === 'admin' ? 1 : 2,
-            email: user.email,
-            name: user.name,
-            type: user.type
-          }));
-          
-          onLoginSuccess();
-        } else {
-          throw new Error('Usuario o contraseña incorrectos');
-        }
-        
-        setIsLoading(false);
-        return;
-      }
-      
-      // MODO PRODUCCIÓN: Conectar al backend real (sin mostrar debug info)
-      
-      // Llamada al backend para validar credenciales
       const response = await login(email, password);
 
       if (response.success) {
-        // Login exitoso
-        
-        // Guardar token y datos del usuario
         localStorage.setItem('authToken', response.token);
         localStorage.setItem('user', JSON.stringify({
           id: response.user.id,
           email: response.user.email,
-          name: response.user.name,
-          type: response.user.type // 'admin' o 'artist'
+          name: response.user.name || response.user.email,
+          type: response.user.role || 'admin'
         }));
         
         onLoginSuccess();
       } else {
-        // Credenciales incorrectas
         throw new Error('Usuario o contraseña incorrectos');
       }
     } catch (err) {
       const errorMessage = err instanceof Error ? err.message : 'Error al conectar con el servidor';
       setError(errorMessage);
-      setDebugInfo('');
     } finally {
       setIsLoading(false);
     }
@@ -117,86 +67,66 @@ export default function LoginPanel({ onLoginSuccess }: LoginPanelProps) {
       overflow: 'hidden',
       fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif'
     }} className="login-container">
-      {/* IMAGEN DE FONDO GLOBAL - cubre todo el ancho */}
+      {/* IMAGEN DE FONDO */}
       <div style={{
         position: 'absolute',
         inset: 0,
         backgroundImage: `url(${exampleImage})`,
         backgroundSize: 'cover',
-        backgroundPosition: 'center 40%',
-        opacity: 0.6,
+        backgroundPosition: 'center',
+        backgroundRepeat: 'no-repeat',
+        zIndex: 0
+      }} />
+
+      {/* OVERLAY VERDE */}
+      <div style={{
+        position: 'absolute',
+        inset: 0,
+        background: 'linear-gradient(135deg, rgba(13, 31, 35, 0.95) 0%, rgba(19, 46, 53, 0.9) 50%, rgba(45, 74, 83, 0.85) 100%)',
         zIndex: 1
       }} />
 
-      {/* OVERLAY VERDE GLOBAL - aplicado a toda la imagen */}
-      <div style={{
-        position: 'absolute',
-        inset: 0,
-        background: 'linear-gradient(135deg, rgba(13, 31, 35, 0.85) 0%, rgba(19, 46, 53, 0.8) 50%, rgba(45, 74, 83, 0.75) 100%)',
-        backdropFilter: 'blur(2px)',
-        zIndex: 2
-      }} />
-
-      {/* CAPA DE TINTE VERDE GLOBAL */}
-      <div style={{
-        position: 'absolute',
-        inset: 0,
-        background: 'rgba(32, 64, 64, 0.4)',
-        mixBlendMode: 'multiply' as const,
-        zIndex: 2
-      }} />
-
-      {/* LADO IZQUIERDO - Logo y branding */}
+      {/* LADO IZQUIERDO - Logo */}
       <div className="left-panel" style={{
         position: 'relative',
         width: '55%',
         overflow: 'hidden',
-        zIndex: 3
+        zIndex: 2,
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center'
       }}>
-        {/* Logo y texto corporativo */}
-        <div className="logo-section" style={{
-          position: 'absolute',
-          left: '50%',
-          top: '50%',
-          transform: 'translate(-50%, -50%)',
-          textAlign: 'center',
-          zIndex: 10,
-          width: '80%',
+        <div style={{
           display: 'flex',
           flexDirection: 'column',
-          alignItems: 'center'
+          alignItems: 'center',
+          gap: '32px'
         }}>
-          {/* Logo BIGARTIST */}
-          <img 
-            src={logoImage} 
-            alt="BIGARTIST" 
-            className="logo-image"
+          <img
+            src={logoImage}
+            alt="BIGARTIST Logo"
             style={{
-              width: 'auto',
-              maxWidth: '500px',
+              width: '420px',
               height: 'auto',
-              marginBottom: '16px',
-              filter: 'drop-shadow(0 0 40px rgba(201, 165, 116, 0.4))',
-              objectFit: 'contain'
+              objectFit: 'contain',
+              filter: 'drop-shadow(0 8px 32px rgba(0, 0, 0, 0.4))'
             }}
           />
           
-          {/* Línea dorada en el medio */}
           <div style={{
             width: '100px',
             height: '1.5px',
             background: 'linear-gradient(to right, transparent, #c9a574, transparent)',
-            margin: '0 auto 16px auto',
             boxShadow: '0 0 10px rgba(201, 165, 116, 0.5)'
           }} />
 
-          <div className="subtitle" style={{
+          <div style={{
             color: '#c9a574',
             fontSize: '22px',
             fontWeight: '300',
             letterSpacing: '5px',
             textTransform: 'uppercase',
-            marginBottom: '0'
+            textAlign: 'center'
           }}>
             ROYALTIES SYSTEM
           </div>
@@ -212,12 +142,11 @@ export default function LoginPanel({ onLoginSuccess }: LoginPanelProps) {
         justifyContent: 'center',
         padding: '60px',
         overflow: 'hidden',
-        zIndex: 3
+        zIndex: 2
       }}>
-        <div className="form-container" style={{ width: '100%', maxWidth: '440px', position: 'relative', zIndex: 3 }}>
-          {/* Header del formulario */}
+        <div style={{ width: '100%', maxWidth: '440px' }}>
           <div style={{ marginBottom: '48px' }}>
-            <h2 className="form-title" style={{
+            <h2 style={{
               fontSize: '32px',
               fontWeight: '700',
               color: '#ffffff',
@@ -226,7 +155,7 @@ export default function LoginPanel({ onLoginSuccess }: LoginPanelProps) {
             }}>
               Admin Panel
             </h2>
-            <p className="form-subtitle" style={{
+            <p style={{
               fontSize: '15px',
               color: '#AFB3B7',
               fontWeight: '400'
@@ -235,7 +164,6 @@ export default function LoginPanel({ onLoginSuccess }: LoginPanelProps) {
             </p>
           </div>
 
-          {/* Formulario */}
           <form onSubmit={handleLogin}>
             {error && (
               <div style={{
@@ -255,7 +183,6 @@ export default function LoginPanel({ onLoginSuccess }: LoginPanelProps) {
               </div>
             )}
 
-            {/* Email */}
             <div style={{ marginBottom: '24px' }}>
               <label style={{
                 display: 'block',
@@ -271,7 +198,7 @@ export default function LoginPanel({ onLoginSuccess }: LoginPanelProps) {
                 type="email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                placeholder=""
+                placeholder="admin@bigartist.es"
                 required
                 style={{
                   width: '100%',
@@ -296,7 +223,6 @@ export default function LoginPanel({ onLoginSuccess }: LoginPanelProps) {
               />
             </div>
 
-            {/* Contraseña */}
             <div style={{ marginBottom: '32px' }}>
               <label style={{
                 display: 'block',
@@ -313,7 +239,7 @@ export default function LoginPanel({ onLoginSuccess }: LoginPanelProps) {
                   type={showPassword ? 'text' : 'password'}
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  placeholder=""
+                  placeholder="••••••••"
                   required
                   style={{
                     width: '100%',
@@ -361,7 +287,6 @@ export default function LoginPanel({ onLoginSuccess }: LoginPanelProps) {
               </div>
             </div>
 
-            {/* Botón de login */}
             <button
               type="submit"
               disabled={isLoading}
@@ -397,28 +322,8 @@ export default function LoginPanel({ onLoginSuccess }: LoginPanelProps) {
             >
               {isLoading ? 'Iniciando...' : 'Iniciar Sesión'}
             </button>
-
-            {/* Debug Info */}
-            {debugInfo && (
-              <div style={{
-                backgroundColor: 'rgba(59, 130, 246, 0.1)',
-                border: '1px solid rgba(59, 130, 246, 0.3)',
-                color: '#93c5fd',
-                padding: '14px 16px',
-                borderRadius: '10px',
-                fontSize: '12px',
-                marginBottom: '16px',
-                whiteSpace: 'pre-line',
-                fontFamily: 'monospace',
-                maxHeight: '200px',
-                overflow: 'auto'
-              }}>
-                {debugInfo}
-              </div>
-            )}
           </form>
 
-          {/* Footer */}
           <div style={{
             marginTop: '48px',
             paddingTop: '24px',
@@ -436,9 +341,7 @@ export default function LoginPanel({ onLoginSuccess }: LoginPanelProps) {
         </div>
       </div>
 
-      {/* Estilos de animación */}
       <style>{`
-        /* RESPONSIVE MOBILE */
         @media (max-width: 968px) {
           .login-container {
             flex-direction: column !important;
@@ -446,81 +349,27 @@ export default function LoginPanel({ onLoginSuccess }: LoginPanelProps) {
 
           .left-panel {
             width: 100% !important;
-            min-height: 40vh !important;
-            max-height: 40vh !important;
-            display: flex !important;
-            align-items: center !important;
-            justify-content: center !important;
+            min-height: 35vh !important;
+          }
+
+          .left-panel img {
+            width: 280px !important;
           }
 
           .right-panel {
             width: 100% !important;
-            min-height: 60vh !important;
+            min-height: 65vh !important;
             padding: 40px 30px !important;
-          }
-
-          .logo-section {
-            width: 90% !important;
-            position: static !important;
-            transform: none !important;
-            padding: 20px;
-          }
-
-          .logo-image {
-            max-width: 320px !important;
-            margin-bottom: 20px !important;
-            margin-left: auto !important;
-            margin-right: auto !important;
-            display: block !important;
-          }
-
-          .subtitle {
-            font-size: 16px !important;
-            letter-spacing: 3px !important;
-            margin-bottom: 0 !important;
-          }
-
-          .form-container {
-            max-width: 100% !important;
-          }
-
-          .form-title {
-            font-size: 28px !important;
-          }
-
-          .form-subtitle {
-            font-size: 14px !important;
           }
         }
 
         @media (max-width: 480px) {
-          .left-panel {
-            min-height: 35vh !important;
-            max-height: 35vh !important;
-          }
-
           .right-panel {
-            min-height: 65vh !important;
             padding: 30px 24px !important;
           }
 
-          .logo-image {
-            max-width: 260px !important;
-            margin-bottom: 16px !important;
-          }
-
-          .subtitle {
-            font-size: 13px !important;
-            letter-spacing: 2px !important;
-          }
-
-          .form-title {
-            font-size: 24px !important;
-            margin-bottom: 8px !important;
-          }
-
-          .form-subtitle {
-            font-size: 13px !important;
+          .left-panel img {
+            width: 220px !important;
           }
         }
       `}</style>

@@ -19,9 +19,16 @@ export function CatalogPage() {
   const loadTracksFromAPI = async () => {
     setLoading(true);
     try {
-      // 🔥 FORZAR DATOS VACÍOS - NO HAY API AÚN
-      console.log('🚫 CATALOG PAGE: Cargando con datos vacíos (no hay backend)');
-      setTracks([]);
+      console.log('📊 CATALOG PAGE: Cargando tracks desde API...');
+      const response = await apiRequest(API_ENDPOINTS.TRACKS);
+      console.log('✅ Tracks recibidos:', response);
+      
+      if (response.success && Array.isArray(response.data)) {
+        setTracks(response.data);
+      } else {
+        console.error('❌ Respuesta inesperada:', response);
+        setTracks([]);
+      }
     } catch (error) {
       console.error('❌ Error loading tracks:', error);
       setTracks([]);

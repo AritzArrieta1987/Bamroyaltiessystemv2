@@ -1,0 +1,355 @@
+import { Upload, FileText, AlertCircle, CheckCircle } from 'lucide-react';
+import { useState, useRef } from 'react';
+import { toast } from 'sonner@2.0.3';
+
+// URL del API - apunta directamente al servidor de producción
+const API_URL = 'https://app.bigartist.es/api';
+
+export function UploadPage() {
+  const [isDragging, setIsDragging] = useState(false);
+  const [file, setFile] = useState<File | null>(null);
+  const [isUploading, setIsUploading] = useState(false);
+  const [uploadSuccess, setUploadSuccess] = useState(false);
+  const [stats, setStats] = useState<any>(null);
+  const fileInputRef = useRef<HTMLInputElement>(null);
+
+  const handleDragOver = (e: React.DragEvent) => {
+    e.preventDefault();
+    setIsDragging(true);
+  };
+
+  const handleDragLeave = () => {
+    setIsDragging(false);
+  };
+
+  const handleDrop = (e: React.DragEvent) => {
+    e.preventDefault();
+    setIsDragging(false);
+
+    const droppedFile = e.dataTransfer.files[0];
+    if (droppedFile && droppedFile.name.endsWith('.csv')) {
+      setFile(droppedFile);
+      setUploadSuccess(false);
+      setStats(null);
+    } else {
+      toast.error('Por favor, sube un archivo CSV válido');
+    }
+  };
+
+  const handleFileSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const selectedFile = e.target.files?.[0];
+    if (selectedFile) {
+      setFile(selectedFile);
+      setUploadSuccess(false);
+      setStats(null);
+    }
+  };
+
+  const handleProcessCsv = async () => {
+    if (!file) return;
+
+    setIsUploading(true);
+    setUploadSuccess(false);
+    setStats(null);
+
+    try {
+      const formData = new FormData();
+      formData.append('csv', file);
+
+      const token = localStorage.getItem('authToken');
+      
+      // Debug: Verificar el token
+      console.log('🔑 Token obtenido:', token);
+      console.log('📤 Enviando a:', `${API_URL}/royalties/import`);
+      
+      if (!token) {
+        toast.error('No hay sesión activa. Por favor, inicia sesión de nuevo.');
+        return;
+      }
+      
+      const response = await fetch(`${API_URL}/royalties/import`, {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${token}`
+        },
+        body: formData
+      });
+
+      const data = await response.json();
+      
+      console.log('📥 Respuesta del servidor:', data);
+
+      if (data.success) {
+        setUploadSuccess(true);
+        // Convertir totalRevenue de string a número
+        setStats({
+          ...data.stats,
+          totalRevenue: Number(data.stats.totalRevenue || 0)
+        });
+        toast.success('✅ Archivo CSV importado exitosamente');
+        
+        // Resetear el archivo después de 5 segundos
+        setTimeout(() => {
+          setFile(null);
+          setUploadSuccess(false);
+        }, 5000);
+      } else {
+        toast.error(data.message || 'Error al procesar el archivo');
+        console.error('Error:', data);
+      }
+    } catch (error) {
+      console.error('Error al subir CSV:', error);
+      toast.error('Error al subir el archivo. Verifica la conexión con el servidor.');
+    } finally {
+      setIsUploading(false);
+    }
+  };
+
+  return (
+    <div style={{ padding: '24px', maxWidth: '1400px', margin: '0 auto' }}>
+      <div style={{ marginBottom: '32px' }}>
+        <h1 style={{ fontSize: '28px', fontWeight: '700', color: '#ffffff', marginBottom: '8px' }}>
+          Subir Archivo CSV
+        </h1>
+        <p style={{ fontSize: '14px', color: '#AFB3B7' }}>
+          Carga archivos CSV de The Orchard para procesar royalties automáticamente
+        </p>
+      </div>
+
+      <div
+        onDragOver={handleDragOver}
+        onDragLeave={handleDragLeave}
+        onDrop={handleDrop}
+        style={{
+          border: `2px dashed ${isDragging ? '#c9a574' : 'rgba(201, 165, 116, 0.3)'}`,
+          borderRadius: '16px',
+          padding: '48px',
+          textAlign: 'center',
+          background: isDragging
+            ? 'rgba(201, 165, 116, 0.1)'
+            : 'linear-gradient(135deg, rgba(42, 63, 63, 0.6) 0%, rgba(30, 47, 47, 0.8) 100%)',
+          transition: 'all 0.3s ease',
+          cursor: 'pointer',
+          marginBottom: '24px',
+        }}
+        onClick={() => fileInputRef.current?.click()}
+      >
+        <input
+          ref={fileInputRef}
+          type="file"
+          accept=".csv"
+          onChange={handleFileSelect}
+          style={{ display: 'none' }}
+        />
+
+        <div
+          style={{
+            width: '64px',
+            height: '64px',
+            background: 'linear-gradient(135deg, #c9a574 0%, #a68a5e 100%)',
+            borderRadius: '16px',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            margin: '0 auto 20px',
+            boxShadow: '0 4px 12px rgba(201, 165, 116, 0.3)',
+          }}
+        >
+          <Upload size={32} color="#ffffff" />
+        </div>
+
+        <h3 style={{ fontSize: '18px', fontWeight: '600', color: '#ffffff', marginBottom: '8px' }}>
+          {isDragging ? 'Suelta el archivo aquí' : 'Arrastra y suelta tu archivo CSV'}
+        </h3>
+        <p style={{ fontSize: '14px', color: '#AFB3B7', marginBottom: '16px' }}>
+          o haz clic para seleccionar un archivo
+        </p>
+        <p style={{ fontSize: '12px', color: '#6B7280' }}>
+          Formatos soportados: CSV (máx. 10 MB)
+        </p>
+      </div>
+
+      {file && (
+        <div style={{
+          display: 'flex',
+          alignItems: 'center',
+          gap: '16px',
+          padding: '16px 20px',
+          background: 'linear-gradient(135deg, rgba(42, 63, 63, 0.6) 0%, rgba(30, 47, 47, 0.8) 100%)',
+          border: '1px solid rgba(201, 165, 116, 0.3)',
+          borderRadius: '12px',
+        }}>
+          <div style={{
+            width: '48px',
+            height: '48px',
+            background: 'rgba(201, 165, 116, 0.2)',
+            borderRadius: '12px',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+          }}>
+            <FileText size={24} color="#c9a574" />
+          </div>
+          <div style={{ flex: 1 }}>
+            <p style={{ fontSize: '14px', fontWeight: '600', color: '#ffffff', marginBottom: '4px' }}>
+              {file.name}
+            </p>
+            <p style={{ fontSize: '13px', color: '#AFB3B7' }}>
+              {(file.size / 1024).toFixed(2)} KB
+            </p>
+          </div>
+        </div>
+      )}
+
+      <div style={{
+        marginTop: '32px',
+        padding: '20px',
+        background: 'rgba(42, 63, 63, 0.3)',
+        border: '1px solid rgba(201, 165, 116, 0.2)',
+        borderRadius: '12px',
+      }}>
+        <div style={{ display: 'flex', alignItems: 'flex-start', gap: '12px' }}>
+          <AlertCircle size={20} color="#c9a574" style={{ flexShrink: 0, marginTop: '2px' }} />
+          <div>
+            <p style={{ fontSize: '14px', fontWeight: '600', color: '#c9a574', marginBottom: '8px' }}>
+              Formato del archivo CSV
+            </p>
+            <ul style={{ fontSize: '13px', color: '#AFB3B7', paddingLeft: '20px', margin: 0 }}>
+              <li style={{ marginBottom: '4px' }}>El archivo debe estar en formato CSV (separado por comas)</li>
+              <li style={{ marginBottom: '4px' }}>La primera fila debe contener los nombres de las columnas</li>
+              <li style={{ marginBottom: '4px' }}>Formato compatible con The Orchard</li>
+              <li>Tamaño máximo recomendado: 10 MB</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      {isUploading && (
+        <div style={{
+          marginTop: '32px',
+          padding: '20px',
+          background: 'rgba(42, 63, 63, 0.3)',
+          border: '1px solid rgba(201, 165, 116, 0.2)',
+          borderRadius: '12px',
+        }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+            <Upload size={20} color="#c9a574" style={{ flexShrink: 0, marginTop: '2px' }} />
+            <div>
+              <p style={{ fontSize: '14px', fontWeight: '600', color: '#c9a574', marginBottom: '8px' }}>
+                Cargando archivo CSV
+              </p>
+              <div style={{ width: '100%', height: '8px', background: 'rgba(201, 165, 116, 0.2)', borderRadius: '4px' }}>
+                <div style={{ width: '50%', height: '8px', background: '#c9a574', borderRadius: '4px' }}></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {uploadSuccess && stats && (
+        <div style={{
+          marginTop: '32px',
+          padding: '24px',
+          background: 'linear-gradient(135deg, rgba(42, 63, 63, 0.6) 0%, rgba(30, 47, 47, 0.8) 100%)',
+          border: '1px solid rgba(201, 165, 116, 0.3)',
+          borderRadius: '16px',
+        }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '20px' }}>
+            <CheckCircle size={24} color="#c9a574" />
+            <h3 style={{ fontSize: '18px', fontWeight: '700', color: '#c9a574', margin: 0 }}>
+              ✅ Importación Completada
+            </h3>
+          </div>
+          
+          <div style={{ 
+            display: 'grid', 
+            gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', 
+            gap: '16px' 
+          }}>
+            <div style={{
+              padding: '16px',
+              background: 'rgba(201, 165, 116, 0.1)',
+              borderRadius: '12px',
+              border: '1px solid rgba(201, 165, 116, 0.2)'
+            }}>
+              <p style={{ fontSize: '12px', color: '#AFB3B7', marginBottom: '4px' }}>Artistas</p>
+              <p style={{ fontSize: '24px', fontWeight: '700', color: '#c9a574' }}>{stats.artists}</p>
+            </div>
+            
+            <div style={{
+              padding: '16px',
+              background: 'rgba(201, 165, 116, 0.1)',
+              borderRadius: '12px',
+              border: '1px solid rgba(201, 165, 116, 0.2)'
+            }}>
+              <p style={{ fontSize: '12px', color: '#AFB3B7', marginBottom: '4px' }}>Canciones</p>
+              <p style={{ fontSize: '24px', fontWeight: '700', color: '#c9a574' }}>{stats.tracks}</p>
+            </div>
+            
+            <div style={{
+              padding: '16px',
+              background: 'rgba(201, 165, 116, 0.1)',
+              borderRadius: '12px',
+              border: '1px solid rgba(201, 165, 116, 0.2)'
+            }}>
+              <p style={{ fontSize: '12px', color: '#AFB3B7', marginBottom: '4px' }}>Plataformas</p>
+              <p style={{ fontSize: '24px', fontWeight: '700', color: '#c9a574' }}>{stats.platforms}</p>
+            </div>
+            
+            <div style={{
+              padding: '16px',
+              background: 'rgba(201, 165, 116, 0.1)',
+              borderRadius: '12px',
+              border: '1px solid rgba(201, 165, 116, 0.2)'
+            }}>
+              <p style={{ fontSize: '12px', color: '#AFB3B7', marginBottom: '4px' }}>Territorios</p>
+              <p style={{ fontSize: '24px', fontWeight: '700', color: '#c9a574' }}>{stats.territories}</p>
+            </div>
+            
+            <div style={{
+              padding: '16px',
+              background: 'rgba(201, 165, 116, 0.1)',
+              borderRadius: '12px',
+              border: '1px solid rgba(201, 165, 116, 0.2)'
+            }}>
+              <p style={{ fontSize: '12px', color: '#AFB3B7', marginBottom: '4px' }}>Total Royalties</p>
+              <p style={{ fontSize: '24px', fontWeight: '700', color: '#c9a574' }}>{stats.royalties}</p>
+            </div>
+            
+            <div style={{
+              padding: '16px',
+              background: 'rgba(201, 165, 116, 0.1)',
+              borderRadius: '12px',
+              border: '1px solid rgba(201, 165, 116, 0.2)'
+            }}>
+              <p style={{ fontSize: '12px', color: '#AFB3B7', marginBottom: '4px' }}>Ingresos Totales</p>
+              <p style={{ fontSize: '24px', fontWeight: '700', color: '#c9a574' }}>€{stats.totalRevenue.toFixed(2)}</p>
+            </div>
+          </div>
+        </div>
+      )}
+
+      <button
+        style={{
+          marginTop: '32px',
+          padding: '12px 24px',
+          background: file && !isUploading 
+            ? 'linear-gradient(135deg, #c9a574 0%, #a68a5e 100%)' 
+            : 'rgba(201, 165, 116, 0.3)',
+          border: 'none',
+          borderRadius: '12px',
+          color: '#ffffff',
+          fontSize: '14px',
+          fontWeight: '600',
+          cursor: file && !isUploading ? 'pointer' : 'not-allowed',
+          transition: 'all 0.3s ease',
+          opacity: file && !isUploading ? 1 : 0.5,
+        }}
+        onClick={handleProcessCsv}
+        disabled={!file || isUploading}
+      >
+        {isUploading ? '⏳ Procesando...' : 'Procesar CSV'}
+      </button>
+    </div>
+  );
+}

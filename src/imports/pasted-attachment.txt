@@ -1,0 +1,92 @@
+Last login: Mon Mar  2 20:00:18 on ttys001
+/Users/aritzarrieta/.zprofile:1: no such file or directory: /opt/homebrew/bin/brew
+/Users/aritzarrieta/.zprofile:2: no such file or directory: /usr/local/bin/brew
+aritzarrieta@MBP-de-Aritz ~ % ssh root@94.143.141.241
+
+root@94.143.141.241's password: 
+Welcome to Ubuntu 24.04.4 LTS (GNU/Linux 6.8.0-101-generic x86_64)
+
+ * Documentation:  https://help.ubuntu.com
+ * Management:     https://landscape.canonical.com
+ * Support:        https://ubuntu.com/pro
+
+ System information as of Mon Mar  2 19:19:05 UTC 2026
+
+  System load:  0.0               Processes:             117
+  Usage of /:   6.0% of 76.45GB   Users logged in:       0
+  Memory usage: 47%               IPv4 address for ens6: 94.143.141.241
+  Swap usage:   0%
+
+ * Strictly confined Kubernetes makes edge and IoT secure. Learn how MicroK8s
+   just raised the bar for easy, resilient and secure K8s cluster deployment.
+
+   https://ubuntu.com/engage/secure-kubernetes-at-the-edge
+
+Expanded Security Maintenance for Applications is not enabled.
+
+0 updates can be applied immediately.
+
+Enable ESM Apps to receive additional future security updates.
+See https://ubuntu.com/esm or run: sudo pro status
+
+
+Last login: Mon Mar  2 19:00:54 2026 from 207.188.130.38
+root@ubuntu:~# # 1. Arreglar Toaster.tsx (quitar la versión)
+cd /var/www/bigartist/src/components/
+
+# Backup
+cp Toaster.tsx Toaster.tsx.backup_$(date +%Y%m%d_%H%M%S)
+
+# Reemplazar sonner@2.0.3 por sonner
+sed -i "s/from 'sonner@2.0.3'/from 'sonner'/g" Toaster.tsx
+
+# Verificar
+echo "✅ Toaster.tsx corregido:"
+grep "import.*sonner" Toaster.tsx
+
+# 2. Buscar TODOS los archivos con sonner@2.0.3
+echo ""
+echo "🔍 Buscando otros archivos con sonner@2.0.3..."
+cd /var/www/bigartist/src
+grep -r "sonner@2.0.3" . --include="*.tsx" --include="*.ts"
+
+# 3. Reemplazar en TODOS los archivos
+echo ""
+echo "🔧 Reemplazando en todos los archivos..."
+find /var/www/bigartist/src -type f \( -name "*.tsx" -o -name "*.ts" \) -exec sefi  echo "❌ Error en el build. Revisa los logs arriba."st.es/upload"lude="*.ts"
+✅ Toaster.tsx corregido:
+import { Toaster as Sonner } from 'sonner';
+
+🔍 Buscando otros archivos con sonner@2.0.3...
+
+🔧 Reemplazando en todos los archivos...
+
+✅ Verificación final:
+✅ Todos los archivos corregidos
+
+🏗️ Compilando...
+
+> Bam Royalties System@0.1.0 build
+> vite build
+
+vite v6.3.5 building for production...
+✓ 19 modules transformed.
+✗ Build failed in 198ms
+error during build:
+[vite]: Rollup failed to resolve import "figma:asset/0a2a9faa1b59d5fa1e388a2eec5b08498dd7a493.png" from "/var/www/bigartist/src/imports/login-panel.tsx".
+This is most likely unintended because it can break your application at runtime.
+If you do want to externalize this module explicitly add it to
+`build.rollupOptions.external`
+    at viteLog (file:///var/www/bigartist/node_modules/vite/dist/node/chunks/dep-DBxKXgDP.js:46345:15)
+    at file:///var/www/bigartist/node_modules/vite/dist/node/chunks/dep-DBxKXgDP.js:46403:18
+    at onwarn (file:///var/www/bigartist/node_modules/@vitejs/plugin-react/dist/index.js:76:7)
+    at file:///var/www/bigartist/node_modules/vite/dist/node/chunks/dep-DBxKXgDP.js:46401:7
+    at onRollupLog (file:///var/www/bigartist/node_modules/vite/dist/node/chunks/dep-DBxKXgDP.js:46393:5)
+    at onLog (file:///var/www/bigartist/node_modules/vite/dist/node/chunks/dep-DBxKXgDP.js:46043:7)
+    at file:///var/www/bigartist/node_modules/rollup/dist/es/shared/node-entry.js:20981:32
+    at Object.logger [as onLog] (file:///var/www/bigartist/node_modules/rollup/dist/es/shared/node-entry.js:22968:9)
+    at ModuleLoader.handleInvalidResolvedId (file:///var/www/bigartist/node_modules/rollup/dist/es/shared/node-entry.js:21712:26)
+    at file:///var/www/bigartist/node_modules/rollup/dist/es/shared/node-entry.js:21670:26
+
+❌ Error en el build. Revisa los logs arriba.
+root@ubuntu:/var/www/bigartist# 
