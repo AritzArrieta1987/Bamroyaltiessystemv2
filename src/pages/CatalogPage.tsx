@@ -324,7 +324,7 @@ export function CatalogPage() {
                     color: '#AFB3B7',
                     textAlign: 'right'
                   }}>
-                    {track.streams.toLocaleString('es-ES')}
+                    {(parseInt(track.streams) || 0).toLocaleString('es-ES')}
                   </td>
                   <td style={{
                     padding: '16px 12px',
@@ -334,7 +334,7 @@ export function CatalogPage() {
                     fontWeight: '600',
                     textAlign: 'right'
                   }}>
-                    €{track.revenue.toFixed(2)}
+                    €{(parseFloat(track.revenue) || 0).toFixed(2)}
                   </td>
                   <td style={{
                     padding: '16px 12px',

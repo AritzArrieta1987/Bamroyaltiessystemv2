@@ -6,7 +6,8 @@ const getApiUrl = () => {
     if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
       return 'http://localhost:3001/api';
     }
-    return `${window.location.origin}/api`;
+    // En producción, usar la IP del servidor directamente
+    return 'http://94.143.141.241:3001/api';
   }
   // Fallback para SSR
   return 'http://localhost:3001/api';

@@ -319,7 +319,7 @@ export function UploadPage() {
               border: '1px solid rgba(201, 165, 116, 0.2)'
             }}>
               <p style={{ fontSize: '12px', color: '#AFB3B7', marginBottom: '4px' }}>Ingresos Totales</p>
-              <p style={{ fontSize: '24px', fontWeight: '700', color: '#c9a574' }}>€{stats.totalRevenue.toFixed(2)}</p>
+              <p style={{ fontSize: '24px', fontWeight: '700', color: '#c9a574' }}>€{parseFloat(stats.totalRevenue || 0).toFixed(2)}</p>
             </div>
           </div>
         </div>

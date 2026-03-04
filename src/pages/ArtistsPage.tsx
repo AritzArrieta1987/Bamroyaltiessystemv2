@@ -17,9 +17,25 @@ export function ArtistsPage() {
   const loadArtistsFromAPI = async () => {
     setLoading(true);
     try {
-      // 🔥 FORZAR DATOS VACÍOS - NO HAY API AÚN
-      console.log('🚫 ARTISTS PAGE: Cargando con datos vacíos (no hay backend)');
-      setArtists([]);
+      const response = await apiRequest(API_ENDPOINTS.ARTISTS);
+      console.log('✅ Artistas cargados desde API:', response);
+      
+      if (response.success && Array.isArray(response.data)) {
+        // Mapear los campos del API a los campos del frontend
+        const mappedArtists = response.data.map((artist: any) => ({
+          id: artist.id,
+          name: artist.name,
+          email: artist.email || `${artist.name.toLowerCase().replace(/\s+/g, '')}@bigartist.es`,
+          photo: artist.photo || null,
+          status: artist.status || 'active',
+          totalTracks: artist.total_tracks || 0,
+          totalStreams: artist.total_streams || 0,
+          totalRevenue: artist.total_revenue || 0
+        }));
+        setArtists(mappedArtists);
+      } else {
+        setArtists([]);
+      }
     } catch (error) {
       console.error('❌ Error loading artists:', error);
       setArtists([]);

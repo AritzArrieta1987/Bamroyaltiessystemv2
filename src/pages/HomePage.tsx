@@ -241,14 +241,19 @@ export function HomePage() {
     
     // Si tiene contrato, usar su porcentaje; si no, usar 50% por defecto
     const artistPercentage = artistContract?.royaltyPercentage || 50;
-    const artistShare = artist.totalRevenue * (artistPercentage / 100);
-    const labelShare = artist.totalRevenue * ((100 - artistPercentage) / 100);
+    
+    // Asegurarse de que totalRevenue sea un número
+    const revenue = parseFloat(artist.totalRevenue) || 0;
+    
+    const artistShare = revenue * (artistPercentage / 100);
+    const labelShare = revenue * ((100 - artistPercentage) / 100);
     
     totalArtista += artistShare;
     totalBAM += labelShare;
   });
   
-  const totalRoyalties = stats.totalRevenue;
+  // Convertir totalRevenue a número para evitar errores
+  const totalRoyalties = parseFloat(stats.totalRevenue) || 0;
   
   // Calcular total facturado por otros trabajos
   const totalWorkBilling = contracts.reduce((sum: number, contract: any) => {
@@ -599,46 +604,52 @@ export function HomePage() {
                 </tr>
               </thead>
               <tbody>
-                {stats.topArtists.slice(0, 10).map((artist: any, index: number) => (
-                  <tr key={index}>
-                    <td style={{
-                      padding: '12px',
-                      borderBottom: '1px solid rgba(201, 165, 116, 0.1)',
-                      fontSize: '14px',
-                      color: '#ffffff'
-                    }}>
-                      {artist.name}
-                    </td>
-                    <td style={{
-                      padding: '12px',
-                      borderBottom: '1px solid rgba(201, 165, 116, 0.1)',
-                      fontSize: '14px',
-                      color: '#22c55e',
-                      fontWeight: '600',
-                      textAlign: 'right'
-                    }}>
-                      €{artist.totalRevenue.toLocaleString('es-ES', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
-                    </td>
-                    <td style={{
-                      padding: '12px',
-                      borderBottom: '1px solid rgba(201, 165, 116, 0.1)',
-                      fontSize: '14px',
-                      color: '#AFB3B7',
-                      textAlign: 'right'
-                    }}>
-                      {artist.totalStreams.toLocaleString('es-ES')}
-                    </td>
-                    <td style={{
-                      padding: '12px',
-                      borderBottom: '1px solid rgba(201, 165, 116, 0.1)',
-                      fontSize: '14px',
-                      color: '#AFB3B7',
-                      textAlign: 'right'
-                    }}>
-                      {artist.tracks.length}
-                    </td>
-                  </tr>
-                ))}
+                {stats.topArtists.slice(0, 10).map((artist: any, index: number) => {
+                  // Asegurarse de que los valores sean números
+                  const revenue = parseFloat(artist.totalRevenue) || 0;
+                  const streams = parseInt(artist.totalStreams) || 0;
+                  
+                  return (
+                    <tr key={index}>
+                      <td style={{
+                        padding: '12px',
+                        borderBottom: '1px solid rgba(201, 165, 116, 0.1)',
+                        fontSize: '14px',
+                        color: '#ffffff'
+                      }}>
+                        {artist.name}
+                      </td>
+                      <td style={{
+                        padding: '12px',
+                        borderBottom: '1px solid rgba(201, 165, 116, 0.1)',
+                        fontSize: '14px',
+                        color: '#22c55e',
+                        fontWeight: '600',
+                        textAlign: 'right'
+                      }}>
+                        €{revenue.toLocaleString('es-ES', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+                      </td>
+                      <td style={{
+                        padding: '12px',
+                        borderBottom: '1px solid rgba(201, 165, 116, 0.1)',
+                        fontSize: '14px',
+                        color: '#AFB3B7',
+                        textAlign: 'right'
+                      }}>
+                        {streams.toLocaleString('es-ES')}
+                      </td>
+                      <td style={{
+                        padding: '12px',
+                        borderBottom: '1px solid rgba(201, 165, 116, 0.1)',
+                        fontSize: '14px',
+                        color: '#AFB3B7',
+                        textAlign: 'right'
+                      }}>
+                        {artist.tracks?.length || 0}
+                      </td>
+                    </tr>
+                  );
+                })}
               </tbody>
             </table>
           </div>
